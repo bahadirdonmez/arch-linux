@@ -1,52 +1,30 @@
-# Bahadir's Personal Arch Linux Installation Guide
+# How to Prepare for a New Arch Linux Installation
 
-This guide is a personalized Arch Linux installation tutorial created
-specifically for me, Bahadir.
+## Acquire an Installation Image and Verify It
 
-Arch Linux is a lightweight, flexible distribution that offers a minimal base
-system to build upon. Designed for speed, reliability, and customization, it is
-an ideal choice for users who want full control over their system. This guide
-will walk you through the Arch Linux installation process step by step.
+To get started, you will need to download the Arch Linux installation image and
+verify its authenticity. Follow the steps below to download and verify the
+installation image:
 
-## Prerequisites
-
-Before starting, ensure you have the following:
-
-1. A computer with at least 512 MB of RAM, 2 GB of disk space, and a 64-bit CPU.
-
-2. UEFI firmware and boot support.
-
-3. An internet connection.
-
-4. A USB drive with at least 2 GB of space.
-
-5. Basic knowledge of the Linux command line.
-
-## Obtain and Verify an Installation Image
-
-First, download the Arch Linux installation image and verify its authenticity.
-Follow these steps to obtain and verify the installation image:
-
-1. Change the directory to `Downloads`:
+1. Change directory to `Downloads`:
 
     ```bash
     $ cd /home/Bahadir/Downloads
     ```
 
-2. Visit the [Arch Linux Downloads](https://www.archlinux.org/download/) page.
+2. Go to the [Arch Linux Downloads](https://www.archlinux.org/download/) page.
 
-    - Select an HTTP mirror site from the list, for example:
+    - Choose a HTTP mirror site for the list, for instance:
 
         - `geo.mirror.pkgbuild.com`
 
-    - Download both the `.iso` file and the corresponding `.iso.sig` file, such
-    as:
+    - Download the `.iso` file and the respective `.iso.sig` file, for instance:
 
         - `archlinux-2023.04.01-x86_64.iso`
 
         - `archlinux-2023.04.01-x86_64.iso.sig`
 
-    - Alternatively, use the `curl` command to download these files:
+    - Alternatively, you can use the `curl` command to download these files:
 
         ```bash
         $ curl -O https://geo.mirror.pkgbuild.com/iso/2023.04.01/archlinux-2023.04.01-x86_64.iso
@@ -56,16 +34,16 @@ Follow these steps to obtain and verify the installation image:
         $ curl -O https://geo.mirror.pkgbuild.com/iso/2023.04.01/archlinux-2023.04.01-x86_64.iso.sig
         ```
 
-3. Execute the following command to verify the authenticity of the installation
+3. Run the following command to verify the authenticity of the installation
 image:
 
     ```bash
     $ gpg --keyserver-options auto-key-retrieve --verify archlinux-2023.04.01-x86_64.iso.sig
     ```
 
-    The output should include a message indicating that the signature is valid
-    and that the key used to sign the file is trusted. It should resemble the
-    following output:
+    The output should contain a message indicating that the signature is valid
+    and that the key used to sign the file is trusted. It should be similar to
+    the following output:
 
     ```bash
     gpg: die unterzeichneten Daten sind wohl in 'archlinux-2023.04.01-x86_64.iso'
@@ -83,23 +61,23 @@ image:
     Haupt-Fingerabdruck  = 3E80 CA1A 8B89 F69C BA57  D98A 76A5 EF90 5444 9A5C
     ```
 
-    Ensure the fingerprint in the output matches the
+    Make sure fingerprint in the output matches
     [Master Key Signatures](https://archlinux.org/master-keys/#master-sigs).
 
-## Create a USB Flash Installation Medium
+## Prepare USB Flash Installation Medium
 
-To install Arch Linux, you need to create a bootable USB drive. Follow the steps
-below to create an Arch Linux Installer USB drive:
+To install Arch Linux, you will need to create a bootable USB drive.
+Follow the steps below to create an Arch Linux Installer USB drive:
 
-1. Use `lsblk` to determine the name of the USB flash drive, and ensure it is
-not mounted:
+1. Find out the name of the USB flash drive with `lsblk`. Make sure that it
+is not mounted.
 
     ```bash
     $ lsblk
     ```
 
-    The output should display the name of the USB drive, similar to the example
-    below:
+    The output should show the name of the USB drive, similar to the
+    output below:
 
     ```bash
     NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
@@ -113,23 +91,20 @@ not mounted:
     └─nvme0n1p3 259:3    0 920.9G  0 part /
     ```
 
-    In my case, the USB drive name is `/dev/sdb`.
+    For me, the USB drive name is `/dev/sdb`.
 
-2. Execute the following command to write the installation image to the USB
-drive:
+2. Use the following command to write the installation image to the USB drive:
 
     ```bash
     $ sudo dd bs=4M if=archlinux-2023.04.01-x86_64.iso of=/dev/sdb conv=fsync oflag=direct status=progress
     ```
 
     > **Note**\
-    > This command will permanently erase all data on `/dev/sdb` and write the
-    installation image onto it. Ensure you have entered the correct drive name.
+    > This command will irrevocably destroy all data on `/dev/sdb` and write
+    the installation image into it. Make sure you have entered the correct
+    drive name.
 
-## Next Steps
-
-Proceed with the subsequent steps in this guide to install Arch Linux on your
-computer and tailor it to your preferences.
+## Table of Contents
 
 ### [1. Home](./README.md)
 
