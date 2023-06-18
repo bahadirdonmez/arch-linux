@@ -1,66 +1,71 @@
 # Bahadir's Personal Arch Linux Installation Guide
 
-This guide is a personalized Arch Linux installation tutorial created
-specifically for me, Bahadir.
+This guide is a personalized, comprehensive Arch Linux installation tutorial
+for myself, Bahadir, to guide me through the steps needed to build a customized
+Arch Linux system.
 
-Arch Linux is a lightweight, flexible distribution that offers a minimal base
-system to build upon. Designed for speed, reliability, and customization, it is
-an ideal choice for users who want full control over their system. This guide
-will walk you through the Arch Linux installation process step by step.
+Arch Linux is a lightweight Linux distribution, providing a bare minimum base
+system. This minimalist design allows users to include only the components they
+need, making it remarkably fast, reliable, and ideal for those who want an
+extensive control over their operating environment.
 
-## Prerequisites
+With clear step-by-step instructions, you'll be able to navigate through the
+installation with ease and confidence.
 
-Before starting, ensure you have the following:
+## System Specifications
 
-1. A computer with at least 512 MB of RAM, 2 GB of disk space, and a 64-bit CPU.
+- **Processor:** Intel Core I9-13900K (LGA 1700, 3 GHz, 24-Core)
 
-2. UEFI firmware and boot support.
+- **Graphics Card:** Sapphire Radeon RX 7900 XTX Pulse (24 GB)
 
-3. An internet connection.
+- **Storage Drive:** Samsung 990 Pro (2000 GB, M.2 2280)
 
-4. A USB drive with at least 2 GB of space.
+- **Memory Kit:** G.Skill Trident Z5 RGB (2 X 32GB, 6400 MHz, DDR5 RAM, DIMM)
 
-5. Basic knowledge of the Linux command line.
+- **Motherboard:** ASUS ROG Strix Z790-I Gaming WIFI (LGA 1700, Intel Z790,
+Mini ITX)
 
-## Obtain and Verify an Installation Image
+- **CPU Cooler:** MasterLiquid ML280 Mirror CPU Liquid Cooler
 
-First, download the Arch Linux installation image and verify its authenticity.
-Follow these steps to obtain and verify the installation image:
+- **Power Supply:** V850 SFX Gold 850 Watt
+
+- **Case:** Cooler Master PC Case MasterBox NR200P (Mini ITX)
+
+## Obtain and Verify the Installation Image
+
+To start, follow these steps to obtain and authenticate the installation image:
 
 1. Change the directory to `Downloads`:
 
     ```bash
-    $ cd /home/Bahadir/Downloads
+    $ cd ~/Downloads
     ```
 
 2. Visit the [Arch Linux Downloads](https://www.archlinux.org/download/) page.
 
-    - Select an HTTP mirror site from the list, for example:
+    - Pick an HTTP mirror site from the list. You will download both the `.iso`
+    file and the corresponding `.iso.sig` file from this mirror site.
 
-        - `geo.mirror.pkgbuild.com`
-
-    - Download both the `.iso` file and the corresponding `.iso.sig` file, such
-    as:
-
-        - `archlinux-2023.04.01-x86_64.iso`
-
-        - `archlinux-2023.04.01-x86_64.iso.sig`
-
-    - Alternatively, use the `curl` command to download these files:
+    - Set the environment variables for the mirror site and the files:
 
         ```bash
-        $ curl -O https://geo.mirror.pkgbuild.com/iso/2023.04.01/archlinux-2023.04.01-x86_64.iso
+        $ export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest" && \
+        export ISO_FILE="archlinux-2023.06.01-x86_64.iso" && \
+        export SIG_FILE="$ISO_FILE.sig"
         ```
+
+    - Download these files using the `curl` command:
 
         ```bash
-        $ curl -O https://geo.mirror.pkgbuild.com/iso/2023.04.01/archlinux-2023.04.01-x86_64.iso.sig
+        $ curl -O $MIRROR_SITE/$ISO_FILE && \
+        curl -O $MIRROR_SITE/$SIG_FILE
         ```
 
-3. Execute the following command to verify the authenticity of the installation
-image:
+3. Verify the authenticity of the installation image using the following
+command:
 
     ```bash
-    $ gpg --keyserver-options auto-key-retrieve --verify archlinux-2023.04.01-x86_64.iso.sig
+    $ gpg --keyserver-options auto-key-retrieve --verify $SIG_FILE
     ```
 
     The output should include a message indicating that the signature is valid
@@ -68,19 +73,19 @@ image:
     following output:
 
     ```bash
-    gpg: die unterzeichneten Daten sind wohl in 'archlinux-2023.04.01-x86_64.iso'
-    gpg: Signatur vom Mi 01 Mär 2023 13:55:51 CET
-    gpg:                mittels EDDSA-Schlüssel 3E80CA1A8B89F69CBA57D98A76A5EF9054449A5C
-    gpg:                Aussteller "pierre@archlinux.org"
-    gpg: Schlüssel 7F2D434B9741E8AC: Öffentlicher Schlüssel "Pierre Schmitz <pierre@archlinux.org>" importiert
-    gpg: Schlüssel 76A5EF9054449A5C: Öffentlicher Schlüssel "Pierre Schmitz <pierre@archlinux.org>" importiert
-    gpg: Anzahl insgesamt bearbeiteter Schlüssel: 2
-    gpg:                              importiert: 2
-    gpg: keine ultimativ vertrauenswürdigen Schlüssel gefunden
-    gpg: Korrekte Signatur von "Pierre Schmitz <pierre@archlinux.org>" [unbekannt]
-    gpg: WARNUNG: Dieser Schlüssel trägt keine vertrauenswürdige Signatur!
-    gpg:          Es gibt keinen Hinweis, daß die Signatur wirklich dem vorgeblichen Besitzer gehört.
-    Haupt-Fingerabdruck  = 3E80 CA1A 8B89 F69C BA57  D98A 76A5 EF90 5444 9A5C
+    gpg: assuming signed data in 'archlinux-2023.06.01-x86_64.iso'
+    gpg: Signature made Thu 01 Jun 2023 05:28:49 PM CEST
+    gpg:                using EDDSA key 3E80CA1A8B89F69CBA57D98A76A5EF9054449A5C
+    gpg:                issuer "pierre@archlinux.org"
+    gpg: key 7F2D434B9741E8AC: public key "Pierre Schmitz <pierre@archlinux.org>" imported
+    gpg: key 76A5EF9054449A5C: public key "Pierre Schmitz <pierre@archlinux.org>" imported
+    gpg: Total number processed: 2
+    gpg:               imported: 2
+    gpg: no ultimately trusted keys found
+    gpg: Good signature from "Pierre Schmitz <pierre@archlinux.org>" [unknown]
+    gpg: WARNING: This key is not certified with a trusted signature!
+    gpg:          There is no indication that the signature belongs to the owner.
+    Primary key fingerprint: 3E80 CA1A 8B89 F69C BA57  D98A 76A5 EF90 5444 9A5C
     ```
 
     Ensure the fingerprint in the output matches the
@@ -88,11 +93,11 @@ image:
 
 ## Create a USB Flash Installation Medium
 
-To install Arch Linux, you need to create a bootable USB drive. Follow the steps
-below to create an Arch Linux Installer USB drive:
+Creating a bootable USB drive is crucial for the Arch Linux installation
+process. To do so:
 
-1. Use `lsblk` to determine the name of the USB flash drive, and ensure it is
-not mounted:
+1. Use `lsblk` to identify the name of the USB flash drive, and ensure it is not
+mounted:
 
     ```bash
     $ lsblk
@@ -104,13 +109,14 @@ not mounted:
     ```bash
     NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
     sda           8:0    0 931.5G  0 disk 
-    └─sda1        8:1    0 931.5G  0 part 
+    └─sda1        8:1    0 931.5G  0 part
     sdb           8:16   1  58.6G  0 disk 
-    └─sdb1        8:17   1  58.6G  0 part 
-    nvme0n1     259:0    0 953.9G  0 disk 
-    ├─nvme0n1p1 259:1    0     1G  0 part /boot
-    ├─nvme0n1p2 259:2    0    32G  0 part [SWAP]
-    └─nvme0n1p3 259:3    0 920.9G  0 part /
+    ├─sdb1        8:17   1   798M  0 part 
+    └─sdb2        8:18   1    15M  0 part 
+    nvme0n1     259:0    0   1.8T  0 disk 
+    ├─nvme0n1p1 259:1    0     2G  0 part /boot
+    ├─nvme0n1p2 259:2    0    64G  0 part [SWAP]
+    └─nvme0n1p3 259:3    0   1.8T  0 part /
     ```
 
     In my case, the USB drive name is `/dev/sdb`.
@@ -119,7 +125,8 @@ not mounted:
 drive:
 
     ```bash
-    $ sudo dd bs=4M if=archlinux-2023.04.01-x86_64.iso of=/dev/sdb conv=fsync oflag=direct status=progress
+    $ export USB_DEV="/dev/sdb" && \
+    sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync
     ```
 
     > **Note**\

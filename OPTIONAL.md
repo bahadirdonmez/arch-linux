@@ -5,8 +5,7 @@
 ### Image Editing: Pinta
 
 Pinta is a lightweight, user-friendly raster image editing program similar to
-Microsoft Paint and Paint.NET. It is suitable for basic image editing tasks such
-as cropping, resizing, drawing, and working with layers.
+Microsoft Paint and Paint.NET.
 
 To install Pinta on Arch Linux, use the following command:
 
@@ -240,8 +239,13 @@ Follow these steps to install and configure the Brother MFC-J6710DW printer:
     `Brother MFC-J6710DW, driverless, cups-filters 1.28.17 (en)` and click on
     **Add Printer**.
 
-    - In **Default Settings**, set **Print Color Mode** to **Monochrome** and
-    **2-Sided Printing** to **On (Portrait)**.
+    - In **Default Settings**:
+
+        - Set **Media Size** to **A4**.
+
+        - Set **Print Color Mode** to **Monochrome**.
+
+        - Set **2-Sided Printing** to **On (Portrait)**.
 
     Now you should be able to print with your Brother MFC-J6710DW printer.
 
@@ -304,220 +308,285 @@ part `BRN001BA95D5DB6.local` with your scanner's hostname found using the
     $ mkdir -p ~/Pictures/Scanned
     ```
 
-## Running Windows Apps on Linux
+## Messaging Apps
 
-You can run Windows apps such as Microsoft Office and Adobe in Arch Linux using
-XFCE4. These apps will integrate into your native OS, allowing seamless
-interaction with your files and applications.
+Among all messaging apps, WhatsApp and Signal stand out due to their popularity
+and unique features. This guide details how to utilize these apps on Arch Linux.
 
-### Installation of Virt-Manager
+### WhatsApp
 
-Virt-Manager, a user-friendly graphical interface for the `libvirt` library,
-simplifies virtual machine management, allowing you to effortlessly create,
-delete, and manipulate virtual machines.
+WhatsApp Web offers a seamless way to enjoy the functionality of WhatsApp
+directly on your computer:
 
-1. Install the `Virt-Manager` package using the following command:
+1. Launch Chrome and navigate to the profile icon situated at the top right
+corner, then click on **Add**.
 
-    ```bash
-    $ sudo pacman -S virt-manager
-    ```
+2. In the subsequent dialog box, click on **Continue without an account**.
 
-2. Install the `qemu-desktop` package using the following command:
+3. Input a preferred name for your new profile, such as `WhatsApp Web`. Select
+an icon of your choice, and finalize by clicking on **Add**.
 
-    ```bash
-    $ sudo pacman -S qemu-desktop
-    ```
+4. Now in the newly created profile window, direct your browser to the
+[WhatsApp Web](<https://web.whatsapp.com/>).
 
-3. Install the `dnsmasq` package using the following command:
+5. On the right side of the address bar, locate the **Install WhatsApp Web**
+button and click on it. This action will generate a desktop shortcut for
+WhatsApp Web on your machine.
 
-    ```bash
-    $ sudo pacman -S dnsmasq
-    ```
-
-4. Enable and start the `libvirtd.service` service to run at startup by
-executing the following command:
+6. To ensure that the WhatsApp Web application always launches in the newly
+created profile and all other links are opened in your default profile, modify
+the Chrome configuration file with the `--profile-directory=Default` flag:
 
     ```bash
-    $ systemctl enable --now libvirtd.service
+    $ echo -e "\
+    --profile-directory=Default\n\
+    " | tee ~/.config/chrome-flags.conf > /dev/null
     ```
 
-5. Running domains can be automatically suspended/shutdown at host shutdown
-using the `libvirt-guests.service` systemd service. This same service will
-resume/startup the suspended/shutdown domain automatically at host startup:
+    Validate the changes to the `~/.config/chrome-flags.conf` file:
 
     ```bash
-    $ systemctl enable --now libvirt-guests.service
+    $ vim ~/.config/chrome-flags.conf
     ```
 
-### Configuring Virt-Manager for Non-Root Users
+    The contents of the file should be as follows:
 
-To use Virt-Manager as a non-root user, you'll need to configure KVM and enable
-`libvirt` networking components. This involves adjusting socket permissions,
-adding your user to the right groups, and setting up a user session in
-Virt-Manager.
+    ```properties
+    --profile-directory=Default
+    ```
 
-1. Set the UNIX domain socket ownership to `libvirt` and the UNIX socket
-permission to read and write:
+7. Finally, to personalize the appearance of WhatsApp Web in your new profile,
+adhere to the following steps:
+
+    - Navigate to **Settings > Appearance**.
+
+    - Under the **Themes** section, click on **Use GTK**.
+
+### Signal
+
+Signal is a highly secure messaging platform renowned for its robust encryption
+standards. To install the Signal Desktop client on Arch Linux, execute the
+following command in the terminal:
+
+```bash
+$ sudo pacman -S signal-desktop
+```
+
+## Running Windows Applications on Linux
+
+There may be circumstances where Linux users need to run software exclusive to
+Windows. One effective solution is to utilize virtualization technology, such
+as VMware, which allows a fully-functional Windows operating system to run
+within the Linux environment.
+
+### Setting up VMware Workstation Player
+
+VMware offers a virtual platform, specifically the free-to-use VMware
+Workstation Player, that enables running Windows applications on a Linux
+machine.
+
+1. VMware Keymaps is necessary for certain VMware packages. To install it,
+navigate to the `aur` directory and clone the `vmware-keymaps` package from the
+AUR (Arch User Repository) using the `git clone` command:
 
     ```bash
-    $ sudo sed -i \
-    -e 's/# *\(unix_sock_group = "libvirt"\)/\1/' \
-    -e 's/#*\(unix_sock_rw_perms = "0770"\)/\1/' \
-    /etc/libvirt/libvirtd.conf
+    $ cd ~/aur && git clone https://aur.archlinux.org/vmware-keymaps.git
     ```
 
-2. Add your user to the `libvirt` group:
+2. Navigate to the `vmware-keymaps` directory, then build and install the
+package using the `makepkg` command:
 
     ```bash
-    $ sudo gpasswd -a ${USER} libvirt
+    $ cd ~/aur/vmware-keymaps && makepkg -sirc && git clean -dfX
     ```
 
-3. Once these changes are made, restart the libvirt daemon for the changes to
-take effect:
+3. You need to install the appropriate kernel headers package for your
+installed kernel. Use the following command to do so:
 
     ```bash
-    $ systemctl restart libvirtd.service
+    $ sudo pacman -S linux-headers
     ```
 
-4. Right-click on **QEMU/KVM** connection and select **Details**. On the
-**Virtual Network** tab, check **Autostart** and then click **Apply**.
-
-### Creating a Virtual Hard Disk Image and Preparing the Installation Media
-
-1. To create a virtual hard disk for the virtual machine, run the following
-command in a terminal:
+4. Go back to the `aur` directory and clone the `vmware-workstation` package
+from the AUR using the `git clone` command:
 
     ```bash
-    $ cd /var/lib/libvirt/images/ && \
-    sudo qemu-img create -f qcow2 -o preallocation=off Windows11 512G
+    $ cd ~/aur && git clone https://aur.archlinux.org/vmware-workstation.git
     ```
 
-    This command will create a hard disk file named `Windows11` in the
-    `/var/lib/libvirt/images/` directory.
+5. Navigate to the `vmware-workstation` directory, then build and install the
+package using the `makepkg` command:
 
-2. Navigate to the [Microsoft Software Download](
-<https://www.microsoft.com/software-download/windows11>) page and download the
-Download Windows 11 Disk Image (ISO) for x64 devices.
+    ```bash
+    $ cd ~/aur/vmware-workstation && makepkg -sirc && git clean -dfX
+    ```
 
-3. You will also require the Virtio drivers for Windows. Visit the dedicated
-[GitHub page](
-<https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md>)
-for these drivers and download the stable ISO file.
+6. Start the `vmware-networks-configuration.service` to generate
+`/etc/vmware/networking`:
 
-### Setting Up a Virtual Machine
+    ```bash
+    $ systemctl start vmware-networks-configuration.service
+    ```
 
-1. Open `virt-manager`. To start the process of creating a new virtual machine,
-select **File** from the menu bar, followed by **New Virtual Machine**.
+7. Enable the `vmware-networks.service` for guest network access:
 
-2. Choose **Import existing disk image** as your preferred method of installing
-the operating system. Proceed by clicking **Forward**.
+    ```bash
+    $ systemctl enable vmware-networks.service
+    ```
 
-3. You're now prompted to identify the disk image. Navigate to
-`/var/lib/libvirt/images/` and choose the disk image. As your operating system,
-select `Microsoft Windows 11`. Continue by clicking **Forward**.
+8. Enable the `vmware-usbarbitrator` to connect USB devices to the guest system:
 
-4. Next, define the resources dedicated to the virtual machine:
+    ```bash
+    $ systemctl enable vmware-usbarbitrator
+    ```
 
-    - Allocate the memory size to `16384` (1/4 of the available memory).
+9. Finally, load the VMware modules with this command:
 
-    - Assign `8` CPUs to the virtual machine (/4 of the total available CPUs).
+    ```bash
+    $ sudo modprobe -a vmw_vmci vmmon
+    ```
 
-5. Assign a name to your virtual machine and verify that all other VM details
-are correct:
+After following these steps, VMware Workstation Player should be fully
+installed and ready for use on your Arch Linux system.
 
-    - Set your virtual machine name as `Windows11`.
+--------------------------------------------------------------------------------
 
-    - Choose **Customize configuration before install**.
+### Creating a Virtual Machine with VMware Workstation Player
 
-6. Click **Finish** to create the virtual machine.
+After successfully installing VMware Workstation Player, you can create a virtual machine (VM) to run Windows:
+
+1. Open VMware Workstation Player and select **Create a New Virtual Machine**.
+
+2. Opt for the **Installer disc image file (iso)** option, then browse and select your Windows ISO file. Click **Next**.
+
+3. Choose your Windows version from the dropdown menu, then click **Next**.
+
+4. Define the maximum disk size and specify whether the virtual disk should be split into multiple files or stored as a single file. Click **Next**.
+
+5. Review your settings. Click **Finish** to create the VM.
+
+With your VM ready, you can install Windows applications as you normally would on a native Windows system. Keep in mind, running Windows applications on Linux via VMware might have some performance compromises due to the virtualization overhead.
+
+--------------------------------------------------------------------------------
+
+### Installing VirtualBox
+
+Oracle's VirtualBox is a robust virtualization software compatible with x86 and
+AMD64/Intel64 architectures. Its intuitive interface simplifies the procedure
+of creating and managing virtual machines.
+
+1. To install VirtualBox, run the following command in the terminal:
+
+    ```bash
+    $ sudo pacman -S virtualbox
+    ```
+
+    During installation, you'll be asked to choose a package that supplies the
+    host modules, crucial for the virtualization process. If you're using the
+    standard Linux kernel, select `virtualbox-host-modules-arch`.
+
+2. Install the `virtualbox-guest-iso` package on your host machine:
+
+    ```bash
+    $ sudo pacman -S virtualbox-guest-iso
+    ```
+
+    This package includes a disk image (.iso file) required for installing
+    VirtualBox Guest Additions on guest operating systems.
+
+3. Download the Windows 11 Disk Image (ISO) for x64 devices from the
+[Microsoft Software Download](
+<https://www.microsoft.com/software-download/windows11>) page.
+
+4. Edit the `/etc/default/grub` file:
+
+    ```bash
+    $ sudo vim /etc/default/grub
+    ```
+
+    Insert your kernel options between the quotes in the
+    `GRUB_CMDLINE_LINUX_DEFAULT` line:
+
+    ```properties
+    GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet ibt=off"
+    ```
+
+    Then, automatically regenerate the `grub.cfg` file with:
+
+    ```bash
+    $ sudo grub-mkconfig -o /boot/grub/grub.cfg
+    ```
+
+### Setting up a Virtual Machine in VirtualBox
+
+1. Launch VirtualBox. Click on the **New** button to start the creation of a
+new virtual machine.
+
+2. Switch to **Expert Mode** for more configuration options.
+
+3. In the **Name and Operating System** section:
+
+    - Assign a unique name to your virtual machine, such as `Windows11`.
+
+    - For the **ISO Image**, locate and select the Windows 11 Disk Image (ISO)
+    you downloaded earlier, then click **Open**.
+
+    - Set the machine type to `Microsoft Windows` and select
+    `Windows 11 (64-bit)` for the version.
+
+    - To manually control the installation process, enable
+    **Skip Unattended Installation**.
+
+4. In the **Hardware** section:
+
+    - Allocate `16384` (1/4 of the available memory) to the base memory.
+
+    - Assign `8` CPUs to the virtual machine (1/4 of the total available CPUs).
+
+5. In the **Hard Disk** section:
+
+    - Allocate `512 GB` (1/4 of the available storage) to the hard disk.
+
+6. Click **Finish**.
 
 ## Customize the Virtual Machine
 
-1. In the **Memory** tab set the **Current allocation** to `4096` (1/4 of the
-allocated memory).
+After creating your virtual machine, you can modify its settings to match your
+specific requirements.
 
-2. In the **SATA Disk 1** tab set the **Disk bus** to `VirtIO`.
+1. Select your virtual machine and click on the **Settings** button.
 
-3. In the **NIC** tab:
+2. Navigate to the **General** section and select the **Advanced** tab:
 
-    - Set the **Device model** to `virtio`.
+    - Set the **Shared Clipboard** and **Drag'n'Drop** to `Bidirectional`.
 
-    - Run the following command:
+3. Navigate to the **System** section:
 
-    ```bash
-    $ sudo virsh net-update default add-last ip-dhcp-host \
-    '<host mac="52:54:00:a8:19:ac" ip="192.168.122.111"/>' \
-    --live --config --parent-index 0
-    ```
+    - Select the **Motherboard** tab:
 
-    Replace the MAC address with the MAC address of your Virtual Machine. For
-    the IP address, choose an address between `192.168.122.2` and
-    `192.168.122.254`.
+        - Check the **Hardware Clock in UTC Time** option.
 
-4. In the **Display Spice** tab:
+    - Select the **Processor** tab:
 
-    - Set **Listen Type** to `None`
+        - Check the **Enable PAE/NX** option.
 
-    - Check the **OpenGL** option.
+        - Check the **Enable VT-x/AMD-V** option.
 
-    - Set `Radeon RX 7900 XTX` as the graphics card.
+    - Select the **Acceleration** tab:
 
-5. In the **Video QXL** tab:
+        - Choose the paravirtualization interface **Hyper-V** from the drop
+        down menu.
 
-    - Set the **Model** to `Virtio`.
+        - Check the **Enable Nested Paging** option.
 
-    - Check the **3D acceleration** option.
+4. Navigate to the **Display** section and select the **Screen** tab:
 
-6. QEMU can emulate Trusted Platform Module, which is required by some systems
-such as Windows 11. To add TPM:
+    - Check the **Enable 3D Acceleration** option.
 
-    - Install the `swtpm` package:
+    - Increase the **Video Memory** to the maximum.
 
-        ```bash
-        $ sudo pacman -S swtpm
-        ```
-
-    - Click on **Add Hardware**, then select **TPM** from the list of options.
-
-    - Click on **Finish**.
-
-7. Add installation media:
-
-    - Click on **Add Hardware**, then select **Storage** from the list of
-    options.
-
-    - Choose **Select or Create custom storage**. Click on **Manage**, this will
-    open a file browser.
-
-    - In the file browser, navigate to the location of the downloaded
-    `Win11.iso` ISO file, select it, and confirm your selection.
-
-    - After the ISO file is selected, set the device type to **CDROM**.
-
-    - Click on **Finish**.
-
-8. Add Virtio drivers:
-
-    - Click on **Add Hardware**, then select **Storage** from the list of
-    options.
-
-    - Choose **Select or Create custom storage**. Click on **Manage**, this will
-    open a file browser.
-
-    - In the file browser, navigate to the location of the downloaded
-    `virtio-win.iso` driver ISO file, select it, and confirm your selection.
-
-    - After the ISO file is selected, set the device type to **CDROM**.
-
-    - Click on **Finish**.
-
-9. In the **Boot Options** tab:
-
-    - Check **Start the virtual machine on host bootup**.
-
-    - Check **SATA CDROM 1** containing the `Win11.iso` ISO file.
-
-10. Click **Begin Installation** on top left.
+5. After customizing your virtual machine, click **OK** to save and close the
+settings dialog.
 
 ## Seamlessly Run Windows Apps
 
@@ -554,103 +623,6 @@ xfreerdp's seamless mode:
 
     Replace `<app-path>` with the path to your application, and again replace
     `<user>` and `<password>` with your username and password respectively.
-
-## Setup Secure Boot
-
-### Enable Setup Mode in BIOS settings
-
-1. After reboot, go to BIOS screen.
-2. In the **Boot** tab in the BIOS screen, set the **FIXED BOOT ORDER Priorities** as follows:
-    - Boot Option #1: \[Hard Disk: GRUB]
-    - Boot Option #2: \[USB Hard Disk]
-    - Boot Option #3: \[USB CD/DVD]
-    - Boot Option #4: \[USB Lan]
-3. In **Security** tab, go to **Secure Boot** options and set **Secure Boot Mode** to **\[Custom]**.
-4. Select **Reset to Setup Mode** and Enter. This will **delete all Secure Boot key databases from NVRAM**.
-    - Hit Yes when it asks you if you want to proceed.
-    - Hit No when it asks you reset without saving.
-5. Select **Key Management** and Enter. In the page that open, set **Factory Default Key Provisioning** to **\[Disabled]**
-6. In the **Save & Exit** tab click on **Save Changes and Reset**. The computer will restart automatically.
-
-### Checking Secure Boot status
-
-Check the secure boot status:
-
-    ```
-    $ sbctl status
-    ```
-
-You should see that sbctl is not installed, setup mode is enabled and secure boot is disabled.
-
-### Creating and enrolling keys
-
-Then create your custom secure boot keys:
-`
- $ sudo sbctl create-keys
- `
-Enroll your keys, with Microsoft\`s keys, to the UEFI:
-`
- $ sudo sbctl enroll-keys -m
- `
-Check the secure boot status again:
-
-    ```
-    $ sbctl status
-    ```
-
-sbctl should be installed now, but secure boot will not work until the boot files have been signed with the keys you just created.
-
-### Signing files
-
-Check what files need to be signed for secure boot to work:
-
-    ```
-    $ sudo sbctl verify
-    ```
-
-Now sign all the unsigned files. Usually the kernel and the boot loader need to be signed:
-
-    ```
-    $ sudo sbctl sign -s /boot/EFI/GRUB/grubx64.efi
-    $ sudo sbctl sign -s /boot/grub/x86_64-efi/core.efi
-    $ sudo sbctl sign -s /boot/grub/x86_64-efi/grub.efi
-    $ sudo sbctl sign -s /boot/vmlinuz-linux
-
-    ```
-
-The files that need to be signed will depend on your system\`s layout, kernel and boot loader.
-
-Now you are done! Reboot your system.
-
-1. After reboot, go to BIOS screen.
-2. In **Security** tab, go to **Secure Boot** options and set **Secure Boot Support** to **\[Enabled]**.
-3. In the **Save & Exit** tab click on **Save Changes and Reset**. The computer will restart automatically.
-
-If the boot loader and OS load, secure boot should be working. Check with:
-
-    ```
-    $ sbctl status
-    ```
-
-## Other Essential Packages
-
-4\.  System administration
-
-    *   `sbctl`: User-friendly way of setting up secure boot and signing files
-
-6. Other useful tools:
-
-    - `which`: Used to identify the location of a given executable
-
-These tools will be useful later.
-
-## Initramfs
-
-Creating a new initramfs is usually not required, because mkinitcpio was run on installation of the kernel package with pacstrap. When you modify `mkinitcpio.conf`, run:
-
-    ```
-    # mkinitcpio -P
-    ```
 
 ## Table of Contents
 

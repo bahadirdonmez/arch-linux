@@ -21,19 +21,21 @@ synchronize the repository databases and upgrade the system:
 2. Once the upgrade is complete, restart your system to ensure that all
 upgrades are applied to existing processes.
 
-### Upgrading Git Packages
+### Upgrading Themes and Background Images
 
-To update git packages, first navigate to the directory containing the package.
+To update themes, first navigate to the directory containing the package.
 Then, update the files and changes using the `git pull` command. Finally,
 follow the necessary steps or execute the appropriate scripts to install the
-package.
+package. For background images, just copy them from Google Drive.
 
 1. The following example demonstrates how to update packages inside the `~/git`
 directory:
 
     ```bash
     $ cd ~/git/Qogir-theme && sudo ./install.sh --dest "/usr/share/themes" --uninstall && git pull && sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round && git clean -dfX\
-    && cd ~/git/Qogir-icon-theme && git pull && sudo ./install.sh --dest "/usr/share/icons" --theme default --color all && git clean -dfX
+    && cd ~/git/Qogir-icon-theme && git pull && sudo ./install.sh --dest "/usr/share/icons" --theme default --color all && git clean -dfX\
+    && cp -r ~/"Google Drive"/Resources/Wallpapers/16x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/single-monitor/* && cp /home/Bahadir/Downloads/16x9/* /usr/share/backgrounds/single-monitor/' && rm -r ~/Downloads/16x9\
+    && cp -r ~/"Google Drive"/Resources/Wallpapers/32x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/dual-monitor/* && cp /home/Bahadir/Downloads/32x9/* /usr/share/backgrounds/dual-monitor/' && rm -r ~/Downloads/32x9
     ```
 
     This command uninstalls packages, updates them with `git pull`, reinstalls,
@@ -53,7 +55,7 @@ package's `PKGBUILD`. Then, build and install the package.
 1. The following command updates each package inside the `~/aur` directory:
 
     ```bash
-    $ find ~/aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc && git clean -dfX' \;
+    $ find ~/aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
     ```
 
     This command uses the find command to locate all the subdirectories of
@@ -63,16 +65,33 @@ package's `PKGBUILD`. Then, build and install the package.
 2. Once the upgrade is complete, restart your system to ensure that all
 upgrades are applied to existing processes.
 
+### System Upgrade After a Prolonged Interval
+
+In cases where system updates are delayed significantly, follow these steps to
+ensure system integrity.
+
+First, manually synchronize the package database and update the
+`archlinux-keyring` package, then proceed to a full system upgrade using the
+following command:
+
+```bash
+$ sudo pacman -Sy archlinux-keyring && sudo pacman -Su
+```
+
+This is not considered a partial upgrade as it synchronizes the package
+database and upgrades the keyring package first, ensuring all package
+signatures can be properly verified during the system upgrade.
+
 ### Uninstalling Existing Packages
 
 To remove a package along with its dependencies that are not required by any
 other installed package, use the following command:
 
 ```bash
-$ sudo pacman -Rsu package_name
+$ sudo pacman -Rsu <PACKAGE_NAME>
 ```
 
-Replace package_name with the name of the package you want to uninstall.
+Replace `<PACKAGE_NAME>` with the name of the package you want to uninstall.
 
 ## Managing USB Devices
 

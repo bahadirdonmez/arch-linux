@@ -9,6 +9,7 @@
     // Ruler lines to show in the editor
     "editor.rulers": [
         80
+        // Settings for markdown files
     ],
     "markdownlint.config": {
         "default": true,
@@ -29,8 +30,8 @@
             "style": "backtick",
         },
     },
-    // Settings for markdown files
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-    }
+    },
+    "markdown-preview-github-styles.colorTheme": "light"
 }

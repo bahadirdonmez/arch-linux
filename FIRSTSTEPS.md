@@ -35,6 +35,13 @@ computer remotely.
     $ vim ~/.ssh/config
     ```
 
+5. Enable and start `sshd.service`. It will keep the SSH daemon permanently
+active and fork for each incoming connection:
+
+    ```bash
+    $ systemctl enable --now sshd.service
+    ```
+
 ## Install Visual Studio Code (VSCode)
 
 Visual Studio Code is a popular code editor developed by Microsoft.
@@ -164,14 +171,8 @@ password manager.
 
 ### Systemd 1Password Service
 
-1. Create a systemd folder to manage services:
-
-    ```bash
-    $ mkdir -p ~/.config/systemd/user/
-    ```
-
-2. To launch 1Password at startup as a systemd service, run the following
-command:
+1. To configure 1Password to launch at startup using systemd, enter the
+following command:
 
     ```bash
     $ echo -e "\
@@ -180,25 +181,24 @@ command:
     \n\
     [Service]\n\
     Type=simple\n\
-    RestartSec=5\n\
-    ExecStart=\
-    /usr/bin/1password --silent \n\
-    ExecStop=killall 1password \n\
+    ExecStart=/usr/bin/1password --silent \n\
+    ExecStop=/usr/bin/killall 1password \n\
     Restart=on-failure\n\
+    RestartSec=5\n\
     \n\
     [Install]\n\
     WantedBy=default.target\n\
-    " | sudo tee ~/.config/systemd/user/1password.service > /dev/null
+    " | sudo tee /etc/systemd/user/1password.service > /dev/null
     ```
 
-3. Check the contents of the `~/.config/systemd/user/1password.service` file and
+2. Review the contents of the `/etc/systemd/user/1password.service` file and
 correct any errors:
 
     ```bash
-    $ sudo vim ~/.config/systemd/user/1password.service
+    $ sudo vim /etc/systemd/user/1password.service
     ```
 
-4. Enable the new service to run at startup:
+3. Enable the newly created service to initiate at startup:
 
     ```bash
     $ systemctl --user enable 1password.service
@@ -239,48 +239,46 @@ To manage Google Drive files on Arch Linux, we use Rclone.
 
 ### Systemd Google Drive Service and Auto Mount
 
-1. If `fuse` is not already installed on your system, you can install it by
-running the following command:
+1. Install `fuse` if it's not already present on your system with the following
+command:
 
     ```bash
     $ sudo pacman -S fuse3
     ```
 
-2. To mount your Google Drive as a systemd service, execute the command below:
+2. Configure your Google Drive to mount at startup with systemd by running the
+subsequent command:
 
     ```bash
     $ echo -e "\
     [Unit]\n\
     Description=Google Drive (Rclone) Service\n\
-    Wants=network-online.target\n\
-    After=network-online.target\n\
     \n\
     [Service]\n\
-    Type=notify\n\
-    RestartSec=5\n\
+    Type=simple\n\
     ExecStartPre=/usr/bin/mkdir -p %h/\"Google Drive\" \n\
-    ExecStart=\
-    /usr/bin/rclone mount \
+    ExecStart=/usr/bin/rclone mount \
     google-drive: %h/\"Google Drive\" \
     --config=%h/.config/rclone/rclone.conf \
     --vfs-cache-mode full \n\
     ExecStop=/bin/fusermount -uz %h/\"Google Drive\"\n\
+    ExecStopPost=/usr/bin/rm -rf %h/\"Google Drive\" \n\
     Restart=on-failure\n\
+    RestartSec=5\n\
     \n\
     [Install]\n\
     WantedBy=default.target\n\
-    " | sudo tee ~/.config/systemd/user/google-drive.service > /dev/null
+    " | sudo tee /etc/systemd/user/google-drive.service > /dev/null
     ```
 
-3. Verify the contents of the `~/.config/systemd/user/google-drive.service` file
-and correct any errors if needed:
+3. Review the contents of the `/etc/systemd/user/google-drive.service` file and
+correct any errors:
 
     ```bash
-    $ sudo vim ~/.config/systemd/user/google-drive.service
+    $ sudo vim /etc/systemd/user/google-drive.service
     ```
 
-4. Enable and start new service to run at startup by executing the following
-command:
+4. Enable the newly created service to initiate at startup:
 
     ```bash
     $ systemctl --user enable --now google-drive.service
@@ -363,25 +361,21 @@ your system.
     $ sudo pacman -S xfce4-clipman-plugin
     ```
 
-2. Launch the Clipman Clipboard Manager with this command:
+2. Launch the Clipboard Manager with this command:
 
     ```bash
     $ xfce4-clipman
     ```
 
 3. Configure Clipman settings by right-clicking on the Clipman Clipboard Manager
-icon in the Status Tray Items and selecting **Clipman settings...**. Then, do
-the following:
+icon in the **Status Tray Plugin** and selecting **Clipman settings...**. Then,
+do the following:
 
     - Under **Behavior**:
-
-        - Uncheck **Sync mouse selections**.
 
         - Set **Paste instantly** to <kbd>Shift</kbd> + <kbd>Insert</kbd>.
 
         - Check **Position menu at mouse pointer**.
-
-        - Set **Maximum items** option to **15**.
 
 4. Enable `xfce4-popup-clipman` by setting a keyboard shortcut:
 
@@ -400,50 +394,51 @@ the following:
 
 ## Configuring Vim
 
-To configure Vim to use the `xfce4-clipman-plugin` clipboard manager, follow
-these steps:
+1. Configure Vim to prevent loading defaults if `~/.vimrc` is missing:
 
-1. Run the following command:
+    ```bash
+    $ sudo sed -i -e \
+    's/" let skip_defaults_vim=1/let skip_defaults_vim=1\n/' \
+    /etc/vimrc
+    ```
+
+2. Configure Vim to use the `xfce4-clipman-plugin` clipboard manager:
 
     ```bash
     $ echo -e "\
-    \"Configure Vim to use the \`xfce4-clipman-plugin\` clipboard manager\n\
+    \" Configure Vim to use the \`xfce4-clipman-plugin\` clipboard manager\n\
     set clipboard=unnamed,unnamedplus\n\
-    " | sudo tee -a ~/.vimrc ~root/.vimrc > /dev/null
+    " | sudo tee -a /etc/vimrc > /dev/null
     ```
 
-2. Add custom Vim shortcuts for copy and paste operations with
+3. Add custom Vim shortcuts for copy and paste operations with
 <kbd>Ctrl</kbd> - <kbd>C</kbd>, <kbd>Ctrl</kbd> + <kbd>V</kbd> and
 <kbd>Ctrl</kbd> + <kbd>X</kbd>:
 
     ```bash
     $ echo -e "\
-    \"Custom shortcuts for copy and paste operations\n\
+    \" Custom shortcuts for copy and paste operations\n\
     vmap <C-c> \"+yi\n\
     vmap <C-x> \"+c\n\
     vmap <C-v> c<ESC>\"+p\n\
     imap <C-v> <C-r><C-o>+\n\
-    " | sudo tee -a ~/.vimrc ~root/.vimrc > /dev/null
+    " | sudo tee -a /etc/vimrc > /dev/null
     ```
 
-3. Turn on color syntax highlighting in Vim:
+4. Turn on color syntax highlighting in Vim:
 
     ```bash
     $ echo -e "\
-    \"Turn on color syntax highlighting\n\
+    \" Turn on color syntax highlighting\n\
     syntax on\n\
-    " | sudo tee -a ~/.vimrc ~root/.vimrc > /dev/null
+    " | sudo tee -a /etc/vimrc > /dev/null
     ```
 
-4. Check the contents of the `.vimrc` files and correct any errors by running
-the following commands:
+5. Run the following command to check the contents of the `/etc/vimrc` file and
+correct any errors:
 
     ```bash
-    $ sudo vim ~/.vimrc
-    ```
-
-    ```bash
-    $ sudo vim ~root/.vimrc
+    $ sudo vim /etc/vimrc
     ```
 
 ## Localization
@@ -482,15 +477,15 @@ running the following command:
     $ sudo locale-gen
     ```
 
-4. Set the system-wide `LANG` variable to Swiss German by running the following
+4. Set the system-wide `LANG` variable to U.S. English by running the following
 command:
 
     ```bash
     $ echo -e "\
     # This is the fallback locale configuration provided by systemd.\n\
     LANG=\"C.UTF-8\"\n\n\
-    # Set the system-wide \`LANG\` variable to Swiss German\n\
-    LANG=de_CH.UTF-8\n\
+    # Set the system-wide \`LANG\` variable to U.S. English.\n\
+    LANG=en_US.UTF-8\n\
     " | sudo tee /etc/locale.conf > /dev/null
     ```
 
@@ -506,9 +501,9 @@ character set by running the following command:
 
     ```bash
     $ echo -e "\
-    # Set system \`KEYMAP\` to Swiss German layout with the Latin-1\n\
+    # Set system \`KEYMAP\` to Swiss German layout with the Latin-1.\n\
     KEYMAP=de_CH-latin1\n\
-    " | sudo tee -a /etc/vconsole.conf > /dev/null
+    " | sudo tee /etc/vconsole.conf > /dev/null
     ```
 
 7. Check the contents of the `/etc/vconsole.conf` file and correct any errors by
@@ -531,11 +526,11 @@ running the following command:
 To set the hostname on your system, please follow these steps:
 
 1. Create the `/etc/hostname` file and add your desired hostname to it. For
-instance, if you want to set the hostname as `Bahadir-MSI`, then run the
+instance, if you want to set the hostname as `Bahadir-Desktop`, then run the
 following command:
 
     ```bash
-    $ echo "Bahadir-MSI" | sudo tee /etc/hostname > /dev/null
+    $ echo "Bahadir-Desktop" | sudo tee /etc/hostname > /dev/null
     ```
 
 2. Verify that the `/etc/hostname` file contains the correct hostname by running
@@ -548,7 +543,7 @@ the following command:
     Ensure that the file contains only the desired hostname as shown below:
 
     ```properties
-    Bahadir-MSI
+    Bahadir-Desktop
     ```
 
 ### How to Resolve Local Network Hostnames
@@ -563,7 +558,7 @@ file maps hostnames to IP addresses:
     # The following lines are desirable for IPv4 capable hosts\n\
     127.0.0.1       localhost\n\
     # 127.0.1.1 is often used for the FQDN of the machine\n\
-    127.0.1.1       Bahadir-MSI\n\n\
+    127.0.1.1       Bahadir-Desktop\n\n\
     # The following lines are desirable for IPv6 capable hosts\n\
     ::1             localhost\n\
     " | sudo tee /etc/hosts > /dev/null
@@ -582,7 +577,7 @@ following command:
     # The following lines are desirable for IPv4 capable hosts
     127.0.0.1       localhost
     # 127.0.1.1 is often used for the FQDN of the machine
-    127.0.1.1       Bahadir-MSI
+    127.0.1.1       Bahadir-Desktop
 
     # The following lines are desirable for IPv6 capable hosts
     ::1             localhost
@@ -593,54 +588,49 @@ following command:
 
 ### Changing Interface Names
 
-To change the name of a network interface, you can manually define the name
+To change the names of network interfaces, you can define the names manually
 using a `systemd.link` file.
 
-1. Find the MAC address of your network card by running ip link:
+1. Find the MAC addresses of your network cards by running `ip link`:
 
     ```bash
     $ ip link
     ```
 
-2. Create the `/etc/systemd/network/10-eth25cd.link` file and specify the new
-name of the network interface:
+2. Define arrays for your MAC addresses and the desired names of the network
+interfaces:
 
     ```bash
-    $ echo -e "\
+    $ MAC=("aa:bb:cc:dd:ee:ff"); NAMES=("eth25as");
+    MAC+=("ff:ee:dd:cc:bb:aa"); NAMES+=("eth25cd");
+    MAC+=("11:22:33:44:55:66"); NAMES+=("wlan6ewf")
+    ```
+
+3. Create the `systemd.link` files and specify the new names of the network
+interfaces:
+
+    ```bash
+    $ for i in "${!MAC[@]}"; do
+    echo -e "\
     [Match]\n\
-    PermanentMACAddress=aa:bb:cc:dd:ee:ff\n\
+    PermanentMACAddress=${MAC[i]}\n\
     \n\
     [Link]\n\
-    Name=eth25cd\n\
-    " | sudo tee /etc/systemd/network/10-eth25cd.link > /dev/null
+    Name=${NAMES[i]}\n\
+    " | sudo tee /etc/systemd/network/10-${NAMES[i]}.link > /dev/null
+    done
     ```
 
-    In the above example, we're changing the name of the network interface with
-    the MAC address `aa:bb:cc:dd:ee:ff` to `eth25cd`.
-
-3. Verify the contents of the `/etc/systemd/network/10-eth25cd.link` file by
-running the following command:
+4. Verify the contents of the `systemd.link` files by running the following
+command for each:
 
     ```bash
-    $ sudo vim /etc/systemd/network/10-eth25cd.link
+    $ for name in "${NAMES[@]}"; do
+    sudo vim /etc/systemd/network/10-${name}.link
+    done
     ```
 
-    Ensure that the file contains the correct content as shown below:
-
-    ```properties
-    [Match]
-    PermanentMACAddress=aa:bb:cc:dd:ee:ff
-
-    [Link]
-    Name=eth25cd
-    ```
-
-4. Repeat these steps for any other network interfaces you want to rename,
-specifying the appropriate MAC address and new name:
-
-    - `eth1dl`
-
-    - `wlan6wf`
+    Ensure that each file contains the correct content.
 
 5. Restart the computer to apply the changes.
 
@@ -672,7 +662,7 @@ specifying the appropriate MAC address and new name:
 
     - Set the **Connection Name** to `Yallo Ethernet`.
 
-    - Set the **Device** to `eth25cd`.
+    - Set the **Device** to `eth25as`.
 
     - Click **Save**.
 
@@ -859,24 +849,9 @@ control with support for keyboard volume control and volume notifications:
     and click **Add**.
 
     - In the **Items** tab, move the **PulseAudio Plugin** up, below the
-    **Status Tray Items**.
+    **Status Tray Plugin**.
 
     The PulseAudio icon should now appear in the panel.
-
-### Advanced Linux Sound Architecture
-
-Advanced Linux Sound Architecture (ALSA) is a software framework and part of
-the Linux kernel that provides an API for sound card drivers. To recognize the
-internal audio system, which is required for some newer laptop models, follow
-these steps:
-
-1. Install sof-firmware:
-
-    ```bash
-    $ sudo pacman -S sof-firmware
-    ```
-
-2. Restart the computer to apply the changes.
 
 ## Bluetooth Configuration
 
@@ -922,29 +897,90 @@ Bluetooth manager:
 
     Click on **Yes** when asked if Bluetooth should be automatically activated.
 
-### Intel Combined WiFi and Bluetooth Cards
+## Activating Numlock on Bootup
 
-If you're experiencing difficulties connecting a Bluetooth headset and
-maintaining a strong downlink speed, consider disabling Bluetooth coexistence.
-Follow these steps to do so:
+### Console
 
-1. Disable Bluetooth coexistence by executing the command below:
+To enable numlock immediately after the kernel boots up during the initramfs
+stage, you can use the `mkinitcpio-numlock` package.
 
-    ```bash
-    $ echo -e "\
-    # Disable Bluetooth coexistence\n\
-    options iwlwifi bt_coex_active=0\n\
-    " | sudo tee -a /etc/modprobe.d/iwlwifi.conf > /dev/null
-    ```
-
-2. Verify the contents of the `/etc/modprobe.d/iwlwifi.conf` file and correct
-any errors:
+1. Navigate to the AUR directory and clone the `mkinitcpio-numlock` package:
 
     ```bash
-    $ sudo vim /etc/modprobe.d/iwlwifi.conf
+    $ cd ~/aur && git clone https://aur.archlinux.org/mkinitcpio-numlock.git
     ```
 
-3. Restart your computer to apply the changes.
+2. Navigate to the `mkinitcpio-numlock` directory, build, and install the
+package:
+
+    ```bash
+    $ cd mkinitcpio-numlock && makepkg -sirc && git clean -dfX
+    ```
+
+3. In the `/etc/mkinitcpio.conf` file, update your HOOKS array to insert
+`numlock` after `consolefont` and before `block`:
+
+    ```bash
+    $ sudo sed -i '/^HOOKS=/ s/\(consolefont \)\(block\)/\1numlock \2/' /etc/mkinitcpio.conf
+    ```
+
+4. Review the contents of the `/etc/mkinitcpio.conf` file for any potential
+errors:
+
+    ```bash
+    $ sudo vim /etc/mkinitcpio.conf
+    ```
+
+    The `HOOKS` array should now look like:
+
+    ```properties
+    HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont numlock block filesystems fsck)
+    ```
+
+5. For the changes to take effect, regenerate the initramfs:
+
+    ```bash
+    $ sudo mkinitcpio -P
+    ```
+
+After implementing these steps, numlock will be activated early in the boot
+process. As a result, new virtual consoles will default to having numlock on.
+Please reboot your computer for these changes to apply.
+
+### LightDM
+
+If you wish to enable NumLock by default in LightDM, follow these steps:
+
+1. Install the `numlockx` package:
+
+    ```bash
+    $ sudo pacman -S numlockx
+    ```
+
+2. Update the LightDM configuration file to run the `/usr/bin/numlockx on`
+command at startup:
+
+    ```bash
+    $ sudo sed -i -e '/^$/N;/^\[Seat:\*]/,/^#\?\(\[[^Seat:\*]\|\s*$\)/ {
+    s/^#greeter-setup-script[[:blank:]]*=.*/greeter-setup-script = \/usr\/bin\/numlockx on/;
+    /^greeter-setup-script[[:blank:]]*=/ { s/=.*/= \/usr\/bin\/numlockx on/; h; d }
+    /^\[Seat:\*]/ { H; x; /^greeter-setup-script[[:blank:]]*=/!s/\(\[Seat:\*\]\)/\1\ngreeter-setup-script = \/usr\/bin\/numlockx on/; s/\n// }
+    }' /etc/lightdm/lightdm.conf
+    ```
+
+3. Check the contents of `/etc/lightdm/lightdm.conf` file and correct any
+errors:
+
+    ```bash
+    $ sudo vim /etc/lightdm/lightdm.conf
+    ```
+
+    The file should look like this:
+
+    ```properties
+    [Seat:*]
+    greeter-setup-script = usr/bin/numlockx on
+    ```
 
 ## Table of Contents
 

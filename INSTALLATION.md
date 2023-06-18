@@ -1,45 +1,31 @@
 # Comprehensive Guide for Installing Arch Linux
 
-This guide provides a step-by-step process for installing Arch Linux on your
-computer. Our goal is to cover the essential steps to install the operating
-system, reach the user interface as quickly as possible, and set up your system.
-We will discuss the basic steps needed to install the operating system from a
-live environment, partition the disks, install the base system, and other useful
-tools.
+This guide delivers a concise, step-by-step procedure for installing Arch
+Linux. It covers crucial tasks from setting up the live environment,
+partitioning disks, installing the base system, and reaching the user interface
+promptly, along with additional useful tool setup.
 
 ## Boot the Live Environment
 
 Insert the USB flash drive containing the Arch Linux installation medium and
 follow the steps below:
 
-1. Reboot or turn on your computer and access the firmware (BIOS) settings by
-pressing the <kbd>DEL</kbd> key during the power-on self-test (POST) phase.
+1. Restart or power on your computer. During the power-on self-test (POST)
+phase, access the firmware (BIOS) settings by pressing either the <kbd>DEL</kbd>
+or <kbd>F2</kbd> key.
 
-2. In the **Boot** tab on the BIOS screen, set the
-**FIXED BOOT ORDER Priorities** as follows:
+2. Once on the BIOS screen, open the **Boot Menu** by pressing its dedicated
+button or hitting the <kbd>F8</kbd> key.
 
-    - Boot Option #1: [USB Hard Disk]
+3. A Boot Menu popup window will appear. Select the USB flash drive containing
+the Arch Linux installation medium, and the computer will reboot automatically.
 
-    - Boot Option #2: [Hard Disk]
+4. Upon reboot, the installation medium's boot loader menu will appear. Choose
+the **Arch Linux install medium (x86_64, UEFI)** option, and press  
+<kbd>Enter</kbd> to proceed to the installation environment.
 
-    - Boot Option #3: [USB CD/DVD]
-
-    - Boot Option #4: [USB Lan]
-
-3. In the **Security** tab, go to **Secure Boot** options and set
-**Secure Boot Support** to **[Disabled]**. Disabling Secure Boot is necessary to
-boot the installation medium since Arch Linux installation images do not support
-Secure Boot. You can set up Secure Boot after completing the installation.
-
-4. In the **Save & Exit** tab, click on **Save Changes and Reset**. The computer
-will restart automatically.
-
-5. When the installation medium's boot loader menu appears, select
-**Arch Linux install medium (x86_64, UEFI)** and press Enter to enter the
-installation environment.
-
-6. You will be logged in to the first virtual console as the root user and
-presented with a Zsh shell prompt.
+5. You'll then be logged into the first virtual console as the root user,
+greeted by a Zsh shell prompt.
 
 ## Set the Console Keyboard Layout
 
@@ -65,16 +51,19 @@ You should see output similar to this:
 ```bash
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+2: eno3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
     link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
-3: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DORMANT group default qlen 1000
+    altname enp8s0
+3: enp18s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
+4: wlo1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DORMANT group default qlen 1000
     link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff permaddr aa:bb:cc:dd:ee:ff
     altname wlp0s20f3
 ```
 
-- `enp8s0` is the wired interface
+- `eno3` and `enp18s0` are the wired interfaces
 
-- `wlan0` is the wireless interface
+- `wlo1` is the wireless interface
 
 ### Wired Connection During Installation
 
@@ -83,25 +72,24 @@ internet.
 
 ### Wireless Connection During Installation
 
-If you are using a laptop, you can connect to a wireless access point using the
-`iwctl` command from `iwd`.
+You can connect to a wireless access point using the `iwctl` command from `iwd`.
 
 1. To scan for networks, use the following command:
 
     ```bash
-    # iwctl station wlan0 scan
+    # iwctl station wlo1 scan
     ```
 
 2. To obtain a list of scanned networks, use the following command:
 
     ```bash
-    # iwctl station wlan0 get-networks
+    # iwctl station wlo1 get-networks
     ```
 
 3. To connect to your network, use the following command:
 
     ```bash
-    # iwctl station wlan0 connect yallo_3D04C9
+    # iwctl station wlo1 connect yallo_3D04C9
     ```
 
     Enter the router password when prompted.
@@ -132,23 +120,23 @@ When recognized by the live system, disks are assigned to a block device such as
 The output should be similar to the following:
 
 ```bash
-Festplatte /dev/nvme0n1: 953.87 GiB, 1024209543168 Bytes, 2000409264 Sektoren
-Festplattenmodell: Phison 1TB SM2801T24GKBB4S-E162         
-Einheiten: Sektoren von 1 * 512 = 512 Bytes
-Sektorgröße (logisch/physikalisch): 512 Bytes / 512 Bytes
-E/A-Größe (minimal/optimal): 512 Bytes / 512 Bytes
-Festplattenbezeichnungstyp: gpt
-Festplattenbezeichner: C08A1630-A720-924E-9099-7598CDE9F0E8
+Disk /dev/nvme0n1: 1.82 TiB, 2000398934016 bytes, 3907029168 sectors
+Disk model: Samsung SSD 990 PRO 2TB                 
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 57A387AC-9145-406F-B7ED-88F282ADE694
 
-Gerät            Anfang       Ende   Sektoren  Größe Typ
-/dev/nvme0n1p1     2048    2099199    2097152     1G EFI-System
-/dev/nvme0n1p2  2099200   69208063   67108864    32G Linux Swap
-/dev/nvme0n1p3 69208064 2000408575 1931200512 920.9G Linux-Dateisystem
+Device             Start        End    Sectors  Size Type
+/dev/nvme0n1p1      2048    4196351    4194304    2G EFI System
+/dev/nvme0n1p2   4196352  138414079  134217728   64G Linux swap
+/dev/nvme0n1p3 138414080 3907028991 3768614912  1.8T Linux filesystem
 ```
 
 `/dev/nvme0n1` is the main drive for me.
 
-### Clean Up the Disk
+### Clean Up the Disk and Create New Partitions
 
 Let's clean up our main drive before we create new partitions for our
 installation.
@@ -159,25 +147,10 @@ installation.
     # fdisk /dev/nvme0n1
     ```
 
-2. Press <kbd>p</kbd> and then <kbd>Enter</kbd> to
-**print the partition table** we currently have.
-
-3. Press <kbd>g</kbd> and then <kbd>Enter</kbd> to
+2. Press <kbd>g</kbd> and then <kbd>Enter</kbd> to
 **create a new empty GPT partition table**.
 
-4. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to **to write table to disk**.
-
-### Create New Partitions
-
-Now we'll start partitioning our filesystem.
-
-1. Once again, enter:
-
-    ```bash
-    # fdisk /dev/nvme0n1
-    ```
-
-2. Create the `boot` partition:
+3. Create the `boot` partition:
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -186,9 +159,9 @@ Now we'll start partitioning our filesystem.
 
     - Press <kbd>Enter</kbd> to select the default option for the first sector.
 
-    - Type `+1024M` and press <kbd>Enter</kbd> when it asks you for the last
+    - Type `+2G` and press <kbd>Enter</kbd> when it asks you for the last
     sector. This will determine the boot partition size. The Arch wiki
-    recommends at least **300 MB** for the boot size. We'll make it **1GB** in
+    recommends at least **300 MB** for the boot size. We'll make it **2GB** in
     case we need to add more OS to our machine later.
 
     - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the
@@ -200,7 +173,7 @@ Now we'll start partitioning our filesystem.
     - Type `1` and then <kbd>Enter</kbd> to set the partition type to
     **EFI System**.
 
-3. Create the `swap` partition
+4. Create the `swap` partition
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -209,9 +182,9 @@ Now we'll start partitioning our filesystem.
 
     - Press <kbd>Enter</kbd> to select the default option for the first sector.
 
-    - Type `+32G` and press <kbd>Enter</kbd> when it asks you for the last
+    - Type `+64G` and press <kbd>Enter</kbd> when it asks you for the last
     sector. This will determine the swap partition size. The Arch wiki
-    recommends at least **512 MB** for the swap size. We'll make it **32GB** in
+    recommends at least **512 MB** for the swap size. We'll make it **64GB** in
     case we need to use it for hibernation.
 
     - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the
@@ -225,7 +198,7 @@ Now we'll start partitioning our filesystem.
     - Type `19` and then <kbd>Enter</kbd> to set the partition type to
     **Linux swap**.
 
-4. Create the `root` partition
+5. Create the `root` partition
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -248,7 +221,7 @@ Now we'll start partitioning our filesystem.
     - Type `20` and then <kbd>Enter</kbd> to set the partition type to
     **Linux filesystem**.
 
-5. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to
+6. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to
 **write table to disk and exit**. Now we are done partitioning the disk.
 
 ### Verifying the Partitions
@@ -262,18 +235,18 @@ To check the partitions we created, use `fdisk`.
 The output should be similar to the following:
 
 ```bash
-Disk /dev/nvme0n1: 953.87 GiB, 1024209543168 bytes, 2000409264 sectors
-Disk model: Phison 1TB SM2801T24GKBB4S-E162         
+Disk /dev/nvme0n1: 1.82 TiB, 2000398934016 bytes, 3907029168 sectors
+Disk model: Samsung SSD 990 PRO 2TB                 
 Units: sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
 I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: gpt
-Disk identifier: AA39CBA4-665E-2246-A955-5E314F714D7E
+Disk identifier: 57A387AC-9145-406F-B7ED-88F282ADE694
 
-Device            Start        End    Sectors   Size Type
-/dev/nvme0n1p1     2048    2099199    2097152     1G EFI System
-/dev/nvme0n1p2  2099200   69208063   67108864    32G Linux swap
-/dev/nvme0n1p3 69208064 2000408575 1931200512 920.9G Linux filesystem
+Device             Start        End    Sectors  Size Type
+/dev/nvme0n1p1      2048    4196351    4194304    2G EFI System
+/dev/nvme0n1p2   4196352  138414079  134217728   64G Linux swap
+/dev/nvme0n1p3 138414080 3907028991 3768614912  1.8T Linux filesystem
 ```
 
 **`nvme0n1`** is the main disk
@@ -441,7 +414,7 @@ the `/etc/sudoers` file:
 
     Uncomment the line (remove #):
 
-    ```bash
+    ```properties
     # %wheel ALL=(ALL:ALL) ALL
     ```
 
@@ -541,27 +514,10 @@ To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> +
 
 ### Boot into Arch Linux
 
-1. After rebooting, access the firmware (BIOS) settings by pressing the
-<kbd>DEL</kbd> key during the power-on self-test (POST) phase.
-
-2. In the **Boot** tab of the BIOS screen, set the
-**FIXED BOOT ORDER Priorities** as follows:
-
-    - Boot Option #1: [Hard Disk: GRUB]
-
-    - Boot Option #2: [USB Hard Disk]
-
-    - Boot Option #3: [USB CD/DVD]
-
-    - Boot Option #4: [USB Lan]
-
-3. In the **Save & Exit** tab, click on **Save Changes and Reset**. The computer
-will restart automatically.
-
-4. When the GRUB bootloader menu appears, select **Arch Linux** and press
+1. When the GRUB bootloader menu appears, select **Arch Linux** and press
 <kbd>Enter</kbd> to boot into Arch Linux.
 
-5. When prompted, log in with the new user account you created.
+2. When prompted, log in with the new user account you created.
 
 ## Set Up Keyboard and Display Settings
 
@@ -612,11 +568,11 @@ If you are using a laptop, you can connect to a wireless access point using the
 2. Connect to your Wi-Fi network using the following command:
 
     ```bash
-    $ nmcli device wifi connect "YOUR_WIFI_SSID" password "YOUR_WIFI_PASSWORD"
+    $ nmcli device wifi connect <YOUR_WIFI_SSID> password <YOUR_WIFI_PASSWORD>
     ```
 
-    Replace "YOUR_WIFI_SSID" with your Wi-Fi network name (SSID) and
-    "YOUR_WIFI_PASSWORD" with your Wi-Fi password.
+    Replace `<YOUR_WIFI_SSID>` with your Wi-Fi network name (SSID) and
+    `<YOUR_WIFI_PASSWORD>` with your Wi-Fi password.
 
 ### Verify Connection After Installation
 
