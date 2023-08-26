@@ -28,12 +28,12 @@ Then, update the files and changes using the `git pull` command. Finally,
 follow the necessary steps or execute the appropriate scripts to install the
 package. For background images, just copy them from Google Drive.
 
-1. The following example demonstrates how to update packages inside the `~/git`
-directory:
+1. The following example demonstrates how to update packages inside the
+`~/git/personal` directory:
 
     ```bash
-    $ cd ~/git/Qogir-theme && sudo ./install.sh --dest "/usr/share/themes" --uninstall && git pull && sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round && git clean -dfX\
-    && cd ~/git/Qogir-icon-theme && git pull && sudo ./install.sh --dest "/usr/share/icons" --theme default --color all && git clean -dfX\
+    $ cd ~/git/personal/Qogir-theme && sudo ./install.sh --dest "/usr/share/themes" --uninstall && git pull && sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round && git clean -dfX\
+    && cd ~/git/personal/Qogir-icon-theme && git pull && sudo ./install.sh --dest "/usr/share/icons" --theme default --color all && git clean -dfX\
     && cp -r ~/"Google Drive"/Resources/Wallpapers/16x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/single-monitor/* && cp /home/Bahadir/Downloads/16x9/* /usr/share/backgrounds/single-monitor/' && rm -r ~/Downloads/16x9\
     && cp -r ~/"Google Drive"/Resources/Wallpapers/32x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/dual-monitor/* && cp /home/Bahadir/Downloads/32x9/* /usr/share/backgrounds/dual-monitor/' && rm -r ~/Downloads/32x9
     ```

@@ -595,10 +595,11 @@ code.
     ```
 
 2. You can create a directory to store your Git repositories. To create a
-directory named `git` in your home directory, run the following command:
+directory named `git/personal` in your home directory, run the following
+command:
 
     ```bash
-    $ mkdir ~/git
+    $ mkdir -p ~/git/personal
     ```
 
 ## Enable Arch User Repository (AUR)

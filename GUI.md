@@ -21,13 +21,13 @@ $ sudo pacman -S gtk-engine-murrine gtk-engines
 running the following command:
 
     ```bash
-    $ cd ~/git && git clone git@github.com:vinceliuice/Qogir-theme.git
+    $ cd ~/git/personal && git clone git@github.com:vinceliuice/Qogir-theme.git
     ```
 
 2. Change to the `Qogir-theme` directory:
 
     ```bash
-    $ cd ~/git/Qogir-theme
+    $ cd ~/git/personal/Qogir-theme
     ```
 
 3. Run the installation script by executing the following command:
@@ -42,13 +42,13 @@ running the following command:
 running the following command:
 
     ```bash
-    $ cd ~/git && git clone git@github.com:vinceliuice/Qogir-icon-theme.git
+    $ cd ~/git/personal && git clone git@github.com:vinceliuice/Qogir-icon-theme.git
     ```
 
 2. Change to the `Qogir-icon-theme` directory:
 
     ```bash
-    $ cd ~/git/Qogir-icon-theme
+    $ cd ~/git/personal/Qogir-icon-theme
     ```
 
 3. Execute the installation script by running the following command:
@@ -797,14 +797,14 @@ Once Ulauncher is installed, you can configure it to suit your preferences.
     repository using the `git clone` command:
 
         ```bash
-        $ cd ~/git && git clone git@github.com:bahadirdonmez/Qogir-ulauncher-theme.git
+        $ cd ~/git/personal && git clone git@github.com:bahadirdonmez/Qogir-ulauncher-theme.git
         ```
 
     - Create a folder for Ulauncher user themes and copy the Qogir theme files
     to this directory:
 
         ```bash
-        $ mkdir -p ~/.config/ulauncher/user-themes && cp -r ~/git/Qogir-ulauncher-theme/ $_
+        $ mkdir -p ~/.config/ulauncher/user-themes && cp -r ~/git/personal/Qogir-ulauncher-theme/ $_
         ```
 
 2. Launch ULauncher from the menu or with the following command to configure it

@@ -160,7 +160,19 @@ password manager.
         $ vim ~/.gitconfig
         ```
 
-3. Add your GitHub/GitLab SSH key to the webpage:
+3. If you prefer to have seperate Git profiles for work related projects and
+personal projects, you can rename the `~/.gitconfig` file to
+`~/.gitconfig-personal` and create a new `~/.gitconfig` file wit the following
+content:
+
+    ```properties
+    [includeIf "gitdir:~/git/work/"]
+        path = ~/.gitconfig-work
+    [includeIf "gitdir:~/git/personal/"]
+        path = ~/.gitconfig-personal
+    ```
+
+4. Add your GitHub/GitLab SSH key to the webpage:
 
     - Navigate to the SSH keys settings page and click on the **Add SSH key**
     button.
