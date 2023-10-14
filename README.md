@@ -50,7 +50,7 @@ To start, follow these steps to obtain and authenticate the installation image:
 
         ```bash
         $ export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest" && \
-        export ISO_FILE="archlinux-2023.06.01-x86_64.iso" && \
+        export ISO_FILE="archlinux-2023.10.14-x86_64.iso" && \
         export SIG_FILE="$ISO_FILE.sig"
         ```
 
@@ -73,8 +73,8 @@ command:
     following output:
 
     ```bash
-    gpg: assuming signed data in 'archlinux-2023.06.01-x86_64.iso'
-    gpg: Signature made Thu 01 Jun 2023 05:28:49 PM CEST
+    gpg: assuming signed data in 'archlinux-2023.10.14-x86_64.iso'
+    gpg: Signature made Sat 14 Oct 2023 09:02:37 AM CEST
     gpg:                using EDDSA key 3E80CA1A8B89F69CBA57D98A76A5EF9054449A5C
     gpg:                issuer "pierre@archlinux.org"
     gpg: key 7F2D434B9741E8AC: public key "Pierre Schmitz <pierre@archlinux.org>" imported
