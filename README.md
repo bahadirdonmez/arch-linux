@@ -125,8 +125,7 @@ mounted:
 drive:
 
     ```bash
-    $ export USB_DEV="/dev/sdb" && \
-    sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync
+    $ export USB_DEV="/dev/sdb" && sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync oflag=direct status=progress && sudo sync
     ```
 
     > **Note**\
