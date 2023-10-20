@@ -1,13 +1,12 @@
 # Bahadir's Personal Arch Linux Installation Guide
 
-This guide is a personalized, comprehensive Arch Linux installation tutorial
-for myself, Bahadir, to guide me through the steps needed to build a customized
-Arch Linux system.
+This guide is a personalized, comprehensive Arch Linux installation tutorial for myself,
+Bahadir, to guide me through the steps needed to build a customized Arch Linux system.
 
-Arch Linux is a lightweight Linux distribution, providing a bare minimum base
-system. This minimalist design allows users to include only the components they
-need, making it remarkably fast, reliable, and ideal for those who want an
-extensive control over their operating environment.
+Arch Linux is a lightweight Linux distribution, providing a bare minimum base system.
+This minimalist design allows users to include only the components they need, making it
+remarkably fast, reliable, and ideal for those who want an extensive control over their
+operating environment.
 
 With clear step-by-step instructions, you'll be able to navigate through the
 installation with ease and confidence.
@@ -22,8 +21,7 @@ installation with ease and confidence.
 
 - **Memory Kit:** G.Skill Trident Z5 RGB (2 X 32GB, 6400 MHz, DDR5 RAM, DIMM)
 
-- **Motherboard:** ASUS ROG Strix Z790-I Gaming WIFI (LGA 1700, Intel Z790,
-Mini ITX)
+- **Motherboard:** ASUS ROG Strix Z790-I Gaming WIFI (LGA 1700, Intel Z790, Mini ITX)
 
 - **CPU Cooler:** MasterLiquid ML280 Mirror CPU Liquid Cooler
 
@@ -38,39 +36,37 @@ To start, follow these steps to obtain and authenticate the installation image:
 1. Change the directory to `Downloads`:
 
     ```bash
-    $ cd ~/Downloads
+    cd ~/Downloads
     ```
 
 2. Visit the [Arch Linux Downloads](https://www.archlinux.org/download/) page.
 
-    - Pick an HTTP mirror site from the list. You will download both the `.iso`
-    file and the corresponding `.iso.sig` file from this mirror site.
+    - Pick an HTTP mirror site from the list. You will download both the `.iso` file
+    and the corresponding `.iso.sig` file from this mirror site.
 
     - Set the environment variables for the mirror site and the files:
 
         ```bash
-        $ export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest" && \
-        export ISO_FILE="archlinux-2023.10.14-x86_64.iso" && \
+        export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest"
+        export ISO_FILE="archlinux-2023.10.14-x86_64.iso"
         export SIG_FILE="$ISO_FILE.sig"
         ```
 
     - Download these files using the `curl` command:
 
         ```bash
-        $ curl -O $MIRROR_SITE/$ISO_FILE && \
+        curl -O $MIRROR_SITE/$ISO_FILE
         curl -O $MIRROR_SITE/$SIG_FILE
         ```
 
-3. Verify the authenticity of the installation image using the following
-command:
+3. Verify the authenticity of the installation image using the following command:
 
     ```bash
-    $ gpg --keyserver-options auto-key-retrieve --verify $SIG_FILE
+    gpg --keyserver-options auto-key-retrieve --verify $SIG_FILE
     ```
 
-    The output should include a message indicating that the signature is valid
-    and that the key used to sign the file is trusted. It should resemble the
-    following output:
+    The output should include a message indicating that the signature is valid and that
+    the key used to sign the file is trusted. It should resemble the following output:
 
     ```bash
     gpg: assuming signed data in 'archlinux-2023.10.14-x86_64.iso'
@@ -88,23 +84,22 @@ command:
     Primary key fingerprint: 3E80 CA1A 8B89 F69C BA57  D98A 76A5 EF90 5444 9A5C
     ```
 
-    Ensure the fingerprint in the output matches the
-    [Master Key Signatures](https://archlinux.org/master-keys/#master-sigs).
+    Ensure the fingerprint in the output matches the [Master Key Signatures](
+    https://archlinux.org/master-keys/#master-sigs).
 
 ## Create a USB Flash Installation Medium
 
-Creating a bootable USB drive is crucial for the Arch Linux installation
-process. To do so:
+Creating a bootable USB drive is crucial for the Arch Linux installation process.
+To do so:
 
 1. Use `lsblk` to identify the name of the USB flash drive, and ensure it is not
 mounted:
 
     ```bash
-    $ lsblk
+    lsblk
     ```
 
-    The output should display the name of the USB drive, similar to the example
-    below:
+    The output should display the name of the USB drive, similar to the example below:
 
     ```bash
     NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
@@ -121,21 +116,22 @@ mounted:
 
     In my case, the USB drive name is `/dev/sdb`.
 
-2. Execute the following command to write the installation image to the USB
-drive:
+2. Execute the following command to write the installation image to the USB drive:
 
     ```bash
-    $ export USB_DEV="/dev/sdb" && sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync oflag=direct status=progress && sudo sync
+    export USB_DEV="/dev/sda"
+    sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync oflag=direct status=progress
+    sudo sync
     ```
 
-    > **Note**\
+    > :warning: **Note**\
     > This command will permanently erase all data on `/dev/sdb` and write the
-    installation image onto it. Ensure you have entered the correct drive name.
+    > installation image onto it. Ensure you have entered the correct drive name.
 
 ## Next Steps
 
-Proceed with the subsequent steps in this guide to install Arch Linux on your
-computer and tailor it to your preferences.
+Proceed with the subsequent steps in this guide to install Arch Linux on your computer
+and tailor it to your preferences.
 
 ### [1. Home](./README.md)
 
