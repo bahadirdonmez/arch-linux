@@ -1,31 +1,31 @@
 # Comprehensive Guide for Installing Arch Linux
 
-This guide delivers a concise, step-by-step procedure for installing Arch
-Linux. It covers crucial tasks from setting up the live environment,
-partitioning disks, installing the base system, and reaching the user interface
-promptly, along with additional useful tool setup.
+This guide delivers a concise, step-by-step procedure for installing Arch Linux. It
+covers crucial tasks from setting up the live environment, partitioning disks,
+installing the base system, and reaching the user interface promptly, along with
+additional useful tool setup.
 
 ## Boot the Live Environment
 
-Insert the USB flash drive containing the Arch Linux installation medium and
-follow the steps below:
+Insert the USB flash drive containing the Arch Linux installation medium and follow the
+steps below:
 
-1. Restart or power on your computer. During the power-on self-test (POST)
-phase, access the firmware (BIOS) settings by pressing either the <kbd>DEL</kbd>
-or <kbd>F2</kbd> key.
+1. Restart or power on your computer. During the power-on self-test (POST) phase,
+access the firmware (BIOS) settings by pressing either the <kbd>DEL</kbd> or
+<kbd>F2</kbd> key.
 
-2. Once on the BIOS screen, open the **Boot Menu** by pressing its dedicated
-button or hitting the <kbd>F8</kbd> key.
+2. Once on the BIOS screen, open the **Boot Menu** by pressing its dedicated button or
+hitting the <kbd>F8</kbd> key.
 
-3. A Boot Menu popup window will appear. Select the USB flash drive containing
-the Arch Linux installation medium, and the computer will reboot automatically.
+3. A Boot Menu popup window will appear. Select the USB flash drive containing the Arch
+Linux installation medium, and the computer will reboot automatically.
 
-4. Upon reboot, the installation medium's boot loader menu will appear. Choose
-the **Arch Linux install medium (x86_64, UEFI)** option, and press  
-<kbd>Enter</kbd> to proceed to the installation environment.
+4. Upon reboot, the installation medium's boot loader menu will appear. Choose the
+**Arch Linux install medium (x86_64, UEFI)** option, and press <kbd>Enter</kbd> to
+proceed to the installation environment.
 
-5. You'll then be logged into the first virtual console as the root user,
-greeted by a Zsh shell prompt.
+5. You'll then be logged into the first virtual console as the root user, greeted by a
+Zsh shell prompt.
 
 ## Set the Console Keyboard Layout
 
@@ -38,9 +38,9 @@ following command:
 
 ## Connect to the Internet for Installation
 
-To install the Arch Linux `base` and `linux` packages, ensure that you are
-connected to the internet. First, check the names of your network interfaces
-using the following command:
+To install the Arch Linux `base` and `linux` packages, ensure that you are connected to
+the internet. First, check the names of your network interfaces using the following
+command:
 
 ```bash
 # ip link
@@ -67,8 +67,7 @@ You should see output similar to this:
 
 ### Wired Connection During Installation
 
-If you are using a wired connection, you should already be connected to the
-internet.
+If you are using a wired connection, you should already be connected to the internet.
 
 ### Wireless Connection During Installation
 
@@ -102,9 +101,8 @@ Ping `google.com` to confirm that you are online:
 # ping google.com
 ```
 
-If you receive an "Unknown host" or "Destination host unreachable" response, it
-means you are not online yet. Review your network configuration and repeat the
-steps above.
+If you receive an "Unknown host" or "Destination host unreachable" response, it means
+you are not online yet. Review your network configuration and repeat the steps above.
 
 ## Partition the Disks
 
@@ -138,8 +136,7 @@ Device             Start        End    Sectors  Size Type
 
 ### Clean Up the Disk and Create New Partitions
 
-Let's clean up our main drive before we create new partitions for our
-installation.
+Let's clean up our main drive before we create new partitions for our installation.
 
 1. Use the `fdisk` command with the main drive:
 
@@ -154,75 +151,67 @@ installation.
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
-    - Press <kbd>Enter</kbd> to select the default option for the partition
-    number.
+    - Press <kbd>Enter</kbd> to select the default option for the partition number.
 
     - Press <kbd>Enter</kbd> to select the default option for the first sector.
 
-    - Type `+2G` and press <kbd>Enter</kbd> when it asks you for the last
-    sector. This will determine the boot partition size. The Arch wiki
-    recommends at least **300 MB** for the boot size. We'll make it **2GB** in
-    case we need to add more OS to our machine later.
+    - Type `+2G` and press <kbd>Enter</kbd> when it asks you for the last sector. This
+    will determine the boot partition size. The Arch wiki recommends at least
+    **300 MB** for the boot size. We'll make it **2GB** in case we need to add more OS
+    to our machine later.
 
-    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the
-    partition contains a `vfat` signature. This will remove it.
+    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the partition
+    contains a `vfat` signature. This will remove it.
 
-    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to
-    **change a partition type**.
+    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to **change a partition type**.
 
-    - Type `1` and then <kbd>Enter</kbd> to set the partition type to
-    **EFI System**.
+    - Type `1` and then <kbd>Enter</kbd> to set the partition type to **EFI System**.
 
 4. Create the `swap` partition
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
-    - Press <kbd>Enter</kbd> to select the default option for the partition
-    number.
+    - Press <kbd>Enter</kbd> to select the default option for the partition number.
 
     - Press <kbd>Enter</kbd> to select the default option for the first sector.
 
-    - Type `+64G` and press <kbd>Enter</kbd> when it asks you for the last
-    sector. This will determine the swap partition size. The Arch wiki
-    recommends at least **512 MB** for the swap size. We'll make it **64GB** in
-    case we need to use it for hibernation.
+    - Type `+64G` and press <kbd>Enter</kbd> when it asks you for the last sector. This
+    will determine the swap partition size. The Arch wiki recommends at least
+    **512 MB** for the swap size. We'll make it **64GB** in case we need to use it for
+    hibernation.
 
-    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the
-    partition contains a `swap` signature. This will remove it.
+    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the partition
+    contains a `swap` signature. This will remove it.
 
-    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to
-    **change a partition type**.
+    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to **change a partition type**.
 
     - Type `2` and then <kbd>Enter</kbd> to select the swap partition.
 
-    - Type `19` and then <kbd>Enter</kbd> to set the partition type to
-    **Linux swap**.
+    - Type `19` and then <kbd>Enter</kbd> to set the partition type to **Linux swap**.
 
 5. Create the `root` partition
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
-    - Press <kbd>Enter</kbd> to select the default option for the partition
-    number.
+    - Press <kbd>Enter</kbd> to select the default option for the partition number.
 
     - Press <kbd>Enter</kbd> to select the default option for the first sector.
 
-    - Press <kbd>Enter</kbd> to select the default option for the last sector.
-    This will allocate the rest of the disk to the root partition.
+    - Press <kbd>Enter</kbd> to select the default option for the last sector. This
+    will allocate the rest of the disk to the root partition.
 
-    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the
-    partition contains an `ext4` signature. This will remove it.
+    - Press <kbd>Y</kbd> and then <kbd>Enter</kbd> if it warns you that the partition
+    contains an `ext4` signature. This will remove it.
 
-    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to
-    **change a partition type**.
+    - Press <kbd>t</kbd> and then <kbd>Enter</kbd> to **change a partition type**.
 
     - Type `3` and then <kbd>Enter</kbd> to select the root partition.
 
     - Type `20` and then <kbd>Enter</kbd> to set the partition type to
     **Linux filesystem**.
 
-6. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to
-**write table to disk and exit**. Now we are done partitioning the disk.
+6. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to **write table to disk and exit**.
+Now we are done partitioning the disk.
 
 ### Verifying the Partitions
 
@@ -261,24 +250,27 @@ Device             Start        End    Sectors  Size Type
 
 After creating the partitions, we need to format them with a file system.
 
-1. Format `/dev/nvme0n1p3` partition as `EXT4`. This will be our `root`
- partition.
+1. Format `/dev/nvme0n1p3` partition as `EXT4`:
 
     ```bash
     # mkfs.ext4 /dev/nvme0n1p3
     ```
 
-2. Create `swap` on the `/dev/nvme0n1p2` partition.
+    This will be our `root` partition.
+
+2. Create `swap` on the `/dev/nvme0n1p2` partition:
 
     ```bash
     # mkswap /dev/nvme0n1p2
     ```
 
-3. Format `/dev/nvme0n1p1` partition as `FAT32`. This will be our `/boot`.
+3. Format `/dev/nvme0n1p1` partition as `FAT32`:
 
     ```bash
     # mkfs.fat -F 32 /dev/nvme0n1p1
     ```
+
+    This will be our `/boot`.
 
 ### Mount the Filesystems
 
@@ -288,14 +280,14 @@ After creating the partitions, we need to format them with a file system.
     # mount /dev/nvme0n1p3 /mnt
     ```
 
-2. Create a `/boot` mountpoint and mount the `/dev/nvme0n1p1` partition to
-`/mnt/boot`. This will be our `/boot`:
+2. Create a `/boot` mountpoint and mount the `/dev/nvme0n1p1` partition to `/mnt/boot`.
+This will be our `/boot`:
 
     ```bash
     # mount --mkdir /dev/nvme0n1p1 /mnt/boot
     ```
 
-3. Enable swap on `/dev/nvme0n1p3` partition using `swapon`
+3. Enable swap on `/dev/nvme0n1p3` partition using `swapon`:
 
     ```bash
     # swapon /dev/nvme0n1p2
@@ -305,8 +297,8 @@ After creating the partitions, we need to format them with a file system.
 
 Now we are ready to install the Arch Linux base system.
 
-Use the `pacstrap` command to install the `base` package and other necessary
-packages such as `linux` and `linux-firmware`:
+Use the `pacstrap` command to install the `base` package and other necessary packages
+such as `linux` and `linux-firmware`:
 
 ```bash
 # pacstrap -K /mnt base linux linux-firmware
@@ -316,21 +308,20 @@ This will install the basic packages needed for a functional system.
 
 ## Generating the fstab
 
-The fstab (file system table) is a configuration file that contains information
-about the file systems mounted at boot time. Run the following command to
-generate the fstab:
+The fstab (file system table) is a configuration file that contains information about
+the file systems mounted at boot time. Run the following command to generate the fstab:
 
 ```bash
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-This command generates the fstab based on the current disk configuration and
-writes it to `/mnt/etc/fstab`.
+This command generates the fstab based on the current disk configuration and writes it
+to `/mnt/etc/fstab`.
 
 ## Chroot
 
-Now, change the root directory of the current shell to the newly installed
-system using the `arch-chroot` command:
+Now, change the root directory of the current shell to the newly installed system using
+the `arch-chroot` command:
 
 ```bash
 # arch-chroot /mnt
@@ -342,15 +333,15 @@ From this point, any command you run will affect the new system.
 
 Now we are ready to install the essential packages for Arch Linux.
 
-1. Install the `networkmanager` package, which allows you to configure and
-manage network connections:
+1. Install the `networkmanager` package, which allows you to configure and manage
+network connections:
 
     ```bash
     # pacman -S networkmanager
     ```
 
-    You can use it to connect to Wi-Fi or Ethernet networks after completing the
-    Arch Linux installation.
+    You can use it to connect to Wi-Fi or Ethernet networks after completing the Arch
+    Linux installation.
 
 2. Install the `gvim` text editor:
 
@@ -358,8 +349,8 @@ manage network connections:
     # pacman -S gvim
     ```
 
-    This is a powerful text editor that you can use to modify configuration
-    files or write scripts.
+    This is a powerful text editor that you can use to modify configuration files or
+    write scripts.
 
 3. Install `sudo` to allow granting administrator privileges to regular users:
 
@@ -367,11 +358,11 @@ manage network connections:
     # pacman -S sudo
     ```
 
-    With sudo, you can run commands as another user, such as the root user,
-    without having to switch to that user account.
+    With sudo, you can run commands as another user, such as the root user, without
+    having to switch to that user account.
 
-After completing these steps, you have installed the essential packages required
-to run Arch Linux.
+After completing these steps, you have installed the essential packages required to run
+Arch Linux.
 
 ## Users and Groups
 
@@ -381,8 +372,8 @@ to run Arch Linux.
     # passwd
     ```
 
-2. Add a new user account using the `useradd` command. In this example, we'll
-simply use `Bahadir` as the username for the new user account.
+2. Add a new user account using the `useradd` command. In this example, we'll simply
+use `Bahadir` as the username for the new user account.
 
     ```bash
     # useradd -m Bahadir
@@ -405,8 +396,8 @@ simply use `Bahadir` as the username for the new user account.
     The wheel group is the administration group and is commonly used to grant
     administrative privileges.
 
-5. Grant the `Bahadir` account the ability to use the `sudo` command by editing
-the `/etc/sudoers` file:
+5. Grant the `Bahadir` account the ability to use the `sudo` command by editing the
+`/etc/sudoers` file:
 
     ```bash
     # EDITOR=vim visudo
@@ -430,8 +421,8 @@ The GRUB boot loader is used to load the operating system at boot time.
     # pacman -S grub efibootmgr
     ```
 
-2. Install the GRUB EFI application `grubx64.efi` to `/boot/EFI/GRUB/` and its
-modules to `/boot/grub/x86_64-efi/` using the following command:
+2. Install the GRUB EFI application `grubx64.efi` to `/boot/EFI/GRUB/` and its modules
+to `/boot/grub/x86_64-efi/` using the following command:
 
     ```bash
     # grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
@@ -451,9 +442,9 @@ modules to `/boot/grub/x86_64-efi/` using the following command:
 
     The microcode update provides bug fixes and enhancements for the CPU.
 
-5. `grub-mkconfig` will automatically detect the microcode update and configure
-GRUB appropriately. After installing the `microcode` package, regenerate the
-GRUB configuration to activate loading the microcode update by running:
+5. `grub-mkconfig` will automatically detect the microcode update and configure GRUB
+appropriately. After installing the `microcode` package, regenerate the GRUB
+configuration to activate loading the microcode update by running:
 
     ```bash
     # grub-mkconfig -o /boot/grub/grub.cfg
@@ -463,8 +454,8 @@ GRUB configuration to activate loading the microcode update by running:
 
 ### Display Server: Xorg
 
-Xorg is the most popular display server among Linux users and is required for
-running GUI applications.
+Xorg is the most popular display server among Linux users and is required for running
+GUI applications.
 
 Install the `xorg-server` package using the following command:
 
@@ -474,8 +465,8 @@ Install the `xorg-server` package using the following command:
 
 ### Desktop Environment: Xfce
 
-Xfce is a lightweight and modular desktop environment that includes a window
-manager, a file manager, a desktop, and a panel.
+Xfce is a lightweight and modular desktop environment that includes a window manager, a
+file manager, a desktop, and a panel.
 
 Install the `xfce4` group using the following command:
 
@@ -507,10 +498,27 @@ LightDM is a cross-desktop display manager.
     # systemctl enable lightdm.service
     ```
 
+## Mozilla Firefox
+
+Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
+Corporation.
+
+1. Install the `firefox` package using the following command:
+
+    ```bash
+    # pacman -S firefox
+    ```
+
+2. During the installation process, if prompted to select between `jack2` and
+`pipewire-jack`, choose `pipewire-jack`.
+
+3. If prompted to select between `pipewire-media-session` and `wireplumber`, choose
+`wireplumber`.
+
 ## Exit `chroot` and Reboot
 
-To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> +
-<kbd>d</kbd>. Finally, type `reboot` to restart the computer.
+To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.
+Finally, type `reboot` to restart the computer.
 
 ### Boot into Arch Linux
 
@@ -518,129 +526,6 @@ To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> +
 <kbd>Enter</kbd> to boot into Arch Linux.
 
 2. When prompted, log in with the new user account you created.
-
-## Set Up Keyboard and Display Settings
-
-1. Configure display scaling:
-
-    - Go to **Settings > Appearance** and switch to the **Settings** tab.
-
-    - Under **Window Scaling**, select the **2x** option.
-
-2. Set the Swiss German keyboard layout:
-
-    - Go to **Settings > Keyboard** and switch to the **Layout** tab.
-
-    - Deselect the **Use system defaults** option.
-
-    - Click on **Add** and select **German (Switzerland)** from the list.
-
-    - Select any other keyboards in the list and click on **Remove** to keep
-    only the **German (Switzerland)** layout.
-
-## Connect to the Internet Using NetworkManager
-
-To use Arch Linux effectively, it is essential to ensure that you are connected
-to the internet.
-
-Enable and start the NetworkManager service with the following command:
-
-```bash
-$ systemctl enable --now NetworkManager.service
-```
-
-### Wired Connection After Installation
-
-If you are using a wired connection, your internet connection should already be
-established.
-
-### Wireless Connection After Installation
-
-If you are using a laptop, you can connect to a wireless access point using the
-`nmcli` command.
-
-1. List nearby Wi-Fi networks with the following command:
-
-    ```bash
-    $ nmcli device wifi list
-    ```
-
-2. Connect to your Wi-Fi network using the following command:
-
-    ```bash
-    $ nmcli device wifi connect <YOUR_WIFI_SSID> password <YOUR_WIFI_PASSWORD>
-    ```
-
-    Replace `<YOUR_WIFI_SSID>` with your Wi-Fi network name (SSID) and
-    `<YOUR_WIFI_PASSWORD>` with your Wi-Fi password.
-
-### Verify Connection After Installation
-
-To confirm that you are online, ping `google.com`:
-
-```bash
-$ ping google.com
-```
-
-## Install Git
-
-Git is a widely used version control system for tracking changes to files and
-directories. It is commonly utilized by software developers to manage source
-code.
-
-1. To install Git, run the following command:
-
-    ```bash
-    $ sudo pacman -S git
-    ```
-
-2. You can create a directory to store your Git repositories. To create a
-directory named `git/personal` in your home directory, run the following
-command:
-
-    ```bash
-    $ mkdir -p ~/git/personal
-    ```
-
-## Enable Arch User Repository (AUR)
-
-The Arch User Repository (AUR) is a community-driven repository for Arch Linux
-users. It contains many useful packages that are not available in the official
-Arch Linux repositories.
-
-1. Install the `base-devel` package group, which includes the tools needed to
-build and install packages from the AUR:
-
-    ```bash
-    $ sudo pacman -S base-devel
-    ```
-
-2. Create a directory to store AUR packages. For example, you can create a
-directory named `aur` in your home directory:
-
-    ```bash
-    $ mkdir ~/aur
-    ```
-
-## Install Google Chrome
-
-Google Chrome is a popular web browser developed by Google. You can install
-Google Chrome from the [Arch User Repository (AUR)](
-<https://aur.archlinux.org/packages/google-chrome>).
-
-1. Change to the `aur` directory and clone the `google-chrome` package from the
-AUR using the `git clone` command:
-
-    ```bash
-    $ cd ~/aur && git clone https://aur.archlinux.org/google-chrome.git
-    ```
-
-2. Change to the `google-chrome` directory, build, and install the package using
-the `makepkg` command:
-
-    ```bash
-    $ cd ~/aur/google-chrome && makepkg -sirc && git clean -dfX
-    ```
 
 ## Table of Contents
 
