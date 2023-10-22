@@ -97,11 +97,11 @@ Replace `<PACKAGE_NAME>` with the name of the package you want to uninstall.
 
 ### Safely Ejecting a USB Flash Drive
 
-1. Verify that the USB flash drive is not mounted. Run the following command to
-display a list of all connected disks and their partitions:
+1. Verify that the USB flash drive is not mounted. Run the following command to display
+a list of all connected disks and their partitions:
 
     ```bash
-    $ lsblk
+    lsblk
     ```
 
     Look for the USB flash drive and its partitions in the output:
@@ -119,62 +119,58 @@ display a list of all connected disks and their partitions:
     └─nvme0n1p3 259:3    0 920.9G  0 part /
     ```
 
-    For example, if the USB flash drive is `/dev/sdb`, you should see
-    `/dev/sdb1` and `/dev/sdb2`.
+    For example, if the USB flash drive is `/dev/sdb`, you should see `/dev/sdb1` and
+    `/dev/sdb2`.
 
-2. Install the `udisks2` package, which provides a tool to query and manipulate
-storage devices:
+2. Install the `udisks2` package, which provides a tool to query and manipulate storage
+devices:
 
     ```bash
-    $ sudo pacman -S udisks2
+    sudo pacman -S udisks2
     ```
 
 3. If any partitions on the USB flash drive are mounted, unmount them with the
 `udisksctl unmount` command:
 
     ```bash
-    $ udisksctl unmount -b /dev/sdb1
-    ```
-
-    ```bash
-    $ udisksctl unmount -b /dev/sdb2
+    udisksctl unmount -b /dev/sdb1
     ```
 
     This will ensure that the partitions on the USB flash drive are not in use.
 
-4. Optionally, you can use the `fdisk` command to erase the partition table and
-create a new one. Be careful with this command, as it will erase all data on the
-USB flash drive. Run the following command to start `fdisk`:
+4. Optionally, you can use the `fdisk` command to erase the partition table and create
+a new one. Be careful with this command, as it will erase all data on the USB flash
+drive. Run the following command to start `fdisk`:
 
     ```bash
-    $ sudo fdisk /dev/sdb
+    sudo fdisk /dev/sdb
     ```
 
-    - Press <kbd>o</kbd> and then <kbd>Enter</kbd> to create a new empty DOS
-    partition table.
+    - Press <kbd>o</kbd> and then <kbd>Enter</kbd> to create a new empty DOS partition
+    table.
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to add a new partition.
 
     - Follow the prompts to create new partitions.
 
-    - Press <kbd>w</kbd> and then <kbd>Enter</kbd> to write the changes to the
-    USB flash drive and exit.
+    - Press <kbd>w</kbd> and then <kbd>Enter</kbd> to write the changes to the USB
+    flash drive and exit.
 
     - Format `/dev/sdb1` partition as `EXT4`:
 
     ```bash
-    $ sudo mkfs.ext4 /dev/sdb1
+    sudo mkfs.ext4 /dev/sdb1
     ```
 
-5. Power off the USB flash drive and remove it from the computer using the
-`udisksctl` command:
+5. Power off the USB flash drive and remove it from the computer using the `udisksctl`
+command:
 
     ```bash
-    $ udisksctl power-off -b /dev/sdb
+    udisksctl power-off -b /dev/sdb
     ```
 
-    This will safely power off the USB flash drive and allow you to remove it
-    from the computer.
+    This will safely power off the USB flash drive and allow you to remove it from the
+    computer.
 
 ### Retrieving Images and Videos from Android Devices
 
