@@ -492,7 +492,7 @@ in the status tray and selecting **Clipman settings...**. Then, do the following
 
     ```bash
     sudo sed -i -e \
-    's/" let skip_defaults_vim=1/let skip_defaults_vim=1\n/' \
+    's/"let skip_defaults_vim=1/let skip_defaults_vim=1\n/' \
     /etc/vimrc
     ```
 
