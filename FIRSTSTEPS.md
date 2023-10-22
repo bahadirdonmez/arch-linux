@@ -856,97 +856,6 @@ following command:
     systemctl enable --now paccache.timer
     ```
 
-## Audio Configuration
-
-The audio configuration section provides instructions on how to set up the PulseAudio
-sound server and install a panel applet for volume control.
-
-### PulseAudio Sound Server
-
-PulseAudio is a sound server that provides advanced features, including mixing of
-multiple audio streams, network transparency, and per-application volume control. To
-set up the PulseAudio sound server, follow these steps:
-
-1. Install the `pulseaudio` package by using the following command:
-
-    ```bash
-    sudo pacman -S pulseaudio
-    ```
-
-2. Install `pavucontrol`, a simple GTK volume control tool ("mixer") for PulseAudio:
-
-    ```bash
-    sudo pacman -S pavucontrol
-    ```
-
-3. Install `xfce4-pulseaudio-plugin`, which provides a panel applet for volume control
-with support for keyboard volume control and volume notifications:
-
-    ```bash
-    sudo pacman -S xfce4-pulseaudio-plugin
-    ```
-
-4. Restart the computer to apply the changes.
-
-5. Add the `xfce4-pulseaudio-plugin` to the Xfce panel by following these steps:
-
-    - Right-click on the Xfce panel and select **Panel > Panel Preferences**.
-
-    - In the **Panel Preferences** window, click on the **Items** tab.
-
-    - Click on the **Add** button at the bottom of the window.
-
-    - In the **Add New Item** window, select **PulseAudio Plugin** from the list and
-    click **Add**.
-
-    - In the **Items** tab, move the **PulseAudio Plugin** up, below the
-    **Status Tray Plugin**.
-
-    The PulseAudio icon should now appear in the panel.
-
-## Bluetooth Configuration
-
-In Arch Linux, the `bluez` package provides the Bluetooth protocol stack and tools for
-managing Bluetooth devices. To install and configure Bluetooth, follow these steps:
-
-### Installing Packages for Bluetooth Protocol
-
-1. Install the `bluez` package:
-
-    ```bash
-    sudo pacman -S bluez
-    ```
-
-2. Enable and start `bluetooth.service`:
-
-    ```bash
-    systemctl enable --now bluetooth.service
-    ```
-
-3. To use audio equipment like Bluetooth headphones or speakers, install the additional
-`pulseaudio-bluetooth` package:
-
-    ```bash
-    sudo pacman -S pulseaudio-bluetooth
-    ```
-
-### Installing Graphical Interface to Customize Bluetooth
-
-1. Install the `blueman` package, which provides a full-featured graphical Bluetooth
-manager:
-
-    ```bash
-    sudo pacman -S blueman
-    ```
-
-2. Launch a graphical settings panel with `blueman-manager`:
-
-    ```bash
-    blueman-manager
-    ```
-
-    Click on **Yes** when asked if Bluetooth should be automatically activated.
-
 ## Activating Numlock on Bootup
 
 ### Console
@@ -1031,6 +940,111 @@ startup:
     [Seat:*]
     greeter-setup-script = usr/bin/numlockx on
     ```
+
+## Audio Configuration
+
+PipeWire is a powerful audio and video server providing enhanced features like
+low-latency audio processing and support for the JACK audio server.
+
+### Installing PipeWire Packages
+
+1. Install the `pipewire` package by using the following command:
+
+    ```bash
+    sudo pacman -S pipewire
+    ```
+
+2. Install the `wireplumber` session manager by using the following command:
+
+    ```bash
+    sudo pacman -S wireplumber
+    ```
+
+### Installing PipeWire Audio Server
+
+PipeWire can be used as an audio server, similar to PulseAudio and JACK. To set up the
+PipeWire audio server, follow these steps:
+
+1. Install the `pipewire-audio` package by using the following command:
+
+    ```bash
+    sudo pacman -S pipewire-audio
+    ```
+
+2. Install the `pipewire-pulse` PulseAudio client by using the following command:
+
+    ```bash
+    sudo pacman -S pipewire-pulse
+    ```
+
+3. Restart the computer to apply the changes.
+
+### Installing Graphical Interface for PipeWire
+
+1. Install `pavucontrol`, a simple GTK volume control tool ("mixer") for PulseAudio:
+
+    ```bash
+    sudo pacman -S pavucontrol
+    ```
+
+2. Install `xfce4-pulseaudio-plugin`, which provides a panel applet for volume control
+with support for keyboard volume control and volume notifications:
+
+    ```bash
+    sudo pacman -S xfce4-pulseaudio-plugin
+    ```
+
+3. Add the `xfce4-pulseaudio-plugin` to the Xfce panel by following these steps:
+
+    - Right-click on the Xfce panel and select **Panel > Panel Preferences**.
+
+    - In the **Panel Preferences** window, click on the **Items** tab.
+
+    - Click on the **Add** button at the bottom of the window.
+
+    - In the **Add New Item** window, select **PulseAudio Plugin** from the list and
+    click **Add**.
+
+    - In the **Items** tab, move the **PulseAudio Plugin** up, below the
+    **Status Tray Plugin**.
+
+    The audio icon should now appear in the panel.
+
+## Bluetooth Configuration
+
+In Arch Linux, the `bluez` package provides the Bluetooth protocol stack and tools for
+managing Bluetooth devices. To install and configure Bluetooth, follow these steps:
+
+### Installing Packages for Bluetooth Protocol
+
+1. Install the `bluez` package:
+
+    ```bash
+    sudo pacman -S bluez
+    ```
+
+2. Enable and start `bluetooth.service`:
+
+    ```bash
+    systemctl enable --now bluetooth.service
+    ```
+
+### Installing Graphical Interface to Customize Bluetooth
+
+1. Install the `blueman` package, which provides a full-featured graphical Bluetooth
+manager:
+
+    ```bash
+    sudo pacman -S blueman
+    ```
+
+2. Launch a graphical settings panel with `blueman-manager`:
+
+    ```bash
+    blueman-manager
+    ```
+
+    Click on **Yes** when asked if Bluetooth should be automatically activated.
 
 ## Table of Contents
 
