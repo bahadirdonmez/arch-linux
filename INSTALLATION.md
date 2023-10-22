@@ -515,6 +515,8 @@ Corporation.
 3. If prompted to select between `pipewire-media-session` and `wireplumber`, choose
 `wireplumber`.
 
+4. If prompted to select a provider available for `ttf-font`, choose `noto-fonts`.
+
 ## Exit `chroot` and Reboot
 
 To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.
