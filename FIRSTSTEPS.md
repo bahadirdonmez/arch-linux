@@ -399,62 +399,50 @@ any errors:
 It's crucial to ensure that the system clock is accurately synchronized to avoid issues
 with time-based applications and services.
 
-1. Use `timedatectl` to check the status of the system clock synchronization:
-
-    ```bash
-    timedatectl status
-    ```
-
-    This command will display the current status of the system clock synchronization.
-    Look for the `System clock synchronized` line in the output. If it says `yes`, your
-    clock is synchronized and accurate. If it says `no`, your clock is not synchronized
-    and needs manual configuration.
-
-2. To set your time zone:
+1. To set your time zone:
 
     ```bash
     timedatectl set-timezone Europe/Zurich
     ```
 
-3. Install the `ntp` package to synchronize the system clock:
+2. Install the `ntp` package to synchronize the system clock:
 
     ```bash
     sudo pacman -S ntp
     ```
 
-4. Perform a one-time synchronization by starting `ntpd` from the console using the
+3. Perform a one-time synchronization by starting `ntpd` from the console using the
 following command:
 
     ```bash
     sudo ntpd -u ntp:ntp
     ```
 
-5. To maintain synchronization, enable the `ntpd.service` to start automatically at
+4. To maintain synchronization, enable the `ntpd.service` to start automatically at
 boot:
 
     ```bash
     systemctl enable ntpd.service
     ```
 
-6. Set the hardware clock from the system clock:
+5. Set the hardware clock from the system clock:
 
     ```bash
     sudo hwclock --systohc
     ```
 
-7. Check the system clock synchronization status again using `timedatectl`:
+6. Use `ntpq` to see the list of configured peers and status of synchronization:
 
     ```bash
-    timedatectl status
+    ntpq -p
     ```
 
-    If it displays `System clock synchronized: yes`, your system clock is now
-    synchronized and accurate.
+    The delay, offset and jitter columns should be non-zero. The servers `ntpd` is
+    synchronizing with are prefixed by an asterisk.
 
     > :warning: **Note**\
-    > It can take several minutes before `ntpd` selects a server to synchronize
-    > with. If the status still shows `no`, try checking it again after 17
-    > minutes.
+    > It can take several minutes before `ntpd` selects a server to synchronize with.
+    > Try checking after 17 minutes (1024 seconds).
 
 ## Setting Up a Clipboard Manager
 
