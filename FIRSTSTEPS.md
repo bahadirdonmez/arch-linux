@@ -771,40 +771,6 @@ each:
 
 4. Right-click the panel applet and deselect **Enable Notifications**.
 
-## Changing the Default Editor for Visudo
-
-By default, the `visudo` command uses the `vi` editor to edit the `/etc/sudoers` file.
-However, you can change the default editor to `vim` by following these steps:
-
-1. Use the `EDITOR` environment variable to specify the `vim` editor and open the
-`/etc/sudoers` file for editing:
-
-    ```bash
-    sudo EDITOR=vim visudo
-    ```
-
-    This will open the `/etc/sudoers` file in the `vim` editor.
-
-2. To change the `visudo` editor permanently system-wide add the following to the
-bottom of the file:
-
-    ```properties
-    # Set default EDITOR to restricted version of vim, 
-    # and do not allow visudo to use EDITOR/VISUAL.
-    Defaults    editor=/usr/bin/rvim, !env_editor
-    ```
-
-    This will permanently set the default editor for visudo to `vim`.
-
-3. To test the changes, use the `visudo` command to edit the `/etc/sudoers` file with
-the `vim` editor:
-
-    ```bash
-    sudo visudo
-    ```
-
-    This should open the `/etc/sudoers` file in the `vim` editor.
-
 ## Pacman Configuration
 
 Pacman is the default package manager for Arch Linux, which is used to install, remove,
