@@ -4,91 +4,101 @@
 
 ### Upgrading the System and Packages
 
-Arch Linux is a rolling release distribution, which means that its software
-packages are frequently updated to ensure that users have the latest features,
-bug fixes, and security patches.
+Arch Linux is a rolling release distribution, which means that its software packages
+are frequently updated to ensure that users have the latest features, bug fixes, and
+security patches.
 
-1. To update all packages on the system, use the following command to
-synchronize the repository databases and upgrade the system:
+1. To update all packages on the system, use the following command to synchronize the
+repository databases and upgrade the system:
 
     ```bash
-    $ sudo pacman -Syu
+    sudo pacman -Syu
     ```
 
-    This command could take some time depending on how up-to-date the system
-    is.
+    This command could take some time depending on how up-to-date the system is.
 
-2. Once the upgrade is complete, restart your system to ensure that all
-upgrades are applied to existing processes.
+2. Once the upgrade is complete, restart your system to ensure that all upgrades are
+applied to existing processes.
 
 ### Upgrading Themes and Background Images
 
-To update themes, first navigate to the directory containing the package.
-Then, update the files and changes using the `git pull` command. Finally,
-follow the necessary steps or execute the appropriate scripts to install the
-package. For background images, just copy them from Google Drive.
+To update themes, first navigate to the directory containing the package. Then, update
+the files and changes using the `git pull` command. Finally, follow the necessary steps
+or execute the appropriate scripts to install the package. For background images, just
+copy them from Google Drive.
 
-1. The following example demonstrates how to update packages inside the
-`~/git/personal` directory:
+1. The following example demonstrates how to update packages inside the `~/git/personal`
+directory:
 
     ```bash
-    $ cd ~/git/personal/Qogir-theme && sudo ./install.sh --dest "/usr/share/themes" --uninstall && git pull && sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round && git clean -dfX\
-    && cd ~/git/personal/Qogir-icon-theme && git pull && sudo ./install.sh --dest "/usr/share/icons" --theme default --color all && git clean -dfX\
-    && cp -r ~/"Google Drive"/Resources/Wallpapers/16x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/single-monitor/* && cp /home/Bahadir/Downloads/16x9/* /usr/share/backgrounds/single-monitor/' && rm -r ~/Downloads/16x9\
-    && cp -r ~/"Google Drive"/Resources/Wallpapers/32x9 ~/Downloads && sudo sh -c 'rm -rf /usr/share/backgrounds/dual-monitor/* && cp /home/Bahadir/Downloads/32x9/* /usr/share/backgrounds/dual-monitor/' && rm -r ~/Downloads/32x9
+    # Update Qogir-theme
+    cd ~/git/personal/Qogir-theme && git pull
+    sudo ./install.sh --dest "/usr/share/themes" --uninstall
+    sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round 
+    git clean -dfX
+    # Update Qogir-icon-theme
+    cd ~/git/personal/Qogir-icon-theme  && git pull
+    sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
+    git clean -dfX
+    # Update single monitor wallpapers
+    cp -r ~/"Google Drive"/Resources/Wallpapers/16x9 ~/Downloads
+    sudo sh -c 'rm -rf /usr/share/backgrounds/single-monitor/* && cp /home/Bahadir/Downloads/16x9/* /usr/share/backgrounds/single-monitor/'
+    rm -r ~/Downloads/16x9
+    # Update dual monitor wallpapers
+    cp -r ~/"Google Drive"/Resources/Wallpapers/32x9 ~/Downloads
+    sudo sh -c 'rm -rf /usr/share/backgrounds/dual-monitor/* && cp /home/Bahadir/Downloads/32x9/* /usr/share/backgrounds/dual-monitor/'
+    rm -r ~/Downloads/32x9
     ```
 
-    This command uninstalls packages, updates them with `git pull`, reinstalls,
-    and cleans up untracked files in each subdirectory.
+    This command uninstalls packages, updates them with `git pull`, reinstalls, and
+    cleans up untracked files in each subdirectory.
 
-2. Once the upgrade is complete, restart your system to ensure that all
-upgrades are applied to existing processes.
+2. Once the upgrade is complete, restart your system to ensure that all upgrades are
+applied to existing processes.
 
 ### Upgrading the AUR Packages
 
-Arch Linux's community repository (AUR) contains a vast number of
-user-contributed packages that are not part of the official Arch Linux
-repositories. To update AUR packages, you must first update the files and
-changes using the `git pull` command in the directory containing the
-package's `PKGBUILD`. Then, build and install the package.
+Arch Linux's community repository (AUR) contains a vast number of user-contributed
+packages that are not part of the official Arch Linux repositories. To update AUR
+packages, you must first update the files and changes using the `git pull` command in
+the directory containing the package's `PKGBUILD`. Then, build and install the package.
 
 1. The following command updates each package inside the `~/aur` directory:
 
     ```bash
-    $ find ~/aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
+    find ~/aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
     ```
 
-    This command uses the find command to locate all the subdirectories of
-    `~/aur`, and then executes the `git pull`, `makepkg -sirc`, and
-    `git clean -dfX` commands in each subdirectory.
+    This command uses the find command to locate all the subdirectories of `~/aur`, and
+    then executes the `git pull`, `makepkg -sirc`, and `git clean -dfX` commands in
+    each subdirectory.
 
-2. Once the upgrade is complete, restart your system to ensure that all
-upgrades are applied to existing processes.
+2. Once the upgrade is complete, restart your system to ensure that all upgrades are
+applied to existing processes.
 
 ### System Upgrade After a Prolonged Interval
 
-In cases where system updates are delayed significantly, follow these steps to
-ensure system integrity.
+In cases where system updates are delayed significantly, follow these steps to ensure
+system integrity.
 
-First, manually synchronize the package database and update the
-`archlinux-keyring` package, then proceed to a full system upgrade using the
-following command:
+First, manually synchronize the package database and update the `archlinux-keyring`
+package, then proceed to a full system upgrade using the following command:
 
 ```bash
-$ sudo pacman -Sy archlinux-keyring && sudo pacman -Su
+sudo pacman -Sy archlinux-keyring && sudo pacman -Su
 ```
 
-This is not considered a partial upgrade as it synchronizes the package
-database and upgrades the keyring package first, ensuring all package
-signatures can be properly verified during the system upgrade.
+This is not considered a partial upgrade as it synchronizes the package database and
+upgrades the keyring package first, ensuring all packagevsignatures can be properly
+verified during the system upgrade.
 
 ### Uninstalling Existing Packages
 
-To remove a package along with its dependencies that are not required by any
-other installed package, use the following command:
+To remove a package along with its dependencies that are not required by any other
+installed package, use the following command:
 
 ```bash
-$ sudo pacman -Rsu <PACKAGE_NAME>
+sudo pacman -Rsu <PACKAGE_NAME>
 ```
 
 Replace `<PACKAGE_NAME>` with the name of the package you want to uninstall.
