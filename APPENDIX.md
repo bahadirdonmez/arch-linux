@@ -27,17 +27,16 @@ the files and changes using the `git pull` command. Finally, follow the necessar
 or execute the appropriate scripts to install the package. For background images, just
 copy them from Google Drive.
 
-1. The following example demonstrates how to update packages inside the `~/git/personal`
-directory:
+1. The following example demonstrates how to update packages inside `~/git` directory:
 
     ```bash
     # Update Qogir-theme
-    cd ~/git/personal/Qogir-theme && git pull
+    cd ~/git/Qogir-theme && git pull
     sudo ./install.sh --dest "/usr/share/themes" --uninstall
-    sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --libadwaita --tweaks round 
+    sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --tweaks round
     git clean -dfX
     # Update Qogir-icon-theme
-    cd ~/git/personal/Qogir-icon-theme  && git pull
+    cd ~/git/Qogir-icon-theme   && git pull
     sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
     git clean -dfX
     # Update single monitor wallpapers
