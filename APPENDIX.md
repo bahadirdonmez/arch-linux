@@ -104,6 +104,42 @@ Replace `<PACKAGE_NAME>` with the name of the package you want to uninstall.
 
 ## Managing USB Devices
 
+### Query Connected USB Devices
+
+1. The `lsusb` tool is available inside the `usbutils` package:
+
+    ```bash
+    sudo pacman -S usbutils
+    ```
+
+2. Run the `lsusb` command to display a list of all connected USB devices:
+
+    ```bash
+    lsusb
+    ```
+
+    The result should look like this:
+
+    ```bash
+    Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+    Bus 001 Device 002: ID 0b05:19af ASUSTek Computer, Inc. [unknown]
+    Bus 001 Device 003: ID 05e3:0608 Genesys Logic, Inc. Hub
+    Bus 001 Device 004: ID 2188:5802 No brand [unknown]
+    Bus 001 Device 005: ID 8087:0033 Intel Corp. [unknown]
+    Bus 001 Device 006: ID 0451:ace1 Texas Instruments, Inc. [unknown]
+    Bus 001 Device 007: ID 2188:5510 No brand [unknown]
+    Bus 001 Device 008: ID 2188:7112 No brand [unknown]
+    Bus 001 Device 009: ID 2188:5511 No brand [unknown]
+    Bus 001 Device 010: ID 2188:5512 No brand [unknown]
+    Bus 001 Device 011: ID 05e3:0608 Genesys Logic, Inc. Hub
+    Bus 001 Device 012: ID 046d:c52b Logitech, Inc. Unifying Receiver
+    Bus 001 Device 013: ID 0b05:1a7a ASUSTek Computer, Inc. [unknown]
+    Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+    Bus 002 Device 002: ID 8564:1000 Transcend Information, Inc. JetFlash
+    Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+    Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+    ```
+
 ### Safely Ejecting a USB Flash Drive
 
 1. Verify that the USB flash drive is not mounted. Run the following command to display
