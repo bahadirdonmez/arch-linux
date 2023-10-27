@@ -187,22 +187,6 @@ following command:
 
     - If you get a conflict error, choose `xfce4-taskmanager`.
 
-### Calculator
-
-`galculator` is a GTK-based scientific calculator.
-
-1. Install it with the following command:
-
-    ```bash
-    sudo pacman -S galculator
-    ```
-
-2. Go to **Settings > Keyboard > Application Shortcuts**:
-
-    - Click **Add** and type `galculator`.
-
-        - Set <kbd>Calculator</kbd> as the shortcut.
-
 ### Screensaver and Lock Screen
 
 1. `xflock4` is a reference Bash script used to lock an Xfce session. It locks
@@ -1113,32 +1097,6 @@ To customize the font settings in Visual Studio Code, follow these steps:
 
         - Set `'SF Mono', 'Droid Sans Mono', 'monospace', monospace` as the
         **Font Familiy**.
-
-### Galculator Settings
-
-To customize the appearance of Galculator, follow these steps:
-
-1. Launch Galculator and navigate to **Edit > Preferences...**.
-
-2. In the Preferences window, click on the **Dsiplay** tab.
-
-3. Under **Appeearance**:
-
-    - Set `SF Pro Bold, 26` as the **Result font**.
-
-    - Set `SF Pro Bold, 11` as the **RPN stack font**.
-
-    - Set `SF Pro Bold, 8` as the **Module font**.
-
-    - Set `#32343D` as the **Background color**.
-
-    - Set `#E6EBEF` as the **Result font color**.
-
-    - Set `#E6EBEF` as the **RPN stack color**.
-
-    - Set `#E6EBEF` as the **Active module color**.
-
-    - Set `#80848B` as the **Inactive module color**.
 
 ### Desktop Icons and Side Pane Shortcuts
 
