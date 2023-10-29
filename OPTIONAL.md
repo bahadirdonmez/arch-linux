@@ -81,13 +81,11 @@ launcher and log in with your PIA VPN account credentials.
 
 ### ETH Zurich VPN Configuration
 
-To establish an encrypted remote connection to the data network of ETH Zurich,
-the ITS ID-Infrastructure section operates a VPN Gateway. This VPN connection
-serves as the foundation for PWLAN. In order to connect to the ETH Zurich VPN,
-we will use OpenConnect, which is a client for Cisco's AnyConnect SSL VPN.
+To establish an encrypted remote connection to the data network of ETH Zurich, we will
+use OpenConnect, which is a client for Cisco's AnyConnect SSL VPN.
 
-1. Install the `networkmanager-openconnect` package to enable OpenConnect
-support in NetworkManager:
+1. Install the `networkmanager-openconnect` package to enable OpenConnect support in
+NetworkManager:
 
     ```bash
     sudo pacman -S networkmanager-openconnect
@@ -141,6 +139,50 @@ again, navigate to **VPN Connections**, and select **ETH Zurich VPN**:
 
 Once connected, a lock icon should appear on the NetworkManager applet,
 indicating that the VPN connection is active.
+
+### Importing OpenVPN Config (.ovpn) Files
+
+1. Install the necessary packages for OpenVPN support:
+
+    ```bash
+    sudo pacman -S networkmanager-openvpn
+    ```
+
+2. Restart the `NetworkManager.service` to apply the changes:
+
+    ```bash
+    systemctl restart NetworkManager.service
+    ```
+
+3. Download the `.ovpn` file  from the source.
+
+4. Left-click on the NetworkManager applet icon in the system tray to open the  
+NetworkManager menu.
+
+    - Click on **VPN Connections** and then **Configure VPN...**.
+
+    - Click on the **+** button to add a new connection.
+
+    - Choose **Import a saved VPN configuration...** as the connection type and click
+    on **Create...**.
+
+    - Browse to the location where you saved the `.ovpn` file, select it, and click
+    **Open**.
+
+5. The settings from the `.ovpn` file should be automatically populated. You can review
+and modify these settings if necessary.
+
+    - Connection name: You can rename it to something descriptive if desired.
+
+    - Fill **Username** and **Password** fields, leave the **Gateway** field as it is.
+
+    - Click on **Save** to store the configuration.
+
+6. To connect to the VPN, click on the NetworkManager applet icon again, navigate to
+**VPN Connections**, and select the VPN connection you just created.
+
+Once connected, a lock icon should appear on the NetworkManager applet, indicating that
+the VPN connection is active.
 
 ## Brother MFC-J6710DW Printer and Scanner
 
