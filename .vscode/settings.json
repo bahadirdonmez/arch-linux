@@ -23,6 +23,9 @@
             "code_blocks": false, // Exclude code blocks from line length checking
         },
         "MD014": false, // Can use dollar signs before commands without showing output
+        "MD024": { // Multiple headings with the same content
+            "allow_different_nesting": true, // Allowed for non-sibling headings (common in changelogs):
+        },
         "MD033": {
             "allowed_elements": [
                 "kbd" // Allow the "kbd" element in inline HTML
