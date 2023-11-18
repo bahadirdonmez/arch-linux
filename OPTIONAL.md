@@ -359,7 +359,7 @@ part `BRN001BA95D5DB6.local` with your scanner's hostname found using the
     mkdir -p ~/Pictures/Scanned
     ```
 
-## Messaging Apps
+## Communication and Chat Applications
 
 ### WhatsApp
 
@@ -418,6 +418,28 @@ command:
     - In the **Preferences** tab:
 
         - Uncheck **Show tray icon and minimise window to it on close**.
+
+### Zoom
+
+Zoom, a popular video conferencing application, can be installed on Arch Linux through
+the Arch User Repository (AUR).
+
+1. Navigate to the `aur` directory and clone the `zoom` package from the AUR:
+
+    ```bash
+    cd ~/aur
+    git clone https://aur.archlinux.org/zoom.git
+    ```
+
+2. Navigate to the `zoom` directory, then build and install the package using the
+`makepkg` command. Clean up the build files after installation using the `git clean`
+command:
+
+    ```bash
+    cd ~/aur/zoom
+    makepkg -sirc
+    git clean -dfX
+    ```
 
 ## Running Windows Applications on Linux
 
