@@ -63,6 +63,20 @@ To confirm that you are online, ping `google.com`:
 ping google.com
 ```
 
+## Set Up Bash Command Line
+
+Bash is the default command-line shell on Arch Linux.
+
+### Enable Advanced Auto-completion
+
+By default, Bash only tab-completes commands, filenames, and variables. The package
+`bash-completion`` extends this by adding more specialized tab completions for common
+commands and their options:
+
+```bash
+sudo pacman -S bash-completion
+```
+
 ## Set Up SSH
 
 By setting up SSH on your Arch Linux system, you can securely access and manage your
