@@ -48,7 +48,7 @@ To start, follow these steps to obtain and authenticate the installation image:
 
         ```bash
         export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest"
-        export ISO_FILE="archlinux-2023.10.14-x86_64.iso"
+        export ISO_FILE="archlinux-2024.01.01-x86_64.iso"
         export SIG_FILE="$ISO_FILE.sig"
         ```
 
@@ -69,17 +69,17 @@ To start, follow these steps to obtain and authenticate the installation image:
     the key used to sign the file is trusted. It should resemble the following output:
 
     ```bash
-    gpg: assuming signed data in 'archlinux-2023.10.14-x86_64.iso'
-    gpg: Signature made Sat 14 Oct 2023 09:02:37 AM CEST
+    gpg: assuming signed data in 'archlinux-2024.01.01-x86_64.iso'
+    gpg: Signature made Mon 01 Jan 2024 05:48:11 PM CET
     gpg:                using EDDSA key 3E80CA1A8B89F69CBA57D98A76A5EF9054449A5C
     gpg:                issuer "pierre@archlinux.org"
-    gpg: key 7F2D434B9741E8AC: public key "Pierre Schmitz <pierre@archlinux.org>" imported
     gpg: key 76A5EF9054449A5C: public key "Pierre Schmitz <pierre@archlinux.org>" imported
+    gpg: key 7F2D434B9741E8AC: public key "Pierre Schmitz <pierre@archlinux.org>" imported
     gpg: Total number processed: 2
     gpg:               imported: 2
     gpg: no ultimately trusted keys found
     gpg: Good signature from "Pierre Schmitz <pierre@archlinux.org>" [unknown]
-    gpg: WARNING: This key is not certified with a trusted signature!
+    gpg: WARNING: The key's User ID is not certified with a trusted signature!
     gpg:          There is no indication that the signature belongs to the owner.
     Primary key fingerprint: 3E80 CA1A 8B89 F69C BA57  D98A 76A5 EF90 5444 9A5C
     ```
