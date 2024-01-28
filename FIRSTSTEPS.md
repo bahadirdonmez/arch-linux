@@ -16,14 +16,8 @@ execute the following as the GDM user temporarily and change the logo:
 
 2. Set the Swiss German keyboard layout:
 
-    - Go to **Settings > Keyboard** and switch to the **Layout** tab.
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
 
-    - Deselect the **Use system defaults** option.
-
-    - Click on **Add** and select **German (Switzerland)** from the list.
-
-    - Select any other keyboards in the list and click on **Remove** to keep only the
-    **German (Switzerland)** layout.
 
 ## Mozilla Firefox
 
@@ -564,12 +558,7 @@ running the following command:
 command:
 
     ```bash
-    echo -e "\
-    # This is the fallback locale configuration provided by systemd.\n\
-    LANG=\"C.UTF-8\"\n\n\
-    # Set the system-wide \`LANG\` variable to U.S. English.\n\
-    LANG=en_US.UTF-8\n\
-    " | sudo tee /etc/locale.conf > /dev/null
+    sudo localectl set-locale LANG=en_US.UTF-8
     ```
 
 5. Check the contents of the `/etc/locale.conf` file and correct any errors by
@@ -582,14 +571,12 @@ running the following command:
 6. Set the system-wide `KEYMAP` variable to Swiss German layout with the latin-1
 character set by running the following command:
 
+
     ```bash
-    echo -e "\
-    # Set system \`KEYMAP\` to Swiss German layout with the Latin-1.\n\
-    KEYMAP=de_CH-latin1\n\
-    " | sudo tee /etc/vconsole.conf > /dev/null
+    sudo localectl set-keymap --no-convert de_CH-latin1
     ```
 
-7. Check the contents of the `/etc/vconsole.conf` file and correct any errors by
+8. Check the contents of the `/etc/vconsole.conf` file and correct any errors by
 running the following command:
 
     ```bash
