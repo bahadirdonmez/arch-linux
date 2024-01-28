@@ -482,6 +482,14 @@ on next boot, enable `gdm.service`:
 # systemctl enable gdm.service
 ```
 
+## Enabling Internet Connection
+
+If you want to connect to the internet on next boot, enable NetworkManager service:
+
+```bash
+# systemctl enable NetworkManager.service
+```
+
 ## Exit `chroot` and Reboot
 
 To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.
