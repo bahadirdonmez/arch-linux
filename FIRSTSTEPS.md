@@ -1,30 +1,14 @@
 # First Steps After Installing Arch Linux
 
-## Set Up Keyboard and Display Settings
-
-1. Configure display scaling:
-
- log into the GDM user with the command below:
-
-$ sudo machinectl shell gdm@ /bin/bash
-
-execute the following as the GDM user temporarily and change the logo:
-
-[gdm]$ dbus-launch gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
-[gdm]$ dbus-launch gsettings set org.gnome.desktop.interface scaling-factor 2
-
-
-2. Set the Swiss German keyboard layout:
-
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
-
-## Localization
+## Setting Up Localization
 
 The `locale` defines the language used by the system, as well as other regional
 considerations such as currency denomination, numerology, and character sets.
-You can configure your system's locale settings by following these steps:
 
-1. Use the `sed` command to uncomment the necessary locales:
+1. **Enable Required Locales:**
+
+    Uncomment the lines for German, English, French, Turkish, and Vietnamese locales in
+    `/etc/locale.gen`:
 
     ```bash
     sudo sed -i -e 's/#\(de_CH\.UTF-8 UTF-8\)/\1/' \
@@ -38,44 +22,91 @@ You can configure your system's locale settings by following these steps:
     -e 's/#\(vi_VN UTF-8\)/\1/' /etc/locale.gen
     ```
 
-    This will enable support for the German, English, French, Turkish, and
-    Vietnamese languages, as well as their respective character sets.
+2. **Verify Locales:**
 
-2. Check the contents of the `/etc/locale.gen` file and correct any errors by
-running the following command:
+    Check the contents of the `/etc/locale.gen` file and correct any errors:
 
     ```bash
     sudo vim /etc/locale.gen
     ```
 
-3. Generate the locales by running the following command:
+3. **Generate Locales:**
+
+    Apply the changes by generating the locales:
 
     ```bash
     sudo locale-gen
     ```
 
-4. Set the system-wide `LANG` variable to U.S. English by running the following
-command:
+4. **Set System Language and Keyboard:**
 
-    ```bash
-    sudo localectl set-locale LANG=en_US.UTF-8
-    ```
-    
-5. Set the system-wide `KEYMAP` variable to Swiss German layout with the latin-1
-character set by running the following command:
+    - Define U.S. English as the default system language:
 
-    ```bash
-    sudo localectl set-keymap --no-convert de_CH-latin1
-    ```
+        ```bash
+        sudo localectl set-locale LANG=en_US.UTF-8
+        ```
 
-6.
-    ```bash
-    sudo localectl --no-convert set-x11-keymap ch
-    ```
+    - Configure the console and X11 keyboard layouts to Swiss German:
 
-7.
+        ```bash
+        sudo localectl set-keymap --no-convert de_CH-latin1
+        sudo localectl set-x11-keymap --no-convert ch
+        ```
+
+5. **Verify Localization Settings:**
+
+   Ensure your settings are correctly applied:
+
     ```bash
     sudo localectl status
+    ```
+
+## Configuring Display and Keyboard Settings
+
+### GNOME Session Configuration
+
+1. **Adjust Display Scaling:**
+
+   Improve readability and UI scaling on high-resolution displays::
+
+    ```bash
+    gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+    gsettings set org.gnome.desktop.interface scaling-factor 2
+    ```
+
+2. **Configure Keyboard Layout:**
+
+   Set the keyboard layout to Swiss German for GNOME:
+
+    ```bash
+    gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
+    ```
+
+### GDM Configuration
+
+1. **Log into GDM Session**
+
+    Access the GDM environment:
+
+    ```bash
+    sudo machinectl shell gdm@ /bin/bash
+    ```
+
+2. **Adjust Display Scaling:**
+
+    Ensure GDM's display scaling matches your GNOME session settings:
+
+    ```bash
+    dbus-launch gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+    dbus-launch gsettings set org.gnome.desktop.interface scaling-factor 2
+    ```
+
+3. **Configure Keyboard Layout:**
+
+   Synchronize the GDM keyboard layout with your system configuration:
+
+    ```bash
+    dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
     ```
 
 ## Set Up Bash Command Line
@@ -89,7 +120,7 @@ By default, Bash only tab-completes commands, filenames, and variables. The pack
 commands and their options:
 
 ```bash
-sudo pacman -S bash-completion
+sudo pacman -Syu bash-completion
 ```
 
 ## Set Up SSH
@@ -97,58 +128,34 @@ sudo pacman -S bash-completion
 By setting up SSH on your Arch Linux system, you can securely access and manage your
 computer remotely.
 
-### OpenSSH Installation
+1. **Initialize SSH Configuration Directory:**
 
-Install OpenSSH by running the following command:
-
-```bash
-sudo pacman -S openssh
-```
-
-### OpenSSH Configuration
-
-1. Create a directory to store SSH configurations:
+    Create a directory to store SSH configurations:
 
     ```bash
     mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
     ```
 
-2. Configure the SSH client to use the 1Password agent for authentication:
+2. **Enabling the SSH Daemon:**
 
-    ```bash
-    echo -e "\
-    # Configure the SSH client to use the 1Password agent for authentication \n\
-    Host * \n\
-      IdentityAgent ~/.1password/agent.sock \n\
-    " >> ~/.ssh/config
-    ```
-
-3. Check the contents of the `~/.ssh/config` file and correct any errors:
-
-    ```bash
-    vim ~/.ssh/config
-    ```
-
-4. Enable and start `sshd.service`. It will keep the SSH daemon permanently active and
-fork for each incoming connection:
+    Enable and start the SSH service to ensure it's ready for remote connections:
 
     ```bash
     systemctl enable --now sshd.service
     ```
 
-
-
 ## Set Up Git
 
 Git is a widely used version control system for tracking changes to files and
-directories. It is commonly utilized by software developers to manage source code.
+directories.
 
-### Git Installation
+### Installation
 
 1. To install Git, run the following command:
 
     ```bash
-    sudo pacman -S git
+    sudo pacman -Syu git
     ```
 
 2. You can create a directory to store your Git repositories. To create a directory
@@ -186,7 +193,7 @@ Git with your email address and name, as well as to set VSCode as the default ed
     ```bash
     git config --list
     ```
-    
+
 ## Enable Arch User Repository (AUR)
 
 The Arch User Repository (AUR) is a community-driven repository for Arch Linux users.
@@ -197,7 +204,7 @@ repositories.
 install packages from the AUR:
 
     ```bash
-    sudo pacman -S base-devel
+    sudo pacman -Syu base-devel
     ```
 
 2. Create a directory to store AUR packages. For example, you can create a directory
@@ -206,8 +213,6 @@ named `aur` in your home directory:
     ```bash
     mkdir -p ~/.aur
     ```
-
-
 
 ## Set Up 1Password
 
@@ -268,6 +273,12 @@ instructions to set up your 1Password account and start using the password manag
     This will enable you to use your SSH keys stored in 1Password with Git and other
     tools that require SSH authentication.
 
+    3. Check the contents of the `~/.ssh/config` file and correct any errors:
+
+    ```bash
+    vim ~/.ssh/config
+    ```
+
 2. In 1Password, find your GitHub/GitLab key and open it:
 
     - Click on **Configure...** in the **Next Step: Sign Your Git Commits** box. This
@@ -325,7 +336,6 @@ correct any errors:
     systemctl --user enable 1password.service
     ```
 
-
 ## Mozilla Firefox
 
 Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
@@ -339,9 +349,6 @@ Firefox can be installed with the `firefox` package:
 
 During the installation process, if prompted to select a provider for ttf-font, choose
 `noto-fonts`.
-
-
-
 
 ## Install Visual Studio Code (VSCode)
 
@@ -364,7 +371,6 @@ using the `makepkg` command:
     git clean -dfX
     ```
 
-
 ## Set up Google Drive
 
 To manage Google Drive files on Arch Linux, we use Rclone.
@@ -374,7 +380,7 @@ To manage Google Drive files on Arch Linux, we use Rclone.
 1. Install Rclone by running the following command:
 
     ```bash
-    sudo pacman -S rclone
+    sudo pacman -Syu rclone
     ```
 
 2. Configure Rclone by running the following command:
@@ -403,7 +409,7 @@ To manage Google Drive files on Arch Linux, we use Rclone.
 1. Install `fuse` if it's not already present on your system with the following command:
 
     ```bash
-    sudo pacman -S fuse3
+    sudo pacman -Syu fuse3
     ```
 
 2. Configure your Google Drive to mount at startup with systemd by running the
@@ -460,7 +466,7 @@ with time-based applications and services.
 2. Install the `ntp` package to synchronize the system clock:
 
     ```bash
-    sudo pacman -S ntp
+    sudo pacman -Syu ntp
     ```
 
 3. Perform a one-time synchronization by starting `ntpd` from the console using the
@@ -505,7 +511,7 @@ these steps to set up the `xfce4-clipman-plugin` clipboard manager on your syste
 1. Install the `xfce4-clipman-plugin` package by running the following command:
 
     ```bash
-    sudo pacman -S xfce4-clipman-plugin
+    sudo pacman -Syu xfce4-clipman-plugin
     ```
 
 2. Launch the Clipboard Manager with this command:
@@ -704,7 +710,7 @@ each:
 1. Install the `network-manager-applet` for managing network connections:
 
     ```bash
-    sudo pacman -S network-manager-applet
+    sudo pacman -Syu network-manager-applet
     ```
 
 2. Launch the NetworkManager applet:
@@ -816,7 +822,7 @@ indefinitely in size. To clean the cache, follow these steps:
 1. Install the `pacman-contrib` package by using the following command:
 
     ```bash
-    sudo pacman -S pacman-contrib
+    sudo pacman -Syu pacman-contrib
     ```
 
     The `pacman-contrib` package includes the `paccache` script, which deletes all
@@ -888,7 +894,7 @@ If you wish to enable NumLock by default in LightDM, follow these steps:
 1. Install the `numlockx` package:
 
     ```bash
-    sudo pacman -S numlockx
+    sudo pacman -Syu numlockx
     ```
 
 2. Update the LightDM configuration file to run the `/usr/bin/numlockx on` command at
@@ -925,13 +931,13 @@ low-latency audio processing and support for the JACK audio server.
 1. Install the `pipewire` package by using the following command:
 
     ```bash
-    sudo pacman -S pipewire
+    sudo pacman -Syu pipewire
     ```
 
 2. Install the `wireplumber` session manager by using the following command:
 
     ```bash
-    sudo pacman -S wireplumber
+    sudo pacman -Syu wireplumber
     ```
 
 ### Installing PipeWire Audio Server
@@ -942,13 +948,13 @@ PipeWire audio server, follow these steps:
 1. Install the `pipewire-audio` package by using the following command:
 
     ```bash
-    sudo pacman -S pipewire-audio
+    sudo pacman -Syu pipewire-audio
     ```
 
 2. Install the `pipewire-pulse` PulseAudio client by using the following command:
 
     ```bash
-    sudo pacman -S pipewire-pulse
+    sudo pacman -Syu pipewire-pulse
     ```
 
 3. Restart the computer to apply the changes.
@@ -958,14 +964,14 @@ PipeWire audio server, follow these steps:
 1. Install `pavucontrol`, a simple GTK volume control tool ("mixer") for PulseAudio:
 
     ```bash
-    sudo pacman -S pavucontrol
+    sudo pacman -Syu pavucontrol
     ```
 
 2. Install `xfce4-pulseaudio-plugin`, which provides a panel applet for volume control
 with support for keyboard volume control and volume notifications:
 
     ```bash
-    sudo pacman -S xfce4-pulseaudio-plugin
+    sudo pacman -Syu xfce4-pulseaudio-plugin
     ```
 
 3. Add the `xfce4-pulseaudio-plugin` to the Xfce panel by following these steps:
@@ -994,7 +1000,7 @@ managing Bluetooth devices. To install and configure Bluetooth, follow these ste
 1. Install the `bluez` package:
 
     ```bash
-    sudo pacman -S bluez
+    sudo pacman -Syu bluez
     ```
 
 2. Enable and start `bluetooth.service`:
@@ -1009,7 +1015,7 @@ managing Bluetooth devices. To install and configure Bluetooth, follow these ste
 manager:
 
     ```bash
-    sudo pacman -S blueman
+    sudo pacman -Syu blueman
     ```
 
 2. Launch a graphical settings panel with `blueman-manager`:
