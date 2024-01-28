@@ -11,7 +11,7 @@ operating environment.
 With clear step-by-step instructions, you'll be able to navigate through the
 installation with ease and confidence.
 
-## System Specifications
+## Hardware Configuration
 
 - **Processor:** Intel Core I9-13900K (LGA 1700, 3 GHz, 24-Core)
 
@@ -39,34 +39,32 @@ To start, follow these steps to obtain and authenticate the installation image:
     cd ~/Downloads
     ```
 
-2. Visit the [Arch Linux Downloads](https://www.archlinux.org/download/) page.
+2. Access the [Arch Linux Downloads](https://www.archlinux.org/download/) page and
+select a mirror to download the `.iso` and `.sig` files.
 
-    - Pick an HTTP mirror site from the list. You will download both the `.iso` file
-    and the corresponding `.iso.sig` file from this mirror site.
-
-    - Set the environment variables for the mirror site and the files:
-
-        ```bash
-        export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest"
-        export ISO_FILE="archlinux-2024.01.01-x86_64.iso"
-        export SIG_FILE="$ISO_FILE.sig"
-        ```
-
-    - Download these files using the `curl` command:
-
-        ```bash
-        curl -O $MIRROR_SITE/$ISO_FILE
-        curl -O $MIRROR_SITE/$SIG_FILE
-        ```
-
-3. Verify the authenticity of the installation image using the following command:
+3. Set your mirror and file names as environment variables:
 
     ```bash
-    gpg --keyserver-options auto-key-retrieve --verify $SIG_FILE
+    export MIRROR_SITE="https://geo.mirror.pkgbuild.com/iso/latest"
+    export ISO_FILE="archlinux-2024.01.01-x86_64.iso"
+    export SIG_FILE="${ISO_FILE}.sig"
     ```
 
-    The output should include a message indicating that the signature is valid and that
-    the key used to sign the file is trusted. It should resemble the following output:
+4. Download the files with `curl`:
+
+    ```bash
+    curl -O "${MIRROR_SITE}/${ISO_FILE}"
+    curl -O "${MIRROR_SITE}/${SIG_FILE}"
+    ```
+
+5. Verify the authenticity of the installation image:
+
+    ```bash
+    gpg --keyserver-options auto-key-retrieve --verify "${SIG_FILE}"
+    ```
+
+    Look for a message in the output confirming the signature's validity and the t
+    rusted status of the key, similar to this:
 
     ```bash
     gpg: assuming signed data in 'archlinux-2024.01.01-x86_64.iso'
@@ -89,8 +87,7 @@ To start, follow these steps to obtain and authenticate the installation image:
 
 ## Create a USB Flash Installation Medium
 
-Creating a bootable USB drive is crucial for the Arch Linux installation process.
-To do so:
+A bootable USB drive is essential for installing Arch Linux:
 
 1. Use `lsblk` to identify the name of the USB flash drive, and ensure it is not
 mounted:
@@ -116,22 +113,22 @@ mounted:
 
     In my case, the USB drive name is `/dev/sdb`.
 
-2. Execute the following command to write the installation image to the USB drive:
+2. Write the installation image to the USB drive:
 
     ```bash
-    export USB_DEV="/dev/sda"
-    sudo dd bs=4M if=$ISO_FILE of=$USB_DEV conv=fsync oflag=direct status=progress
+    export USB_DEV="/dev/sdx" # Replace 'x' with your USB drive letter.
+    sudo dd bs=4M if="${ISO_FILE}" of="${USB_DEV}" conv=fsync oflag=direct status=progress
     sudo sync
     ```
 
-    > :warning: **Note**\
-    > This command will permanently erase all data on `/dev/sdb` and write the
-    > installation image onto it. Ensure you have entered the correct drive name.
+    > ⚠️ **Warning:**\
+    > This will permanently erase all data on `/dev/sdx` and write the installation
+    image onto it. Ensure you have entered the correct drive name.
 
 ## Next Steps
 
-Proceed with the subsequent steps in this guide to install Arch Linux on your computer
-and tailor it to your preferences.
+With the bootable USB ready, you're set to install Arch Linux. Follow the links below
+in sequence to customize and optimize your Arch Linux setup:
 
 ### [1. Home](./README.md)
 

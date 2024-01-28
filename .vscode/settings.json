@@ -9,7 +9,7 @@
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.markdownlint": true // Automatically format when saving
+        "source.fixAll.markdownlint": "explicit"
     },
     // Rules for markdown linting
     "markdownlint.config": {
