@@ -18,6 +18,65 @@ execute the following as the GDM user temporarily and change the logo:
 
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
 
+## Localization
+
+The `locale` defines the language used by the system, as well as other regional
+considerations such as currency denomination, numerology, and character sets.
+You can configure your system's locale settings by following these steps:
+
+1. Use the `sed` command to uncomment the necessary locales:
+
+    ```bash
+    sudo sed -i -e 's/#\(de_CH\.UTF-8 UTF-8\)/\1/' \
+    -e 's/#\(de_CH ISO-8859-1\)/\1/' \
+    -e 's/#\(en_US\.UTF-8 UTF-8\)/\1/' \
+    -e 's/#\(en_US ISO-8859-1\)/\1/' \
+    -e 's/#\(fr_CH\.UTF-8 UTF-8\)/\1/' \
+    -e 's/#\(fr_CH ISO-8859-1\)/\1/' \
+    -e 's/#\(tr_TR\.UTF-8 UTF-8\)/\1/' \
+    -e 's/#\(tr_TR ISO-8859-9\)/\1/' \
+    -e 's/#\(vi_VN UTF-8\)/\1/' /etc/locale.gen
+    ```
+
+    This will enable support for the German, English, French, Turkish, and
+    Vietnamese languages, as well as their respective character sets.
+
+2. Check the contents of the `/etc/locale.gen` file and correct any errors by
+running the following command:
+
+    ```bash
+    sudo vim /etc/locale.gen
+    ```
+
+3. Generate the locales by running the following command:
+
+    ```bash
+    sudo locale-gen
+    ```
+
+4. Set the system-wide `LANG` variable to U.S. English by running the following
+command:
+
+    ```bash
+    sudo localectl set-locale LANG=en_US.UTF-8
+    ```
+    
+5. Set the system-wide `KEYMAP` variable to Swiss German layout with the latin-1
+character set by running the following command:
+
+    ```bash
+    sudo localectl set-keymap --no-convert de_CH-latin1
+    ```
+
+6.
+    ```bash
+    sudo localectl --no-convert set-x11-keymap ch
+    ```
+
+7.
+    ```bash
+    sudo localectl status
+    ```
 
 ## Mozilla Firefox
 
@@ -517,77 +576,6 @@ any errors:
     ```bash
     sudo vim /etc/vimrc
     ```
-
-## Localization
-
-The `locale` defines the language used by the system, as well as other regional
-considerations such as currency denomination, numerology, and character sets.
-You can configure your system's locale settings by following these steps:
-
-1. Use the `sed` command to uncomment the necessary locales:
-
-    ```bash
-    sudo sed -i -e 's/#\(de_CH\.UTF-8 UTF-8\)/\1/' \
-    -e 's/#\(de_CH ISO-8859-1\)/\1/' \
-    -e 's/#\(en_US\.UTF-8 UTF-8\)/\1/' \
-    -e 's/#\(en_US ISO-8859-1\)/\1/' \
-    -e 's/#\(fr_CH\.UTF-8 UTF-8\)/\1/' \
-    -e 's/#\(fr_CH ISO-8859-1\)/\1/' \
-    -e 's/#\(tr_TR\.UTF-8 UTF-8\)/\1/' \
-    -e 's/#\(tr_TR ISO-8859-9\)/\1/' \
-    -e 's/#\(vi_VN UTF-8\)/\1/' /etc/locale.gen
-    ```
-
-    This will enable support for the German, English, French, Turkish, and
-    Vietnamese languages, as well as their respective character sets.
-
-2. Check the contents of the `/etc/locale.gen` file and correct any errors by
-running the following command:
-
-    ```bash
-    sudo vim /etc/locale.gen
-    ```
-
-3. Generate the locales by running the following command:
-
-    ```bash
-    sudo locale-gen
-    ```
-
-4. Set the system-wide `LANG` variable to U.S. English by running the following
-command:
-
-    ```bash
-    sudo localectl set-locale LANG=en_US.UTF-8
-    ```
-
-5. Check the contents of the `/etc/locale.conf` file and correct any errors by
-running the following command:
-
-    ```bash
-    sudo vim /etc/locale.conf
-    ```
-
-6. Set the system-wide `KEYMAP` variable to Swiss German layout with the latin-1
-character set by running the following command:
-
-
-    ```bash
-    sudo localectl set-keymap --no-convert de_CH-latin1
-    ```
-
-8. Check the contents of the `/etc/vconsole.conf` file and correct any errors by
-running the following command:
-
-    ```bash
-    sudo vim /etc/vconsole.conf
-    ```
-
-    Note that the `vconsole.conf` file only affects the system console, and not
-    the X server or any other graphical interface. If you want to change the
-    keyboard layout for the X server or a graphical interface, you will need to
-    configure it separately using the settings provided by the desktop
-    environment or window manager.
 
 ## Network Configuration
 
