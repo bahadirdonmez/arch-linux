@@ -19,50 +19,6 @@
     - Select any other keyboards in the list and click on **Remove** to keep only the
     **German (Switzerland)** layout.
 
-## Connect to the Internet Using NetworkManager
-
-To use Arch Linux effectively, it is essential to ensure that you are connected to the
-internet.
-
-Enable and start the NetworkManager service with the following command:
-
-```bash
-systemctl enable --now NetworkManager.service
-```
-
-### Wired Connection After Installation
-
-If you are using a wired connection, your internet connection should already be
-established.
-
-### Wireless Connection After Installation
-
-If you are using a laptop, you can connect to a wireless access point using the `nmcli`
-command.
-
-1. List nearby Wi-Fi networks with the following command:
-
-    ```bash
-    nmcli device wifi list
-    ```
-
-2. Connect to your Wi-Fi network using the following command:
-
-    ```bash
-    nmcli device wifi connect <YOUR_WIFI_SSID> password <YOUR_WIFI_PASSWORD>
-    ```
-
-    Replace `<YOUR_WIFI_SSID>` with your Wi-Fi network name (SSID) and
-    `<YOUR_WIFI_PASSWORD>` with your Wi-Fi password.
-
-### Verify Connection After Installation
-
-To confirm that you are online, ping `google.com`:
-
-```bash
-ping google.com
-```
-
 ## Mozilla Firefox
 
 Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
