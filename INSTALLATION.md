@@ -482,20 +482,6 @@ on next boot, enable `gdm.service`:
 # systemctl enable gdm.service
 ```
 
-## Mozilla Firefox
-
-Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
-Corporation.
-
-Firefox can be installed with the `firefox` package
-
-```bash
-# pacman -Syu firefox
-```
-
-During the installation process, if prompted to select a provider for ttf-font, choose
-`noto-fonts`.
-
 ## Exit `chroot` and Reboot
 
 To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.

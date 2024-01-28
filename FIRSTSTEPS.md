@@ -63,6 +63,20 @@ To confirm that you are online, ping `google.com`:
 ping google.com
 ```
 
+## Mozilla Firefox
+
+Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
+Corporation.
+
+Firefox can be installed with the `firefox` package:
+
+```bash
+# pacman -Syu firefox
+```
+
+During the installation process, if prompted to select a provider for ttf-font, choose
+`noto-fonts`.
+
 ## Set Up Bash Command Line
 
 Bash is the default command-line shell on Arch Linux.
