@@ -1,17 +1,18 @@
 {
     // Global settings
-    "editor.formatOnSave": true,
     "editor.rulers": [
         88 // Set max line length to 88
     ],
+    "editor.formatOnSave": true,
+    "editor.detectIndentation": false,
     // Markdown linting and formatting configuration
     "[markdown]": {
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit"
+        },
+        "editor.tabSize": 4,
     },
-    "editor.codeActionsOnSave": {
-        "source.fixAll.markdownlint": "explicit"
-    },
-    // Rules for markdown linting
     "markdownlint.config": {
         "default": true, // Enable the default rules
         "MD004": { // Set the style for unordered list items to use dashes (-)
@@ -24,7 +25,7 @@
         },
         "MD014": false, // Can use dollar signs before commands without showing output
         "MD024": { // Multiple headings with the same content
-            "allow_different_nesting": true, // Allowed for non-sibling headings (common in changelogs):
+            "siblings_only": true, // Only check sibling headings (common in changelogs):
         },
         "MD033": {
             "allowed_elements": [
