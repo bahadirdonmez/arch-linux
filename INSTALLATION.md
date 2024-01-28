@@ -473,46 +473,28 @@ all packages.
 
 - If prompted to select a provider for jack, choose `pipewire-jack`.
 
-### Display Manager: LightDM
+### Display Manager: GDM
 
-LightDM is a cross-desktop display manager.
+The display manager included in gnome is GDM. If you want GNOME to start automatically
+on next boot, enable `gdm.service`:
 
-1. Install the `lightdm` package using the following command:
-
-    ```bash
-    # pacman -Syu lightdm
-    ```
-
-2. Install a greeter that prompts the user for credentials:
-
-    ```bash
-    # pacman -Syu lightdm-gtk-greeter
-    ```
-
-3. Ensure that `lightdm.service` is enabled so LightDM starts at boot:
-
-    ```bash
-    # systemctl enable lightdm.service
-    ```
+```bash
+# systemctl enable gdm.service
+```
 
 ## Mozilla Firefox
 
 Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
 Corporation.
 
-1. Install the `firefox` package using the following command:
+Firefox can be installed with the `firefox` package
 
-    ```bash
-    # pacman -Syu firefox
-    ```
+```bash
+# pacman -Syu firefox
+```
 
-2. During the installation process, if prompted to select between `jack2` and
-`pipewire-jack`, choose `pipewire-jack`.
-
-3. If prompted to select between `pipewire-media-session` and `wireplumber`, choose
-`wireplumber`.
-
-4. If prompted to select a provider available for `ttf-font`, choose `noto-fonts`.
+During the installation process, if prompted to select a provider for ttf-font, choose
+`noto-fonts`.
 
 ## Exit `chroot` and Reboot
 
