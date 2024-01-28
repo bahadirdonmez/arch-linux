@@ -78,6 +78,55 @@ character set by running the following command:
     sudo localectl status
     ```
 
+## Set Up Git
+
+Git is a widely used version control system for tracking changes to files and
+directories. It is commonly utilized by software developers to manage source code.
+
+### Git Installation
+
+1. To install Git, run the following command:
+
+    ```bash
+    sudo pacman -S git
+    ```
+
+2. You can create a directory to store your Git repositories. To create a directory
+named `git` in your home directory, run the following command:
+
+    ```bash
+    mkdir -p ~/git
+    ```
+
+### Git Configuration
+
+You can configure Git using the `git config` command. Follow these steps to configure
+Git with your email address and name, as well as to set VSCode as the default editor:
+
+1. Set your email address for Git with the following command:
+
+    ```bash
+    git config --global user.email "doenmezb@ethz.ch"
+    ```
+
+2. Set your name for Git with the following command:
+
+    ```bash
+    git config --global user.name "Bahadır Dönmez"
+    ```
+
+3. Set VSCode as the default editor for Git with the following command:
+
+    ```bash
+    git config --global core.editor "code --wait"
+    ```
+
+4. You can check your Git configuration by running the following command:
+
+    ```bash
+    git config --list
+    ```
+    
 ## Enable Arch User Repository (AUR)
 
 The Arch User Repository (AUR) is a community-driven repository for Arch Linux users.
@@ -97,6 +146,8 @@ named `aur` in your home directory:
     ```bash
     mkdir -p ~/.aur
     ```
+
+
 
 ## Set Up 1Password
 
@@ -287,54 +338,6 @@ fork for each incoming connection:
     systemctl enable --now sshd.service
     ```
 
-## Set Up Git
-
-Git is a widely used version control system for tracking changes to files and
-directories. It is commonly utilized by software developers to manage source code.
-
-### Git Installation
-
-1. To install Git, run the following command:
-
-    ```bash
-    sudo pacman -S git
-    ```
-
-2. You can create a directory to store your Git repositories. To create a directory
-named `git` in your home directory, run the following command:
-
-    ```bash
-    mkdir -p ~/git
-    ```
-
-### Git Configuration
-
-You can configure Git using the `git config` command. Follow these steps to configure
-Git with your email address and name, as well as to set VSCode as the default editor:
-
-1. Set your email address for Git with the following command:
-
-    ```bash
-    git config --global user.email "doenmezb@ethz.ch"
-    ```
-
-2. Set your name for Git with the following command:
-
-    ```bash
-    git config --global user.name "Bahadır Dönmez"
-    ```
-
-3. Set VSCode as the default editor for Git with the following command:
-
-    ```bash
-    git config --global core.editor "code --wait"
-    ```
-
-4. You can check your Git configuration by running the following command:
-
-    ```bash
-    git config --list
-    ```
 
 
 
