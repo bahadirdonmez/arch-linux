@@ -4,9 +4,15 @@
 
 1. Configure display scaling:
 
-    - Go to **Settings > Appearance** and switch to the **Settings** tab.
+ log into the GDM user with the command below:
 
-    - Under **Window Scaling**, select the **2x** option.
+$ sudo machinectl shell gdm@ /bin/bash
+
+execute the following as the GDM user temporarily and change the logo:
+
+[gdm]$ dbus-launch gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+[gdm]$ dbus-launch gsettings set org.gnome.desktop.interface scaling-factor 2
+
 
 2. Set the Swiss German keyboard layout:
 
