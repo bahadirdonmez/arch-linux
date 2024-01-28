@@ -372,31 +372,31 @@ Arch Linux.
     # passwd
     ```
 
-2. Add a new user account using the `useradd` command. In this example, we'll simply
-use `Bahadir` as the username for the new user account.
+2. Add a new user account using the `useradd` command. I will use `bahadir` as the
+username for the new user account:
 
     ```bash
-    # useradd -m Bahadir
+    # useradd -m bahadir
     ```
 
     This command creates a new user account and its home folder.
 
-3. Set the password for the `Bahadir` account:
+4. Set the password for the `bahadir` account:
 
     ```bash
-    # passwd Bahadir
+    # passwd bahadir
     ```
 
-4. Add the `Bahadir` account to the `wheel` group using the `gpasswd` command:
+5. Add the `bahadir` account to the `wheel` group using the `gpasswd` command:
 
     ```bash
-    # gpasswd -a Bahadir wheel
+    # gpasswd -a bahadir wheel
     ```
 
     The wheel group is the administration group and is commonly used to grant
     administrative privileges.
 
-5. Grant the `Bahadir` account the ability to use the `sudo` command by editing the
+6. Grant the `bahadir` account the ability to use the `sudo` command by editing the
 `/etc/sudoers` file:
 
     ```bash
