@@ -1,24 +1,18 @@
-# Comprehensive Guide for Installing Arch Linux
+# Arch Linux Installation
 
-This guide delivers a concise, step-by-step procedure for installing Arch Linux. It
-covers crucial tasks from setting up the live environment, partitioning disks,
-installing the base system, and reaching the user interface promptly, along with
-additional useful tool setup.
+This section offers a detailed, step-by-step walkthrough for installing Arch Linux,
 
 ## Boot the Live Environment
 
-Insert the USB flash drive containing the Arch Linux installation medium and follow the
-steps below:
+1. Insert the USB flash drive containing the Arch Linux installation medium and restart
+your computer.
 
-1. Restart or power on your computer. During the power-on self-test (POST) phase,
-access the firmware (BIOS) settings by pressing either the <kbd>DEL</kbd> or
-<kbd>F2</kbd> key.
+2. Access the BIOS/UEFI settings (usually by pressing <kbd>DEL</kbd> or <kbd>F2</kbd>
+during boot).
 
-2. Once on the BIOS screen, open the **Boot Menu** by pressing its dedicated button or
-hitting the <kbd>F8</kbd> key.
-
-3. A Boot Menu popup window will appear. Select the USB flash drive containing the Arch
-Linux installation medium, and the computer will reboot automatically.
+3. Navigate to the **Boot Menu** (often accessible via <kbd>F8</kbd>) and select the
+USB flash drive containing the Arch Linux installation medium. The computer will reboot
+automatically.
 
 4. Upon reboot, the installation medium's boot loader menu will appear. Choose the
 **Arch Linux install medium (x86_64, UEFI)** option, and press <kbd>Enter</kbd> to
@@ -29,41 +23,15 @@ Zsh shell prompt.
 
 ## Set the Console Keyboard Layout
 
-The default console keymap is US. To set a Swiss German keyboard layout, use the
-following command:
+The live environment defaults to a US keyboard layout. Change it to Swiss German:
 
 ```bash
 # loadkeys de_CH-latin1
 ```
 
-## Connect to the Internet for Installation
+## Establishing Internet Connection
 
-To install the Arch Linux `base` and `linux` packages, ensure that you are connected to
-the internet. First, check the names of your network interfaces using the following
-command:
-
-```bash
-# ip link
-```
-
-You should see output similar to this:
-
-```bash
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-2: eno3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
-    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
-    altname enp8s0
-3: enp18s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
-    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
-4: wlo1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DORMANT group default qlen 1000
-    link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff permaddr aa:bb:cc:dd:ee:ff
-    altname wlp0s20f3
-```
-
-- `eno3` and `enp18s0` are the wired interfaces
-
-- `wlo1` is the wireless interface
+Ensure that you are connected to the internet for downloading necessary packages.
 
 ### Wired Connection During Installation
 
@@ -73,25 +41,50 @@ If you are using a wired connection, you should already be connected to the inte
 
 You can connect to a wireless access point using the `iwctl` command from `iwd`.
 
-1. To scan for networks, use the following command:
+1. Check the name of your wireless interface:
+
+    ```bash
+    # ip link
+    ```
+
+    You should see output similar to this:
+
+    ```bash
+    1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    2: eno3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+        link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
+        altname enp8s0
+    3: enp18s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+        link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff
+    4: wlo1: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DORMANT group default qlen 1000
+        link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff permaddr aa:bb:cc:dd:ee:ff
+        altname wlp0s20f3
+    ```
+
+    - `eno3` and `enp18s0` are the wired interfaces.
+
+    - `wlo1` is the wireless interface.
+
+2. Scan for networks:
 
     ```bash
     # iwctl station wlo1 scan
     ```
 
-2. To obtain a list of scanned networks, use the following command:
+3. Obtain a list of scanned networks:
 
     ```bash
     # iwctl station wlo1 get-networks
     ```
 
-3. To connect to your network, use the following command:
+4. Connect to your network:
 
     ```bash
-    # iwctl station wlo1 connect yallo_3D04C9
+    # iwctl station wlo1 connect [SSID]
     ```
 
-    Enter the router password when prompted.
+    Replace `[SSID]` with your network's SSID. Enter the router password when prompted.
 
 ### Verify Connection for Installation
 
@@ -109,27 +102,22 @@ you are not online yet. Review your network configuration and repeat the steps a
 Before installing Arch Linux, you need to partition the disks.
 
 When recognized by the live system, disks are assigned to a block device such as
-`/dev/sda` or `/dev/nvme0n1`. To identify these devices, use `fdisk`.
+`/dev/sda` or `/dev/nvme0n1`. To identify these devices, use `lsblk` or `fdisk`:
 
 ```bash
-# fdisk -l
+# lsblk -p
 ```
 
 The output should be similar to the following:
 
 ```bash
-Disk /dev/nvme0n1: 1.82 TiB, 2000398934016 bytes, 3907029168 sectors
-Disk model: Samsung SSD 990 PRO 2TB                 
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disklabel type: gpt
-Disk identifier: 57A387AC-9145-406F-B7ED-88F282ADE694
-
-Device             Start        End    Sectors  Size Type
-/dev/nvme0n1p1      2048    4196351    4194304    2G EFI System
-/dev/nvme0n1p2   4196352  138414079  134217728   64G Linux swap
-/dev/nvme0n1p3 138414080 3907028991 3768614912  1.8T Linux filesystem
+NAME             MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+/dev/sda           8:0    0 115.2G  0 disk
+└─/dev/sda1        8:1    0 115.2G  0 part
+/dev/nvme0n1     259:0    0   1.8T  0 disk
+├─/dev/nvme0n1p1 259:1    0     2G  0 part
+├─/dev/nvme0n1p2 259:2    0    64G  0 part
+└─/dev/nvme0n1p3 259:3    0   1.8T  0 part
 ```
 
 `/dev/nvme0n1` is the main drive for me.
@@ -138,16 +126,18 @@ Device             Start        End    Sectors  Size Type
 
 Let's clean up our main drive before we create new partitions for our installation.
 
-1. Use the `fdisk` command with the main drive:
+1. **Launch Partition Tool:**
 
     ```bash
-    # fdisk /dev/nvme0n1
+    fdisk /dev/nvme0n1
     ```
 
-2. Press <kbd>g</kbd> and then <kbd>Enter</kbd> to
-**create a new empty GPT partition table**.
+2. **Initialize GPT:**
 
-3. Create the `boot` partition:
+    Press <kbd>g</kbd> and then <kbd>Enter</kbd> to
+    **create a new empty GPT partition table**.
+
+3. **Create Boot Partition:**
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -167,7 +157,7 @@ Let's clean up our main drive before we create new partitions for our installati
 
     - Type `1` and then <kbd>Enter</kbd> to set the partition type to **EFI System**.
 
-4. Create the `swap` partition
+4. **Create Swap Partition:**
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -189,7 +179,7 @@ Let's clean up our main drive before we create new partitions for our installati
 
     - Type `19` and then <kbd>Enter</kbd> to set the partition type to **Linux swap**.
 
-5. Create the `root` partition
+5. **Create Root Partition:**
 
     - Press <kbd>n</kbd> and then <kbd>Enter</kbd> to **add a new partition**.
 
@@ -210,7 +200,9 @@ Let's clean up our main drive before we create new partitions for our installati
     - Type `20` and then <kbd>Enter</kbd> to set the partition type to
     **Linux filesystem**.
 
-6. Press <kbd>w</kbd> and then <kbd>Enter</kbd> to **write table to disk and exit**.
+6. **Write Changes and Exit:**
+
+Press <kbd>w</kbd> and then <kbd>Enter</kbd> to **write table to disk and exit**.
 Now we are done partitioning the disk.
 
 ### Verifying the Partitions
@@ -246,25 +238,13 @@ Device             Start        End    Sectors  Size Type
 
 **`nvme0n1p3`** is the root partition
 
-### Format the Partitions
+### Formatting Partitions
 
 After creating the partitions, we need to format them with a file system.
 
-1. Format `/dev/nvme0n1p3` partition as `EXT4`:
+1. **EFI System Partition:**
 
-    ```bash
-    # mkfs.ext4 /dev/nvme0n1p3
-    ```
-
-    This will be our `root` partition.
-
-2. Create `swap` on the `/dev/nvme0n1p2` partition:
-
-    ```bash
-    # mkswap /dev/nvme0n1p2
-    ```
-
-3. Format `/dev/nvme0n1p1` partition as `FAT32`:
+    Format the boot partition `/dev/nvme0n1p1` to FAT32:
 
     ```bash
     # mkfs.fat -F 32 /dev/nvme0n1p1
@@ -272,69 +252,88 @@ After creating the partitions, we need to format them with a file system.
 
     This will be our `/boot`.
 
-### Mount the Filesystems
+2. **Swap Partition :**
 
-1. Mount the `/dev/nvme0n1p3` partition to `/mnt`. This will be our `/`:
+    Initialize the swap partition `/dev/nvme0n1p2` to provide additional virtual
+    memory:
+
+    ```bash
+    # mkswap /dev/nvme0n1p2
+    ```
+
+3. **Root Partition:**
+
+    Format the root partition `/dev/nvme0n1p3` as EXT4.
+
+    ```bash
+    # mkfs.ext4 /dev/nvme0n1p3
+    ```
+
+    This will be our `/`.
+
+### Mounting Filesystems
+
+Before installation, you must mount the newly formatted partitions.
+
+1. **Root Partition:**
+
+    Mount the root partition `/dev/nvme0n1p3` to `/mnt`:
 
     ```bash
     # mount /dev/nvme0n1p3 /mnt
     ```
 
-2. Create a `/boot` mountpoint and mount the `/dev/nvme0n1p1` partition to `/mnt/boot`.
-This will be our `/boot`:
+2. **EFI System Partition:**
+
+    Create a mount point for the boot partition `/dev/nvme0n1p1` at `/mnt/boot` and
+    mount it:
 
     ```bash
     # mount --mkdir /dev/nvme0n1p1 /mnt/boot
     ```
 
-3. Enable swap on `/dev/nvme0n1p3` partition using `swapon`:
+3. **Swap Partition :**
+
+    Enable swap for the partition `/dev/nvme0n1p2`:
 
     ```bash
     # swapon /dev/nvme0n1p2
     ```
 
-## Install the Base System
+## Base System Installation
 
-Now we are ready to install the Arch Linux base system.
-
-Use the `pacstrap` command to install the `base` package and other necessary packages
-such as `linux` and `linux-firmware`:
+Install the essential base system along with the Linux kernel and firmware.
 
 ```bash
 # pacstrap -K /mnt base linux linux-firmware
 ```
 
-This will install the basic packages needed for a functional system.
-
 ## Generating the fstab
 
-The fstab (file system table) is a configuration file that contains information about
-the file systems mounted at boot time. Run the following command to generate the fstab:
+Generate the fstab (file system table) configuration file to define how disk
+partitions, block devices, or remote file systems are mounted into the filesystem:
 
 ```bash
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-This command generates the fstab based on the current disk configuration and writes it
-to `/mnt/etc/fstab`.
+## Change Root (chroot)
 
-## Chroot
-
-Now, change the root directory of the current shell to the newly installed system using
-the `arch-chroot` command:
+Switch to the root environment of your newly installed system:
 
 ```bash
 # arch-chroot /mnt
 ```
 
-From this point, any command you run will affect the new system.
+This step allows you to execute commands as if your new system were already running.
 
-## Install Essential Packages
+## Essential Package Installation
 
 Now we are ready to install the essential packages for Arch Linux.
 
-1. Install the `networkmanager` package, which allows you to configure and manage
-network connections:
+1. **NetworkManager:**
+
+    `NetworkManager` allows you to configure and manage network connections.
 
     ```bash
     # pacman -Syu networkmanager
@@ -343,61 +342,63 @@ network connections:
     You can use it to connect to Wi-Fi or Ethernet networks after completing the Arch
     Linux installation.
 
-2. Install the `gvim` text editor:
+2. **Vim:**
+
+    Vim is a powerful terminal text editor that you can use to modify text files.
 
     ```bash
     # pacman -Syu gvim
     ```
 
-    This is a powerful text editor that you can use to modify configuration files or
-    write scripts.
+    GVim is essentially the same package as Vim with GTK/X support.
 
-3. Install `sudo` to allow granting administrator privileges to regular users:
+3. **Sudo:**
+
+    Sudo allows specified users to execute commands as the root user or another user,
+    as specified in the `sudoers` file, enhancing security and control.
 
     ```bash
     # pacman -Syu sudo
     ```
 
-    With sudo, you can run commands as another user, such as the root user, without
-    having to switch to that user account.
+## Configuring Users and Groups
 
-After completing these steps, you have installed the essential packages required to run
-Arch Linux.
+1. **Root Password:**
 
-## Users and Groups
-
-1. Set the password for the `root` account using the following command:
+    Ensure the root account has a secure password:
 
     ```bash
     # passwd
     ```
 
-2. Add a new user account using the `useradd` command. I will use `bahadir` as the
-username for the new user account:
+2. **Creating a New User:**
 
-    ```bash
-    # useradd -m bahadir
-    ```
+    For everyday tasks, it's best to use a non-root user.
 
-    This command creates a new user account and its home folder.
+    - I use `bahadir` as the username for the new user account:
 
-4. Set the password for the `bahadir` account:
+        ```bash
+        # useradd -m bahadir
+        ```
 
-    ```bash
-    # passwd bahadir
-    ```
+    - Set the password for the new user account:
 
-5. Add the `bahadir` account to the `wheel` group using the `gpasswd` command:
+        ```bash
+        # passwd bahadir
+        ```
 
-    ```bash
-    # gpasswd -a bahadir wheel
-    ```
+    - Add the new user account to the `wheel` group:
 
-    The wheel group is the administration group and is commonly used to grant
-    administrative privileges.
+        ```bash
+        # gpasswd -a bahadir wheel
+        ```
 
-6. Grant the `bahadir` account the ability to use the `sudo` command by editing the
-`/etc/sudoers` file:
+        The `wheel` group is the administration group and is commonly used to grant
+        administrative privileges.
+
+3. **Configuring Sudo:**
+
+    Edit the `sudoers` file to grant `wheel` group members sudo privileges:
 
     ```bash
     # EDITOR=vim visudo
@@ -411,44 +412,47 @@ username for the new user account:
 
     Save the file and exit the editor.
 
-## Install the GRUB Boot Loader
+## Boot Loader Setup: GRUB
 
 The GRUB boot loader is used to load the operating system at boot time.
 
-1. Install the `grub` and `efibootmgr` packages using the following command:
+1. **Package Installation:**
+
+    Install the `grub` and `efibootmgr` packages:
 
     ```bash
     # pacman -Syu grub efibootmgr
     ```
 
-2. Install the GRUB EFI application `grubx64.efi` to `/boot/EFI/GRUB/` and its modules
-to `/boot/grub/x86_64-efi/` using the following command:
+2. **EFI Application Installation:**
+
+    Install the GRUB EFI application:
 
     ```bash
     # grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
     ```
 
-3. Generate the main configuration file using the `grub-mkconfig` tool:
+3. **Configuration:**
+
+    Generate the main GRUB configuration file:
 
     ```bash
     # grub-mkconfig -o /boot/grub/grub.cfg
     ```
 
-4. Install the intel-ucode package using the following command:
+4. **Microcode:**
 
-    ```bash
-    # pacman -Syu intel-ucode
-    ```
+    - For Intel CPUs, install the microcode updates for enhanced stability and security:
 
-    The microcode update provides bug fixes and enhancements for the CPU.
+        ```bash
+        # pacman -Syu intel-ucode
+        ```
 
-5. `grub-mkconfig` will automatically detect the microcode update and configure GRUB
-appropriately. After installing the `microcode` package, regenerate the GRUB
-configuration to activate loading the microcode update by running:
+    - Regenerate the GRUB configuration to activate loading the microcode update:
 
-    ```bash
-    # grub-mkconfig -o /boot/grub/grub.cfg
-    ```
+        ```bash
+        # grub-mkconfig -o /boot/grub/grub.cfg
+        ```
 
 ## User Interface Installation
 
@@ -482,28 +486,32 @@ on next boot, enable `gdm.service`:
 # systemctl enable gdm.service
 ```
 
-## Enabling Internet Connection
+## Network Configuration
 
-If you want to connect to the internet on next boot, enable NetworkManager service:
+To be able to connect to the internet on next boot, enable NetworkManager service:
 
 ```bash
 # systemctl enable NetworkManager.service
 ```
 
-## Initramfs
+## Regenerating Initramfs
 
-Use the mkinitcpio script to regenerate all the initramfs images:
+Refresh the initial ramdisk setup to incorporate all installed modules and
+configurations:
 
 ```bash
 # mkinitcpio -P
 ```
 
-## Exit `chroot` and Reboot
+## Final Steps: Exiting chroot and Rebooting
 
-To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.
-Finally, type `reboot` to restart the computer.
+1. Exit the chroot environment with `exit` or <kbd>Ctrl</kbd> + <kbd>d</kbd>.
 
-### Boot into Arch Linux
+2. Reboot your system with `reboot`.
+
+Remember to remove the installation media to boot into your new Arch Linux setup.
+
+### First Boot into Arch Linux
 
 1. When the GRUB bootloader menu appears, select **Arch Linux** and press
 <kbd>Enter</kbd> to boot into Arch Linux.
