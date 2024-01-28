@@ -78,6 +78,143 @@ character set by running the following command:
     sudo localectl status
     ```
 
+## Enable Arch User Repository (AUR)
+
+The Arch User Repository (AUR) is a community-driven repository for Arch Linux users.
+It contains many useful packages that are not available in the official Arch Linux
+repositories.
+
+1. Install the `base-devel` package group, which includes the tools needed to build and
+install packages from the AUR:
+
+    ```bash
+    sudo pacman -S base-devel
+    ```
+
+2. Create a directory to store AUR packages. For example, you can create a directory
+named `aur` in your home directory:
+
+    ```bash
+    mkdir -p ~/.aur
+    ```
+
+## Set Up 1Password
+
+1Password is a password manager that helps you securely store and manage passwords.
+
+### 1Password Installation
+
+The desktop version of 1Password for Linux is available in the
+[Arch User Repository (AUR)](https://aur.archlinux.org/packages/1password). For more
+details, refer to the [1Password for Linux Download Page](
+https://support.1password.com/install-linux/#arch-linux).
+
+1. Obtain the 1Password signing key:
+
+    ```bash
+    curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
+    ```
+
+2. Navigate to the `aur` directory and clone the `1password` package from the
+AUR using the `git clone` command:
+
+    ```bash
+    cd ~/aur
+    git clone https://aur.archlinux.org/1password.git
+    ```
+
+3. Navigate to the `1password` directory, build, and install the package using
+the `makepkg` command:
+
+    ```bash
+    cd ~/aur/1password 
+    makepkg -sirc 
+    git clean -dfX
+    ```
+
+### 1Password Configuration
+
+1. After the installation is complete, launch 1Password from the application launcher
+or by running the `1password` command in the terminal. Follow the on-screen
+instructions to set up your 1Password account and start using the password manager.
+
+2. Configure 1Password preferences:
+
+    - In **1Password > Settings > General**:
+
+        - Set **Click the icon to:** to **Show the main window**.
+
+        - Set the **Autofill** keyboard shortcut to <kbd>Ctrl</kbd> + <kbd>.</kbd>.
+
+### SSH Agent Settings
+
+1. Go to **1Password > Settings > Developer**:
+
+    - Click on **Set Up SSH Agent...**.
+
+    - Select **Use Key Names**.
+
+    This will enable you to use your SSH keys stored in 1Password with Git and other
+    tools that require SSH authentication.
+
+2. In 1Password, find your GitHub/GitLab key and open it:
+
+    - Click on **Configure...** in the **Next Step: Sign Your Git Commits** box. This
+    will open a window with a snippet that you can add to your `.gitconfig` file.
+
+    - Select **Edit Automatically** and 1Password will update your `.gitconfig` file
+    with a single click.
+
+    - Check the contents of the `~/.gitconfig` file and correct any errors:
+
+        ```bash
+        vim ~/.gitconfig
+        ```
+
+3. Add your GitHub/GitLab SSH key to the webpage:
+
+    - Navigate to the SSH keys settings page and click on the **Add SSH key** button.
+
+    - Paste the SSH key from 1Password into the Key field.
+
+    - Repeat this process for both **Authentication Keys** and **Signing Keys**.
+
+### Systemd 1Password Service
+
+1. To configure 1Password to launch at startup using systemd, enter the following
+command:
+
+    ```bash
+    echo -e "\
+    [Unit]\n\
+    Description=1Password Service\n\
+    \n\
+    [Service]\n\
+    Type=simple\n\
+    ExecStart=/usr/bin/1password --silent \n\
+    ExecStop=/usr/bin/killall 1password \n\
+    Restart=on-failure\n\
+    RestartSec=5\n\
+    \n\
+    [Install]\n\
+    WantedBy=default.target\n\
+    " | sudo tee /etc/systemd/user/1password.service > /dev/null
+    ```
+
+2. Review the contents of the `/etc/systemd/user/1password.service` file and
+correct any errors:
+
+    ```bash
+    sudo vim /etc/systemd/user/1password.service
+    ```
+
+3. Enable the newly created service to initiate at startup:
+
+    ```bash
+    systemctl --user enable 1password.service
+    ```
+
+
 ## Mozilla Firefox
 
 Mozilla Firefox is a widely-used open-source web browser developed by Mozilla
@@ -199,25 +336,7 @@ Git with your email address and name, as well as to set VSCode as the default ed
     git config --list
     ```
 
-## Enable Arch User Repository (AUR)
 
-The Arch User Repository (AUR) is a community-driven repository for Arch Linux users.
-It contains many useful packages that are not available in the official Arch Linux
-repositories.
-
-1. Install the `base-devel` package group, which includes the tools needed to build and
-install packages from the AUR:
-
-    ```bash
-    sudo pacman -S base-devel
-    ```
-
-2. Create a directory to store AUR packages. For example, you can create a directory
-named `aur` in your home directory:
-
-    ```bash
-    mkdir -p ~/aur
-    ```
 
 ## Install Visual Studio Code (VSCode)
 
@@ -240,121 +359,6 @@ using the `makepkg` command:
     git clean -dfX
     ```
 
-## Set Up 1Password
-
-1Password is a password manager that helps you securely store and manage passwords.
-
-### 1Password Installation
-
-The desktop version of 1Password for Linux is available in the
-[Arch User Repository (AUR)](https://aur.archlinux.org/packages/1password). For more
-details, refer to the [1Password for Linux Download Page](
-https://support.1password.com/install-linux/#arch-linux).
-
-1. Obtain the 1Password signing key:
-
-    ```bash
-    curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
-    ```
-
-2. Navigate to the `aur` directory and clone the `1password` package from the
-AUR using the `git clone` command:
-
-    ```bash
-    cd ~/aur
-    git clone https://aur.archlinux.org/1password.git
-    ```
-
-3. Navigate to the `1password` directory, build, and install the package using
-the `makepkg` command:
-
-    ```bash
-    cd ~/aur/1password 
-    makepkg -sirc 
-    git clean -dfX
-    ```
-
-### 1Password Configuration
-
-1. After the installation is complete, launch 1Password from the application launcher
-or by running the `1password` command in the terminal. Follow the on-screen
-instructions to set up your 1Password account and start using the password manager.
-
-2. Configure 1Password preferences:
-
-    - In **1Password > Settings > General**:
-
-        - Set **Click the icon to:** to **Show the main window**.
-
-        - Set the **Autofill** keyboard shortcut to <kbd>Ctrl</kbd> + <kbd>.</kbd>.
-
-### SSH Agent Settings
-
-1. Go to **1Password > Settings > Developer**:
-
-    - Click on **Set Up SSH Agent...**.
-
-    - Select **Use Key Names**.
-
-    This will enable you to use your SSH keys stored in 1Password with Git and other
-    tools that require SSH authentication.
-
-2. In 1Password, find your GitHub/GitLab key and open it:
-
-    - Click on **Configure...** in the **Next Step: Sign Your Git Commits** box. This
-    will open a window with a snippet that you can add to your `.gitconfig` file.
-
-    - Select **Edit Automatically** and 1Password will update your `.gitconfig` file
-    with a single click.
-
-    - Check the contents of the `~/.gitconfig` file and correct any errors:
-
-        ```bash
-        vim ~/.gitconfig
-        ```
-
-3. Add your GitHub/GitLab SSH key to the webpage:
-
-    - Navigate to the SSH keys settings page and click on the **Add SSH key** button.
-
-    - Paste the SSH key from 1Password into the Key field.
-
-    - Repeat this process for both **Authentication Keys** and **Signing Keys**.
-
-### Systemd 1Password Service
-
-1. To configure 1Password to launch at startup using systemd, enter the following
-command:
-
-    ```bash
-    echo -e "\
-    [Unit]\n\
-    Description=1Password Service\n\
-    \n\
-    [Service]\n\
-    Type=simple\n\
-    ExecStart=/usr/bin/1password --silent \n\
-    ExecStop=/usr/bin/killall 1password \n\
-    Restart=on-failure\n\
-    RestartSec=5\n\
-    \n\
-    [Install]\n\
-    WantedBy=default.target\n\
-    " | sudo tee /etc/systemd/user/1password.service > /dev/null
-    ```
-
-2. Review the contents of the `/etc/systemd/user/1password.service` file and
-correct any errors:
-
-    ```bash
-    sudo vim /etc/systemd/user/1password.service
-    ```
-
-3. Enable the newly created service to initiate at startup:
-
-    ```bash
-    systemctl --user enable 1password.service
-    ```
 
 ## Set up Google Drive
 
