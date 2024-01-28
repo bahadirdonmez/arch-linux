@@ -490,6 +490,14 @@ If you want to connect to the internet on next boot, enable NetworkManager servi
 # systemctl enable NetworkManager.service
 ```
 
+## Initramfs
+
+Use the mkinitcpio script to regenerate all the initramfs images:
+
+```bash
+# mkinitcpio -P
+```
+
 ## Exit `chroot` and Reboot
 
 To exit the chroot environment, type `exit` or press <kbd>Ctrl</kbd> + <kbd>d</kbd>.
