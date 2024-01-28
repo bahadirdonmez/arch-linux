@@ -337,7 +337,7 @@ Now we are ready to install the essential packages for Arch Linux.
 network connections:
 
     ```bash
-    # pacman -S networkmanager
+    # pacman -Syu networkmanager
     ```
 
     You can use it to connect to Wi-Fi or Ethernet networks after completing the Arch
@@ -346,7 +346,7 @@ network connections:
 2. Install the `gvim` text editor:
 
     ```bash
-    # pacman -S gvim
+    # pacman -Syu gvim
     ```
 
     This is a powerful text editor that you can use to modify configuration files or
@@ -355,7 +355,7 @@ network connections:
 3. Install `sudo` to allow granting administrator privileges to regular users:
 
     ```bash
-    # pacman -S sudo
+    # pacman -Syu sudo
     ```
 
     With sudo, you can run commands as another user, such as the root user, without
@@ -418,7 +418,7 @@ The GRUB boot loader is used to load the operating system at boot time.
 1. Install the `grub` and `efibootmgr` packages using the following command:
 
     ```bash
-    # pacman -S grub efibootmgr
+    # pacman -Syu grub efibootmgr
     ```
 
 2. Install the GRUB EFI application `grubx64.efi` to `/boot/EFI/GRUB/` and its modules
@@ -437,7 +437,7 @@ to `/boot/grub/x86_64-efi/` using the following command:
 4. Install the intel-ucode package using the following command:
 
     ```bash
-    # pacman -S intel-ucode
+    # pacman -Syu intel-ucode
     ```
 
     The microcode update provides bug fixes and enhancements for the CPU.
@@ -452,29 +452,26 @@ configuration to activate loading the microcode update by running:
 
 ## User Interface Installation
 
-### Display Server: Xorg
+### Desktop Environment: GNOME
 
-Xorg is the most popular display server among Linux users and is required for running
-GUI applications.
+GNOME is a desktop environment that is composed entirely of free and open-source
+software. The default display is Wayland instead of Xorg.
 
-Install the `xorg-server` package using the following command:
-
-```bash
-# pacman -S xorg-server
-```
-
-### Desktop Environment: Xfce
-
-Xfce is a lightweight and modular desktop environment that includes a window manager, a
-file manager, a desktop, and a panel.
-
-Install the `xfce4` group using the following command:
+Install the `gnome` group that contains the base GNOME desktop and the well-integrated
+core applications:
 
 ```bash
-# pacman -S xfce4
+# pacman -Syu gnome
 ```
 
-Press <kbd>Enter</kbd> to install all packages in the group.
+During the installation process:
+
+- If prompted to select the packages from the group, press <kbd>Enter</kbd> to install
+all packages.
+
+- If prompted to select a provider for emoji-font, choose `noto-fonts-emoji`.
+
+- If prompted to select a provider for jack, choose `pipewire-jack`.
 
 ### Display Manager: LightDM
 
@@ -483,13 +480,13 @@ LightDM is a cross-desktop display manager.
 1. Install the `lightdm` package using the following command:
 
     ```bash
-    # pacman -S lightdm
+    # pacman -Syu lightdm
     ```
 
 2. Install a greeter that prompts the user for credentials:
 
     ```bash
-    # pacman -S lightdm-gtk-greeter
+    # pacman -Syu lightdm-gtk-greeter
     ```
 
 3. Ensure that `lightdm.service` is enabled so LightDM starts at boot:
@@ -506,7 +503,7 @@ Corporation.
 1. Install the `firefox` package using the following command:
 
     ```bash
-    # pacman -S firefox
+    # pacman -Syu firefox
     ```
 
 2. During the installation process, if prompted to select between `jack2` and
