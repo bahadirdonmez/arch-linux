@@ -78,6 +78,66 @@ character set by running the following command:
     sudo localectl status
     ```
 
+## Set Up Bash Command Line
+
+Bash is the default command-line shell on Arch Linux.
+
+### Enable Advanced Auto-completion
+
+By default, Bash only tab-completes commands, filenames, and variables. The package
+`bash-completion`` extends this by adding more specialized tab completions for common
+commands and their options:
+
+```bash
+sudo pacman -S bash-completion
+```
+
+## Set Up SSH
+
+By setting up SSH on your Arch Linux system, you can securely access and manage your
+computer remotely.
+
+### OpenSSH Installation
+
+Install OpenSSH by running the following command:
+
+```bash
+sudo pacman -S openssh
+```
+
+### OpenSSH Configuration
+
+1. Create a directory to store SSH configurations:
+
+    ```bash
+    mkdir -p ~/.ssh
+    ```
+
+2. Configure the SSH client to use the 1Password agent for authentication:
+
+    ```bash
+    echo -e "\
+    # Configure the SSH client to use the 1Password agent for authentication \n\
+    Host * \n\
+      IdentityAgent ~/.1password/agent.sock \n\
+    " >> ~/.ssh/config
+    ```
+
+3. Check the contents of the `~/.ssh/config` file and correct any errors:
+
+    ```bash
+    vim ~/.ssh/config
+    ```
+
+4. Enable and start `sshd.service`. It will keep the SSH daemon permanently active and
+fork for each incoming connection:
+
+    ```bash
+    systemctl enable --now sshd.service
+    ```
+
+
+
 ## Set Up Git
 
 Git is a widely used version control system for tracking changes to files and
@@ -279,64 +339,6 @@ Firefox can be installed with the `firefox` package:
 
 During the installation process, if prompted to select a provider for ttf-font, choose
 `noto-fonts`.
-
-## Set Up Bash Command Line
-
-Bash is the default command-line shell on Arch Linux.
-
-### Enable Advanced Auto-completion
-
-By default, Bash only tab-completes commands, filenames, and variables. The package
-`bash-completion`` extends this by adding more specialized tab completions for common
-commands and their options:
-
-```bash
-sudo pacman -S bash-completion
-```
-
-## Set Up SSH
-
-By setting up SSH on your Arch Linux system, you can securely access and manage your
-computer remotely.
-
-### OpenSSH Installation
-
-Install OpenSSH by running the following command:
-
-```bash
-sudo pacman -S openssh
-```
-
-### OpenSSH Configuration
-
-1. Create a directory to store SSH configurations:
-
-    ```bash
-    mkdir -p ~/.ssh
-    ```
-
-2. Configure the SSH client to use the 1Password agent for authentication:
-
-    ```bash
-    echo -e "\
-    # Configure the SSH client to use the 1Password agent for authentication \n\
-    Host * \n\
-      IdentityAgent ~/.1password/agent.sock \n\
-    " >> ~/.ssh/config
-    ```
-
-3. Check the contents of the `~/.ssh/config` file and correct any errors:
-
-    ```bash
-    vim ~/.ssh/config
-    ```
-
-4. Enable and start `sshd.service`. It will keep the SSH daemon permanently active and
-fork for each incoming connection:
-
-    ```bash
-    systemctl enable --now sshd.service
-    ```
 
 
 
