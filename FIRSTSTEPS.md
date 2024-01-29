@@ -173,7 +173,7 @@ Git with your email address and name, as well as to set VSCode as the default ed
 1. Set your email address for Git with the following command:
 
     ```bash
-    git config --global user.email "doenmezb@ethz.ch"
+    git config --global user.email "doenmezb@phys.ethz.ch"
     ```
 
 2. Set your name for Git with the following command:
