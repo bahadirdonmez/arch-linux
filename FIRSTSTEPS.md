@@ -162,7 +162,7 @@ directories.
 named `git` in your home directory, run the following command:
 
     ```bash
-    mkdir -p ~/git
+    mkdir -p ~/.git
     ```
 
 ### Git Configuration
@@ -235,7 +235,7 @@ https://support.1password.com/install-linux/#arch-linux).
 AUR using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/1password.git
     ```
 
@@ -243,7 +243,7 @@ AUR using the `git clone` command:
 the `makepkg` command:
 
     ```bash
-    cd ~/aur/1password 
+    cd ~/.aur/1password 
     makepkg -sirc 
     git clean -dfX
     ```
@@ -358,7 +358,7 @@ Visual Studio Code is a popular code editor developed by Microsoft.
 the AUR using the `git clone` command:
 
     ```bash
-    cd ~/aur 
+    cd ~/.aur 
     git clone https://aur.archlinux.org/visual-studio-code-bin.git
     ```
 
@@ -366,7 +366,7 @@ the AUR using the `git clone` command:
 using the `makepkg` command:
 
     ```bash
-    cd ~/aur/visual-studio-code-bin 
+    cd ~/.aur/visual-studio-code-bin 
     makepkg -sirc
     git clean -dfX
     ```
@@ -846,7 +846,7 @@ can use the `mkinitcpio-numlock` package.
 1. Navigate to the AUR directory and clone the `mkinitcpio-numlock` package:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/mkinitcpio-numlock.git
     ```
 

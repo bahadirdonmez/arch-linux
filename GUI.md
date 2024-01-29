@@ -436,7 +436,7 @@ sudo pacman -S gtk-engine-murrine gtk-engines
 following command:
 
     ```bash
-    cd ~/git
+    cd ~/.git
     git clone git@github.com:vinceliuice/Qogir-theme.git
     ```
 
@@ -444,7 +444,7 @@ following command:
 the following command::
 
     ```bash
-    cd ~/git/Qogir-theme
+    cd ~/.git/Qogir-theme
     sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --tweaks round
     git clean -dfX
     ```
@@ -455,7 +455,7 @@ the following command::
 the following command:
 
     ```bash
-    cd ~/git
+    cd ~/.git
     git clone git@github.com:vinceliuice/Qogir-icon-theme.git
     ```
 
@@ -463,7 +463,7 @@ the following command:
 running the following command:
 
     ```bash
-    cd ~/git/Qogir-icon-theme 
+    cd ~/.git/Qogir-icon-theme 
     sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
     git clean -dfX
     ```
@@ -852,7 +852,7 @@ You can install Mugshot from the [Arch User Repository (AUR)](
 using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/mugshot.git
     ```
 
@@ -860,7 +860,7 @@ using the `git clone` command:
 `makepkg` command:
 
     ```bash
-    cd ~/aur/mugshot
+    cd ~/.aur/mugshot
     makepkg -sirc
     git clean -dfX
     ```

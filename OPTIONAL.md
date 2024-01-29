@@ -320,7 +320,7 @@ Follow these steps to install and configure the scanner:
 using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/brscan4.git
     ```
 
@@ -328,7 +328,7 @@ using the `git clone` command:
 `makepkg` command:
 
     ```bash
-    cd ~/aur/brscan4
+    cd ~/.aur/brscan4
     makepkg -sirc
     git clean -dfX
     ```
@@ -373,7 +373,7 @@ desktop application written in C++:
 AUR using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/whatsapp-for-linux.git
     ```
 
@@ -381,7 +381,7 @@ AUR using the `git clone` command:
 using the `makepkg` command:
 
     ```bash
-    cd ~/aur/whatsapp-for-linux
+    cd ~/.aur/whatsapp-for-linux
     makepkg -sirc
     git clean -dfX
     ```
@@ -427,7 +427,7 @@ the Arch User Repository (AUR).
 1. Navigate to the `aur` directory and clone the `zoom` package from the AUR:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/zoom.git
     ```
 
@@ -436,7 +436,7 @@ the Arch User Repository (AUR).
 command:
 
     ```bash
-    cd ~/aur/zoom
+    cd ~/.aur/zoom
     makepkg -sirc
     git clean -dfX
     ```
@@ -457,7 +457,7 @@ the `aur` directory and clone the `vmware-keymaps` package from the AUR (Arch Us
 Repository) using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/vmware-keymaps.git
     ```
 
@@ -465,7 +465,7 @@ Repository) using the `git clone` command:
 the `makepkg` command:
 
     ```bash
-    cd ~/aur/vmware-keymaps
+    cd ~/.aur/vmware-keymaps
     makepkg -sirc
     git clean -dfX
     ```
@@ -481,7 +481,7 @@ Use the following command to do so:
 AUR using the `git clone` command:
 
     ```bash
-    cd ~/aur
+    cd ~/.aur
     git clone https://aur.archlinux.org/vmware-workstation.git
     ```
 
@@ -489,7 +489,7 @@ AUR using the `git clone` command:
 using the `makepkg` command:
 
     ```bash
-    cd ~/aur/vmware-workstation
+    cd ~/.aur/vmware-workstation
     makepkg -sirc
     git clean -dfX
     ```

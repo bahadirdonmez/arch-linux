@@ -27,16 +27,16 @@ the files and changes using the `git pull` command. Finally, follow the necessar
 or execute the appropriate scripts to install the package. For background images, just
 copy them from Google Drive.
 
-1. The following example demonstrates how to update packages inside `~/git` directory:
+1. The following example demonstrates how to update packages inside `~/.git` directory:
 
     ```bash
     # Update Qogir-theme
-    cd ~/git/Qogir-theme && git pull
+    cd ~/.git/Qogir-theme && git pull
     sudo ./install.sh --dest "/usr/share/themes" --uninstall
     sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --tweaks round
     git clean -dfX
     # Update Qogir-icon-theme
-    cd ~/git/Qogir-icon-theme   && git pull
+    cd ~/.git/Qogir-icon-theme   && git pull
     sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
     git clean -dfX
     # Update single monitor wallpapers
@@ -62,13 +62,13 @@ packages that are not part of the official Arch Linux repositories. To update AU
 packages, you must first update the files and changes using the `git pull` command in
 the directory containing the package's `PKGBUILD`. Then, build and install the package.
 
-1. The following command updates each package inside the `~/aur` directory:
+1. The following command updates each package inside the `~/.aur` directory:
 
     ```bash
-    find ~/aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
+    find ~/.aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
     ```
 
-    This command uses the find command to locate all the subdirectories of `~/aur`, and
+    This command uses the find command to locate all the subdirectories of `~/.aur`, and
     then executes the `git pull`, `makepkg -sirc`, and `git clean -dfX` commands in
     each subdirectory.
 
