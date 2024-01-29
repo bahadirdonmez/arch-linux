@@ -61,6 +61,10 @@ considerations such as currency denomination, numerology, and character sets.
     sudo localectl status
     ```
 
+6. **Restart Computer:**
+
+    Reboot the computer to apply the changes.
+
 ## Configuring Display and Keyboard Settings
 
 ### GNOME Session Configuration
@@ -80,6 +84,26 @@ considerations such as currency denomination, numerology, and character sets.
 
     ```bash
     gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
+    ```
+
+3. **Install AppIndicator Extension:**
+
+    Install the extension to enable system tray icons:
+
+    ```bash
+    sudo pacman -Syu gnome-shell-extension-appindicator
+    ```
+
+4. **Restart Computer:**
+
+    Reboot the computer to apply the changes.
+
+5. **Enable AppIndicator Extension:**
+
+    Enable the extension:
+
+    ```bash
+    gnome-extensions enable $(gnome-extensions list | grep -m 1 appindicatorsupport)
     ```
 
 ### GDM Configuration
@@ -108,6 +132,10 @@ considerations such as currency denomination, numerology, and character sets.
     ```bash
     dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
     ```
+
+4. **Restart Computer:**
+
+    Reboot the computer to apply the changes.
 
 ## Command Line Enhancements
 
@@ -220,33 +248,41 @@ packages, expanding the software available for Arch Linux.
 
 ### 1Password Installation
 
-The desktop version of 1Password for Linux is available in the
-[Arch User Repository (AUR)](https://aur.archlinux.org/packages/1password). For more
-details, refer to the [1Password for Linux Download Page](
+1Password is accessible through the [Arch User Repository (AUR)](
+https://aur.archlinux.org/packages/1password). For more details, refer to the
+[1Password for Linux Download Page](
 https://support.1password.com/install-linux/#arch-linux).
 
-1. Obtain the 1Password signing key:
+1. **Import 1Password Signing Key**:
+
+    Begin by importing the official 1Password signing key to ensure the authenticity of
+    the package:
 
     ```bash
     curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
     ```
 
-2. Navigate to the `aur` directory and clone the `1password` package from the
-AUR using the `git clone` command:
+2. **Clone the 1Password AUR Package:**
+
+    Use `git` to clone the 1Password package repository into a dedicated AUR directory:
 
     ```bash
     cd ~/.aur
     git clone https://aur.archlinux.org/1password.git
     ```
 
-3. Navigate to the `1password` directory, build, and install the package using
-the `makepkg` command:
+3. **Build and Install 1Password:**
+
+    Navigate to the cloned repository, compile, and install the package:
 
     ```bash
     cd ~/.aur/1password 
     makepkg -sirc 
     git clean -dfx
     ```
+
+    After installation, we clean the build directory with `git clean` to maintain a
+    tidy workspace.
 
 ### 1Password Configuration
 
