@@ -7,7 +7,7 @@ considerations such as currency denomination, numerology, and character sets.
 
 1. **Enable Required Locales:**
 
-    Uncomment the lines for German, English, French, Turkish, and Vietnamese locales in
+    Uncomment the lines for German, English, Turkish and Vietnamese locales in
     `/etc/locale.gen`:
 
     ```bash
@@ -15,8 +15,6 @@ considerations such as currency denomination, numerology, and character sets.
     -e 's/#\(de_CH ISO-8859-1\)/\1/' \
     -e 's/#\(en_US\.UTF-8 UTF-8\)/\1/' \
     -e 's/#\(en_US ISO-8859-1\)/\1/' \
-    -e 's/#\(fr_CH\.UTF-8 UTF-8\)/\1/' \
-    -e 's/#\(fr_CH ISO-8859-1\)/\1/' \
     -e 's/#\(tr_TR\.UTF-8 UTF-8\)/\1/' \
     -e 's/#\(tr_TR ISO-8859-9\)/\1/' \
     -e 's/#\(vi_VN UTF-8\)/\1/' /etc/locale.gen
