@@ -477,7 +477,7 @@ all packages.
 
 - If prompted to select a provider for jack, choose `pipewire-jack`.
 
-### Display Manager: GDM
+### Display Manager: GNOME Display Manager (GDM)
 
 The display manager included in gnome is GDM. If you want GNOME to start automatically
 on next boot, enable `gdm.service`:

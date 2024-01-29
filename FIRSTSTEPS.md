@@ -63,9 +63,9 @@ considerations such as currency denomination, numerology, and character sets.
 
     Reboot the computer to apply the changes.
 
-## Configuring Display and Keyboard Settings
+## Display and Keyboard Configuration
 
-### GNOME Session Configuration
+### GNOME Session
 
 1. **Adjust Display Scaling:**
 
@@ -84,27 +84,36 @@ considerations such as currency denomination, numerology, and character sets.
     gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
     ```
 
-3. **Install AppIndicator Extension:**
+3. **Install GNOME Tweaks:**
 
-    Install the extension to enable system tray icons:
+    GNOME implements XDG Autostart. Install `gnome-tweaks` tool to manage startup
+    applications:
+
+    ```bash
+    sudo pacman -Syu gnome-tweaks
+    ```
+
+4. **Install AppIndicator Extension:**
+
+    Install `gnome-shell-extension-appindicator` to enable system tray icons:
 
     ```bash
     sudo pacman -Syu gnome-shell-extension-appindicator
     ```
 
-4. **Restart Computer:**
+5. **Restart Computer:**
 
     Reboot the computer to apply the changes.
 
-5. **Enable AppIndicator Extension:**
+6. **Enable AppIndicator Extension:**
 
-    Enable the extension:
+    Enable the extension containing the `"appindicatorsupport"` string:
 
     ```bash
     gnome-extensions enable $(gnome-extensions list | grep -m 1 appindicatorsupport)
     ```
 
-### GDM Configuration
+### GNOME Display Manager (GDM)
 
 1. **Log into GDM Session**
 
@@ -123,15 +132,7 @@ considerations such as currency denomination, numerology, and character sets.
     dbus-launch gsettings set org.gnome.desktop.interface scaling-factor 2
     ```
 
-3. **Configure Keyboard Layout:**
-
-   Synchronize the GDM keyboard layout with your system configuration:
-
-    ```bash
-    dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
-    ```
-
-4. **Restart Computer:**
+3. **Restart Computer:**
 
     Reboot the computer to apply the changes.
 
@@ -147,26 +148,25 @@ Enhance auto-completion features in Bash for a more efficient command-line exper
 sudo pacman -Syu bash-completion
 ```
 
-## Secure Remote Access with SSH
+## Enable Arch User Repository (AUR)
 
-By setting up SSH on your Arch Linux system, you can securely access and manage your
-computer remotely.
+The Arch User Repository (AUR) offers a vast collection of community-maintained
+packages, expanding the software available for Arch Linux.
 
-1. **Prepare SSH Configuration Directory:**
+1. **Install Essential Build Tools:**
 
-    Initialize the `.ssh` directory with appropriate permissions:
+    The `base-devel` group contains tools necessary for compiling AUR packages.
 
     ```bash
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
+    sudo pacman -Syu base-devel
     ```
 
-2. **Enable SSH Service:**
+2. **Prepare AUR Packages Directory:**
 
-    Enable and start the SSH daemon to ensure it's ready for remote connections:
+    Create a dedicated directory for managing AUR package builds:
 
     ```bash
-    systemctl enable --now sshd.service
+    mkdir -p ~/.aur
     ```
 
 ## Set Up Git
@@ -219,32 +219,33 @@ Set your identity and preferred editor.
     git config --list
     ```
 
-## Enable Arch User Repository (AUR)
+## Secure Remote Access with SSH
 
-The Arch User Repository (AUR) offers a vast collection of community-maintained
-packages, expanding the software available for Arch Linux.
+By setting up SSH on your Arch Linux system, you can securely access and manage your
+computer remotely.
 
-1. **Install Essential Build Tools:**
+1. **Prepare SSH Configuration Directory:**
 
-    The `base-devel` group contains tools necessary for compiling AUR packages.
+    Initialize the `.ssh` directory with appropriate permissions:
 
     ```bash
-    sudo pacman -Syu base-devel
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
     ```
 
-2. **Prepare AUR Packages Directory:**
+2. **Enable SSH Service:**
 
-    Create a dedicated directory for managing AUR package builds:
+    Enable and start the SSH daemon to ensure it's ready for remote connections:
 
     ```bash
-    mkdir -p ~/.aur
+    systemctl enable --now sshd.service
     ```
 
 ## Set Up 1Password
 
 1Password is a password manager that helps you securely store and manage passwords.
 
-### 1Password Installation
+### Installation
 
 1Password is accessible through the [Arch User Repository (AUR)](
 https://aur.archlinux.org/packages/1password). For more details, refer to the
@@ -259,6 +260,8 @@ https://support.1password.com/install-linux/#arch-linux).
     ```bash
     curl -sS https://downloads.1password.com/linux/keys/1password.asc | gpg --import
     ```
+
+    The source is signed with the GPG key 3FEF9748469ADBE15DA7CA80AC2D62742012EA22.
 
 2. **Clone the 1Password AUR Package:**
 
@@ -282,52 +285,71 @@ https://support.1password.com/install-linux/#arch-linux).
     After installation, we clean the build directory with `git clean` to maintain a
     tidy workspace.
 
-### 1Password Configuration
+### Configuration
 
-1. After the installation is complete, launch 1Password from the application launcher
-or by running the `1password` command in the terminal. Follow the on-screen
-instructions to set up your 1Password account and start using the password manager.
+1. **Starting 1Password**:
 
-2. Configure 1Password preferences:
+    Launch 1Password either from the application menu or via the terminal with the
+    `1password` command.
 
-    - In **1Password > Settings > General**:
+2. **Initial Setup**:
 
-        - Set **Click the icon to:** to **Show the main window**.
+    Follow the on-screen instructions to set up your 1Password account and start using
+    the password manager:
 
-        - Set the **Autofill** keyboard shortcut to <kbd>Ctrl</kbd> + <kbd>.</kbd>.
+    - Log in to your account.
+
+    - Enable **Unlock using system authentication**.
+
+3. **Customizing Preferences:**:
+
+    In **Settings > General**:
+
+    - Set **Click the icon to:** to **Show the main window**.
+
+    - Set the **Autofill** keyboard shortcut to <kbd>Ctrl</kbd> + <kbd>.</kbd>.
 
 ### SSH Agent Settings
 
-1. Go to **1Password > Settings > Developer**:
+1. **Set Up SSH Agent:**
+
+    In **Settings > Developer**:
 
     - Click on **Set Up SSH Agent...**.
 
-    - Select **Use Key Names**.
+    - Select **Use Key Names** to allow 1Password to save your SSH key names to disk.
 
-    This will enable you to use your SSH keys stored in 1Password with Git and other
-    tools that require SSH authentication.
+    - Select **Edit Automatically** to allow 1Password to update your `~/.ssh/config`
+    file.
 
-    3. Check the contents of the `~/.ssh/config` file and correct any errors:
+2. **Verify SSH Configuration:**
+
+    Check the contents of the `~/.ssh/config` file and correct any errors:
 
     ```bash
     vim ~/.ssh/config
     ```
 
-2. In 1Password, find your GitHub/GitLab key and open it:
+3. **Set Up Git Commit Signing:**
 
-    - Click on **Configure...** in the **Next Step: Sign Your Git Commits** box. This
-    will open a window with a snippet that you can add to your `.gitconfig` file.
+    In 1Password, find your GitHub/GitLab key and open it:
 
-    - Select **Edit Automatically** and 1Password will update your `.gitconfig` file
-    with a single click.
+    - Click on **Configure...** in the **Next Step: Sign Your Git Commits** box.
 
-    - Check the contents of the `~/.gitconfig` file and correct any errors:
+    - Select **Edit Automatically** to allow 1Password to update your `~/.gitconfig`
+    file.
 
-        ```bash
-        vim ~/.gitconfig
-        ```
+4. **Verify Git Configuration:**
 
-3. Add your GitHub/GitLab SSH key to the webpage:
+    Check the contents of the `~/.gitconfig file and correct any errors:
+
+    ```bash
+    vim ~/.gitconfig
+    ```
+
+5. **Add SSH Key to GitHub/GitLab:**
+
+    Add your GitHub/GitLab SSH key to the webpage:
 
     - Navigate to the SSH keys settings page and click on the **Add SSH key** button.
 
@@ -378,7 +400,7 @@ Corporation.
 Firefox can be installed with the `firefox` package:
 
 ```bash
-# pacman -Syu firefox
+# sudo pacman -Syu firefox
 ```
 
 During the installation process, if prompted to select a provider for ttf-font, choose
@@ -388,22 +410,28 @@ During the installation process, if prompted to select a provider for ttf-font, 
 
 Visual Studio Code is a popular code editor developed by Microsoft.
 
-1. Change to the `aur` directory and clone the `visual-studio-code-bin` package from
-the AUR using the `git clone` command:
+1. **Clone the VSCode AUR Package:**
+
+    Use `git` to clone the VSCode package repository into a dedicated AUR
+    directory:
 
     ```bash
-    cd ~/.aur 
+    cd ~/.aur
     git clone https://aur.archlinux.org/visual-studio-code-bin.git
     ```
 
-2. Change to the `visual-studio-code-bin` directory, build, and install the package
-using the `makepkg` command:
+2. **Build and Install VSCode:**
+
+    Navigate to the cloned repository, compile, and install the package:
 
     ```bash
     cd ~/.aur/visual-studio-code-bin 
-    makepkg -sirc
+    makepkg -sirc 
     git clean -dfx
     ```
+
+    After installation, we clean the build directory with `git clean` to maintain a
+    tidy workspace.
 
 ## Set up Google Drive
 
