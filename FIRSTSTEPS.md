@@ -53,9 +53,9 @@ considerations such as currency denomination, numerology, and character sets.
         sudo localectl set-x11-keymap --no-convert ch
         ```
 
-5. **Verify Localization Settings:**
+5. **Review Localization Settings:**
 
-   Ensure your settings are correctly applied:
+   Confirm your configurations are correctly applied:
 
     ```bash
     sudo localectl status
@@ -67,7 +67,7 @@ considerations such as currency denomination, numerology, and character sets.
 
 1. **Adjust Display Scaling:**
 
-   Improve readability and UI scaling on high-resolution displays::
+    Improve readability and UI scaling on high-resolution displays:
 
     ```bash
     gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
@@ -109,37 +109,35 @@ considerations such as currency denomination, numerology, and character sets.
     dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
     ```
 
-## Set Up Bash Command Line
+## Command Line Enhancements
 
 Bash is the default command-line shell on Arch Linux.
 
-### Enable Advanced Auto-completion
+### Bash Completion
 
-By default, Bash only tab-completes commands, filenames, and variables. The package
-`bash-completion`` extends this by adding more specialized tab completions for common
-commands and their options:
+Enhance auto-completion features in Bash for a more efficient command-line experience:
 
 ```bash
 sudo pacman -Syu bash-completion
 ```
 
-## Set Up SSH
+## Secure Remote Access with SSH
 
 By setting up SSH on your Arch Linux system, you can securely access and manage your
 computer remotely.
 
-1. **Initialize SSH Configuration Directory:**
+1. **Prepare SSH Configuration Directory:**
 
-    Create a directory to store SSH configurations:
+    Initialize the `.ssh` directory with appropriate permissions:
 
     ```bash
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
     ```
 
-2. **Enabling the SSH Daemon:**
+2. **Enable SSH Service:**
 
-    Enable and start the SSH service to ensure it's ready for remote connections:
+    Enable and start the SSH daemon to ensure it's ready for remote connections:
 
     ```bash
     systemctl enable --now sshd.service
@@ -152,43 +150,44 @@ directories.
 
 ### Installation
 
-1. To install Git, run the following command:
+Ensure you have the latest version of Git:
 
-    ```bash
-    sudo pacman -Syu git
-    ```
+```bash
+sudo pacman -Syu git
+```
 
-2. You can create a directory to store your Git repositories. To create a directory
-named `git` in your home directory, run the following command:
+### Organizing Git Repositories
 
-    ```bash
-    mkdir -p ~/.git
-    ```
+Create a dedicated `.git` folder for storing cloned repositories:
 
-### Git Configuration
+```bash
+mkdir -p ~/.git
+```
 
-You can configure Git using the `git config` command. Follow these steps to configure
-Git with your email address and name, as well as to set VSCode as the default editor:
+### Configuring Git
 
-1. Set your email address for Git with the following command:
+Set your identity and preferred editor.
 
-    ```bash
-    git config --global user.email "doenmezb@phys.ethz.ch"
-    ```
+1. **Email and Name:**
 
-2. Set your name for Git with the following command:
+    Personalize your Git commits by setting your name and email:
 
     ```bash
     git config --global user.name "Bahadır Dönmez"
+    git config --global user.email "doenmezb@phys.ethz.ch"
     ```
 
-3. Set VSCode as the default editor for Git with the following command:
+2. **Default Editor:**
+
+    Set VSCode as the default editor for Git:
 
     ```bash
     git config --global core.editor "code --wait"
     ```
 
-4. You can check your Git configuration by running the following command:
+3. **Verify Configuration:**
+
+    Review your Git settings to ensure they're correctly applied:
 
     ```bash
     git config --list
@@ -196,19 +195,20 @@ Git with your email address and name, as well as to set VSCode as the default ed
 
 ## Enable Arch User Repository (AUR)
 
-The Arch User Repository (AUR) is a community-driven repository for Arch Linux users.
-It contains many useful packages that are not available in the official Arch Linux
-repositories.
+The Arch User Repository (AUR) offers a vast collection of community-maintained
+packages, expanding the software available for Arch Linux.
 
-1. Install the `base-devel` package group, which includes the tools needed to build and
-install packages from the AUR:
+1. **Install Essential Build Tools:**
+
+    The `base-devel` group contains tools necessary for compiling AUR packages.
 
     ```bash
     sudo pacman -Syu base-devel
     ```
 
-2. Create a directory to store AUR packages. For example, you can create a directory
-named `aur` in your home directory:
+2. **Prepare AUR Packages Directory:**
+
+    Create a dedicated directory for managing AUR package builds:
 
     ```bash
     mkdir -p ~/.aur
@@ -245,7 +245,7 @@ the `makepkg` command:
     ```bash
     cd ~/.aur/1password 
     makepkg -sirc 
-    git clean -dfX
+    git clean -dfx
     ```
 
 ### 1Password Configuration
@@ -368,7 +368,7 @@ using the `makepkg` command:
     ```bash
     cd ~/.aur/visual-studio-code-bin 
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 ## Set up Google Drive
@@ -855,7 +855,7 @@ can use the `mkinitcpio-numlock` package.
     ```bash
     cd mkinitcpio-numlock
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 3. In the `/etc/mkinitcpio.conf` file, update your HOOKS array to insert `numlock`

@@ -34,11 +34,11 @@ copy them from Google Drive.
     cd ~/.git/Qogir-theme && git pull
     sudo ./install.sh --dest "/usr/share/themes" --uninstall
     sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --tweaks round
-    git clean -dfX
+    git clean -dfx
     # Update Qogir-icon-theme
     cd ~/.git/Qogir-icon-theme   && git pull
     sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
-    git clean -dfX
+    git clean -dfx
     # Update single monitor wallpapers
     cp -r ~/"Google Drive"/Resources/Wallpapers/16x9 ~/Downloads
     sudo sh -c 'rm -rf /usr/share/backgrounds/single-monitor/* && cp /home/Bahadir/Downloads/16x9/* /usr/share/backgrounds/single-monitor/'
@@ -65,11 +65,11 @@ the directory containing the package's `PKGBUILD`. Then, build and install the p
 1. The following command updates each package inside the `~/.aur` directory:
 
     ```bash
-    find ~/.aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfX' \;
+    find ~/.aur -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cd "{}" && git pull && makepkg -sirc --noconfirm && git clean -dfx' \;
     ```
 
     This command uses the find command to locate all the subdirectories of `~/.aur`, and
-    then executes the `git pull`, `makepkg -sirc`, and `git clean -dfX` commands in
+    then executes the `git pull`, `makepkg -sirc`, and `git clean -dfx` commands in
     each subdirectory.
 
 2. Once the upgrade is complete, restart your system to ensure that all upgrades are

@@ -330,7 +330,7 @@ using the `git clone` command:
     ```bash
     cd ~/.aur/brscan4
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 4. For network scanners, Brother provides a configuration tool. Replace the
@@ -383,7 +383,7 @@ using the `makepkg` command:
     ```bash
     cd ~/.aur/whatsapp-for-linux
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 3. Configure your Whatsapp preferences by navigating to
@@ -438,7 +438,7 @@ command:
     ```bash
     cd ~/.aur/zoom
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 ## Running Windows Applications on Linux
@@ -467,7 +467,7 @@ the `makepkg` command:
     ```bash
     cd ~/.aur/vmware-keymaps
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 3. You need to install the appropriate kernel headers package for your installed kernel.
@@ -491,7 +491,7 @@ using the `makepkg` command:
     ```bash
     cd ~/.aur/vmware-workstation
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 6. Start the `vmware-networks-configuration.service` to generate

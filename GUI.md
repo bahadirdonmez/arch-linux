@@ -446,7 +446,7 @@ the following command::
     ```bash
     cd ~/.git/Qogir-theme
     sudo ./install.sh --dest "/usr/share/themes" --theme default --color dark --tweaks round
-    git clean -dfX
+    git clean -dfx
     ```
 
 ## Qogir Icon and Cursors Pack
@@ -465,7 +465,7 @@ running the following command:
     ```bash
     cd ~/.git/Qogir-icon-theme 
     sudo ./install.sh --dest "/usr/share/icons" --theme default --color all
-    git clean -dfX
+    git clean -dfx
     ```
 
 ## Single and Dual Monitor Wallpapers
@@ -862,7 +862,7 @@ using the `git clone` command:
     ```bash
     cd ~/.aur/mugshot
     makepkg -sirc
-    git clean -dfX
+    git clean -dfx
     ```
 
 ### Configuring Mugshot
