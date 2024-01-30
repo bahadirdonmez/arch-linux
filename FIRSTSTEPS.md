@@ -400,7 +400,7 @@ Corporation.
 Firefox can be installed with the `firefox` package:
 
 ```bash
-# sudo pacman -Syu firefox
+sudo pacman -Syu firefox
 ```
 
 During the installation process, if prompted to select a provider for ttf-font, choose
